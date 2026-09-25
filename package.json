@@ -7,6 +7,7 @@
     "start": "python gateway/telegram_gateway.py",
     "copilot": "python engines/hermes_reasoner/hermes_copilot.py",
     "pipeline": "python engines/trio_orchestrator.py",
+    "chat": "python gateway/webhook_server.py",
     "superpowers": "python engines/harness/dev_harness.py",
     "harness": "python engines/harness/dev_harness.py --action eval",
     "skills": "python skills/manager.py list",
