@@ -2,7 +2,8 @@
 """
 Hermes OMC Master Copilot (Interactive Assistant & Co-Worker)
 Trợ lý ruột & Cố vấn tối cao am hiểu 100% cấu trúc OMC, kho 720+ Skills theo 10 nhóm chức năng,
-hỗ trợ tư vấn gói kỹ năng khi mở công ty mới, điều phối và tự học tiến hóa hệ thống.
+hỗ trợ tư vấn kỹ năng cho từng nhiệm vụ (Task-to-Skill), tư vấn mở công ty (Industry Bundles),
+và tự động đồng bộ/cập nhật kỹ năng mới từ các kho Master trên máy tính.
 """
 
 import os
@@ -56,8 +57,9 @@ class HermesCopilot:
         total_skills = self.taxonomy.get("total_skills", 720)
         total_cats = self.taxonomy.get("total_categories", 10)
         print(f"  • 🧰 Kho Vũ Khí: {total_skills} Skills phân loại chuẩn theo {total_cats} Nhóm Chức Năng chuyên sâu")
+        print(f"  • 🎯 Đề xuất kỹ năng: Gõ '/suggest <nhiệm vụ>' để tôi gợi ý skill và phòng ban phù hợp")
+        print(f"  • 🔄 Cập nhật kho: Gõ '/sync' để tự động nạp skill mới từ kho tổng Master trên máy tính")
         print(f"  • 📓 Second Brain: Obsidian Vault đã kết nối đồng bộ 2 chiều (Thread-Safe)")
-        print(f"  • 🚀 Nhân bản: Lệnh '/recommend <lĩnh vực>' để tôi tư vấn gói kỹ năng và mở công ty")
         print("\n💡 Gõ câu lệnh hoặc yêu cầu tự nhiên để tôi hỗ trợ ngay. (Gõ '/help' để xem lệnh nhanh, 'exit' để thoát)")
         print("-" * 70)
 
@@ -93,7 +95,6 @@ class HermesCopilot:
         bundles = self.taxonomy.get("industry_bundles", {})
         matched_bundle = None
         
-        # 1. Match pre-defined bundles
         for b_id, b in bundles.items():
             if any(w in query for w in b["industry_name"].lower().split()) or b_id in query:
                 matched_bundle = (b_id, b)
@@ -116,7 +117,6 @@ class HermesCopilot:
             print(f"   Chạy lệnh: {clone_cmd}")
             return
             
-        # 2. Match categories by keywords
         matched_cats = []
         for cat_id, cat in self.taxonomy.get("categories", {}).items():
             score = sum(1 for kw in cat["keywords"] if kw in query)
@@ -133,6 +133,24 @@ class HermesCopilot:
                 print(f"   Kỹ năng tiêu biểu: {', '.join(sample)}")
         else:
             print("\nℹ️ Lĩnh vực mới. Hermes đề xuất bộ khung tiêu chuẩn: `software-saas` kết hợp `marketing-growth-seo`.")
+
+    def handle_suggest_task(self, task_desc: str):
+        """Gợi ý cụ thể skill nào phù hợp cho một task công việc cụ thể"""
+        if not task_desc:
+            print("⚠️ Cú pháp: /suggest <mô tả nhiệm vụ cụ thể>")
+            return
+        os.system(f"python \"{self.skills_dir / 'manager.py'}\" suggest --task \"{task_desc}\"")
+
+    def handle_sync(self):
+        """Đồng bộ kho skill từ các kho Master trên máy tính"""
+        os.system(f"python \"{self.skills_dir / 'manager.py'}\" sync")
+        self.taxonomy = self._load_taxonomy()
+
+    def handle_global_search(self, keyword: str):
+        if not keyword:
+            print("⚠️ Cú pháp: /search-global <từ khóa>")
+            return
+        os.system(f"python \"{self.skills_dir / 'manager.py'}\" search-global \"{keyword}\"")
 
     def handle_search_skills(self, keyword: str):
         if not keyword:
@@ -168,6 +186,10 @@ class HermesCopilot:
             f.write(content)
         print(f"🎉 [TỰ HỌC THÀNH CÔNG] Đã đúc kết và lưu kỹ năng mới '{skill_name}' vào skills/vault/{skill_name}/SKILL.md!")
         
+        # Tự động lập lại chỉ mục taxonomy
+        os.system(f"python \"{self.skills_dir / 'categorize_skills.py'}\" >nul 2>nul")
+        self.taxonomy = self._load_taxonomy()
+
         self.vault.record_decision(
             f"Học kỹ năng mới: {skill_name}",
             "Hermes Master Copilot (Self-Learning)",
@@ -193,22 +215,33 @@ class HermesCopilot:
                     break
                 elif user_input.lower() == "/help":
                     print("\n📜 [DANH SÁCH LỆNH NHANH CỦA HERMES MASTER]")
-                    print("  • /status                   : Xem trạng thái hệ thống, phòng ban, model")
-                    print("  • /categories               : Xem 10 nhóm chức năng trong kho 720+ skills")
-                    print("  • /recommend <lĩnh vực>     : Hermes tư vấn gói kỹ năng mở công ty theo ngành")
-                    print("  • /skills <từ khóa>         : Tra cứu kỹ năng cụ thể trong kho")
-                    print("  • /assign <agent> <skill>   : Nạp kỹ năng cho một agent cụ thể")
-                    print("  • /learn <tên-skill> <mô tả>: Hermes tự học & đóng gói skill mới")
-                    print("  • /clone <tên> <lĩnh vực>   : Nhân bản 1 công ty OMC mới trong vài giây")
-                    print("  • /run <nội dung task>      : Chạy chu trình Quad-Engine 5 pha")
+                    print("  • /status                    : Xem trạng thái hệ thống, phòng ban, model")
+                    print("  • /categories                : Xem 10 nhóm chức năng trong kho 720+ skills")
+                    print("  • /suggest <nhiệm vụ>        : Hermes gợi ý skill và phòng ban tối ưu cho 1 task")
+                    print("  • /recommend <lĩnh vực>      : Hermes tư vấn gói kỹ năng mở công ty theo ngành")
+                    print("  • /sync                      : Đồng bộ nạp thêm skill mới từ kho tổng trên máy")
+                    print("  • /search-global <từ khóa>   : Tìm kiếm mở rộng trên tất cả các kho (1,800+ skills)")
+                    print("  • /skills <từ khóa>          : Tra cứu kỹ năng cụ thể trong kho nội bộ")
+                    print("  • /assign <agent> <skill>    : Nạp kỹ năng cho một agent cụ thể")
+                    print("  • /learn <tên-skill> <mô tả> : Hermes tự học & đóng gói skill mới")
+                    print("  • /clone <tên> <lĩnh vực>    : Nhân bản 1 công ty OMC mới trong vài giây")
+                    print("  • /run <nội dung task>       : Chạy chu trình Quad-Engine 5 pha")
                     print("  • Hoặc gõ bất kỳ câu hỏi/yêu cầu nào để cùng thảo luận và làm việc!\n")
                 elif user_input.lower() == "/status":
                     self.handle_status()
                 elif user_input.lower() == "/categories":
                     self.handle_categories()
+                elif user_input.lower() in ["/sync", "/update"]:
+                    self.handle_sync()
+                elif user_input.startswith("/suggest"):
+                    task = user_input.split(" ", 1)[1] if " " in user_input else ""
+                    self.handle_suggest_task(task)
                 elif user_input.startswith("/recommend"):
                     ind = user_input.split(" ", 1)[1] if " " in user_input else ""
                     self.handle_recommend(ind)
+                elif user_input.startswith("/search-global"):
+                    kw = user_input.split(" ", 1)[1] if " " in user_input else ""
+                    self.handle_global_search(kw)
                 elif user_input.startswith("/skills"):
                     kw = user_input.split(" ", 1)[1] if " " in user_input else ""
                     self.handle_search_skills(kw)
@@ -235,10 +268,13 @@ class HermesCopilot:
                     else:
                         print("⚠️ Cú pháp: /run <nội dung task>")
                 else:
-                    # Check if user is asking to open a company or asking for skill recommendations naturally
                     lower_text = user_input.lower()
-                    if any(phrase in lower_text for phrase in ["mở công ty", "thành lập công ty", "tư vấn skill", "cần skill gì", "nhóm skill", "lĩnh vực"]):
+                    if any(phrase in lower_text for phrase in ["dùng skill gì", "gợi ý skill", "cần skill nào", "kỹ năng nào cho"]):
+                        self.handle_suggest_task(user_input)
+                    elif any(phrase in lower_text for phrase in ["mở công ty", "thành lập công ty", "tư vấn skill", "nhóm skill", "lĩnh vực"]):
                         self.handle_recommend(user_input)
+                    elif any(phrase in lower_text for phrase in ["đồng bộ skill", "cập nhật kho", "update skill", "lấy skill từ máy"]):
+                        self.handle_sync()
                     else:
                         # Natural request processing
                         print("\n🏛️ [Hermes Master phân tích & điều phối...]")
