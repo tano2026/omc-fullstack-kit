@@ -1,0 +1,9 @@
+{
+  "last_report_path": "C:\\Users\\Nguyen Ngoc Tan\\AppData\\Local\\hermes\\logs\\curator\\20260724-024324",
+  "last_run_at": "2026-07-24T02:43:24.777647+00:00",
+  "last_run_duration_seconds": 1197.136302,
+  "last_run_summary": "auto: 1 marked stale; llm: ## Summary of Consolidation Pass\n\nThis consolidation pass focused on reducing redundancy and organizing agent-created skills into more robust, class-level umbrella skills. The goal was to build a library of class-level instructions and expe…\narchived 10 skill(s):\n  • fastapi-windows-deploy → tano-agency-ops\n  • github-private-repo-access → tano-agency-ops\n  • gmsp-video-production → video-production-pipeline\n  • pipeline-dashboard-ops → tano-agency-ops\n  • telegram-polling-bot → telegram-bot-deploy\n  • video-brand-identity → brand-identity-sales-kit\n  • vps-app-deploy → tano-agency-ops\n  • content-agent-pipeline — pruned (stale)\n  • english-explainer-video — pruned (stale)\n  • travel-chat-integration — pruned (stale)\nfull report: hermes curator status\nkeep an umbrella stable: hermes curator pin brand-identity-sales-kit",
+  "last_run_summary_shown_at": null,
+  "paused": false,
+  "run_count": 8
+}

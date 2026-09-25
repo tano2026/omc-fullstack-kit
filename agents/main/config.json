@@ -1,0 +1,11 @@
+{
+  "id": "main",
+  "name": "OMC JEV Gateway - System 1 Ingress Router",
+  "model": "openrouter/free",
+  "skills": [
+    "security-hardening",
+    "api-and-interface-design",
+    "humanizer"
+  ],
+  "maxTurns": 20
+}

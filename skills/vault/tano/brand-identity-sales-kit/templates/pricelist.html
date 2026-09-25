@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<title>BRAND — Price List</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--pri:#1B3A6B;--acc:#B8973A;--bg:#F7F5F0;--text:#1C1C1E;--muted:#8B8F99}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;font-weight:300;color:var(--text);font-size:10pt;background:var(--bg)}
+  .page{width:210mm;min-height:296mm;background:#fff;margin:20px auto;padding:18mm 16mm;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+  h1,h2{font-family:'Cormorant Garamond',serif;font-weight:400}
+  .label{font-size:7.5pt;letter-spacing:.26em;text-transform:uppercase;color:var(--acc);font-weight:500}
+  table{width:100%;border-collapse:collapse;font-size:8.5pt;margin-bottom:5mm}
+  th{background:var(--pri);color:#fff;text-align:left;padding:5pt 7pt;font-weight:500;font-size:7pt;letter-spacing:.1em;text-transform:uppercase}
+  td{padding:4.5pt 7pt;border-bottom:.5pt solid #e8e4da}
+  .cat td{background:var(--bg);font-weight:500;color:var(--pri);font-size:8pt;border-bottom:1pt solid var(--acc)}
+  .note{background:var(--bg);border-left:3pt solid var(--acc);padding:5mm 6mm;margin:6mm 0;font-size:7.5pt;color:#555}
+  .footer{margin-top:8mm;padding-top:4mm;border-top:1px solid #ddd;font-size:7pt;color:var(--muted)}
+  @media print{.page{margin:0;box-shadow:none}body{background:#fff}}
+  @page{size:A4;margin:0}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div style="display:flex;justify-content:space-between;margin-bottom:10mm;padding-bottom:6mm;border-bottom:1px solid var(--acc)">
+    <div>
+      <h1 style="font-size:24pt;color:var(--pri)">BRAND</h1>
+      <div style="font-size:8pt;letter-spacing:.26em;color:var(--muted);text-transform:uppercase">Price List 2026</div>
+    </div>
+    <div style="text-align:right;font-size:8pt;color:#555">
+      <b>Effective:</b> July 2026<br>All prices exclude VAT
+    </div>
+  </div>
+
+  <div class="label">Service Category</div>
+  <table>
+    <tr><th>Service</th><th>Terminal</th><th>Agent</th><th>Corporate</th><th>Retail</th></tr>
+    <tr class="cat"><td colspan="5">Category A</td></tr>
+    <tr><td>Service Name</td><td>T1</td><td>XXX,000₫</td><td>XXX,000₫</td><td>XXX,000₫</td></tr>
+  </table>
+
+  <div class="note">
+    <b>Key Policies:</b><br>
+    Infants under 2: FREE (max 2 per adult)<br>
+    Night surcharge 22:00-06:00: +XXX,000₫/pax<br>
+    Group 10+: volume discounts available<br>
+    Cancellation: free 24h before, 50% after
+  </div>
+
+  <div class="footer" style="display:flex;justify-content:space-between">
+    <div>BRAND · Airport Services<br>Location</div>
+    <div style="text-align:right">📞 hotline<br>✉️ email · 🌐 website</div>
+  </div>
+</div>
+
+</body>
+</html>

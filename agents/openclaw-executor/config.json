@@ -1,0 +1,12 @@
+{
+  "id": "openclaw-executor",
+  "name": "OpenClaw Executor - 24/7 DevOps & Execution Commander",
+  "model": "deepseek/deepseek-chat",
+  "skills": [
+    "terminal-ops",
+    "git-workflow-and-versioning",
+    "ci-cd-and-automation",
+    "performance-optimization"
+  ],
+  "maxTurns": 20
+}

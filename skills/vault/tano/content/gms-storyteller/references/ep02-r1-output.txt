@@ -1,0 +1,17 @@
+= EP02 "Bí Mật Giới Tinh Hoa" — R1 Output (2026-07-16) =
+
+Model: auto/best-reasoning → big-pickle (OmniRoute)
+Parameters: max_tokens=16384, temperature=0.7, stream=false
+Input tokens: ~5K prompt + system
+Output: 9,292 chars (8.4 min estimated speaking time)
+
+KEY OBSERVATIONS:
+1. R1 tự động sinh 2 case study mới (Tuấn + Hoàng) — ko cần hardcode
+2. Case study xuyên suốt HOOK → BỐI CẢNH → TỬ VI → TÂM LÝ → GIẢI PHÁP → CLIFFHANGER
+3. Cảnh + thoại cụ thể: "Mày bảo tao điên, tao làm tất tần tật, không dám nghỉ ngày nào, thế mà đéo dư nổi đồng nào."
+4. Tử Vi dịch ra đời thường: Thái Dương = mặt trời, Cự Môn = cánh cửa tối thị phi, Hóa Kỵ = rỉ sét
+5. Thiếu độ dài: 9,292/13,000 mục tiêu (71%)
+6. Section GIẢI PHÁP hơi generic — thiếu gắn cụ thể vào case study Hoàng
+
+FIX: yêu cầu rõ "ít nhất 13,000 ký tự" trong prompt user message
+FIX: thêm ví dụ R1 output quality để biết R1 làm được tới đâu

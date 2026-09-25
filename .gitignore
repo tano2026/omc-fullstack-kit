@@ -1,0 +1,48 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# Caches and logs
+*.log
+.pytest_cache/
+.coverage
+htmlcov/
+*.sqlite
+*.sqlite3
+
+# Environment & Secret Credentials (CRITICAL: NEVER COMMIT TO GITHUB)
+.env
+*.env
+!.env.example
+auth.json
+auth.lock
+*.token
+*.pem
+*.key
+
+# Cloned companies (output of clone_company.py)
+companies/
+
+# Huge external index caches & archives
+.curator_backups/
+.hub/index-cache/
+*.tar.gz
+*.zip
+
+# Obsidian local workspace cache (keep notes, ignore session layout)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Virtual Environments
+venv/
+.venv/
+env/
+node_modules/

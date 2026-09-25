@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRAND NAME — Fast Track / Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--pri:#1B3A6B;--acc:#B8973A;--bg:#F7F5F0;--text:#1C1C1E;--muted:#8B8F99}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;font-weight:300;color:var(--text);font-size:10.5pt;line-height:1.55}
+  h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:400}
+  .page{width:210mm;height:296mm;page-break-after:always;position:relative;overflow:hidden}
+  .page:last-child{page-break-after:auto}
+  .label{font-size:8pt;letter-spacing:.26em;text-transform:uppercase;color:var(--acc);font-weight:500}
+  @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  @page{size:A4;margin:0}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: COVER -->
+<div class="page" style="background:var(--pri);color:#fff;padding:22mm 20mm">
+  <div><!-- SVG logomark here --></div>
+  <div style="margin-top:8mm">
+    <h1 style="font-size:42pt;font-weight:300">BRAND NAME</h1>
+    <div style="font-size:9pt;letter-spacing:.32em;color:var(--acc);text-transform:uppercase">Tagline / Subtitle</div>
+    <div style="font-style:italic;font-size:16pt;color:rgba(255,255,255,.75);margin-top:8mm">Tagline</div>
+    <div style="font-size:28pt;max-width:155mm;margin-top:auto">Headline here.</div>
+    <p style="font-size:11pt;color:rgba(255,255,255,.8);margin-top:6mm;max-width:150mm">Short intro paragraph about the business.</p>
+    <div style="display:flex;gap:14mm;margin-top:12mm">
+      <div><b style="display:block;font-size:24pt;color:var(--acc)">X</b><span style="font-size:7.5pt;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6)">Metric 1</span></div>
+      <div><b style="display:block;font-size:24pt;color:var(--acc)">Y</b><span style="font-size:7.5pt;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6)">Metric 2</span></div>
+    </div>
+    <div style="margin-top:14mm;padding-top:6mm;border-top:1px solid rgba(184,151,58,.35);font-size:9pt;color:var(--acc)">📞 hotline · ✉️ email · 🌐 website</div>
+  </div>
+</div>
+
+<!-- PAGE 2: WHY + HOW -->
+<div class="page" style="padding:18mm;background:#fff">
+  <div class="label">Why Choose Us</div>
+  <h2 style="font-size:22pt;color:var(--pri);margin-bottom:3mm">The only on-site operator.</h2>
+  <p style="color:#555;font-size:9.5pt;margin-bottom:6mm">Short context paragraph.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5mm 8mm;margin-bottom:8mm">
+    <!-- Repeat 6x: icon + title + description -->
+    <div style="display:flex;gap:3mm">
+      <div style="font-size:14pt;color:var(--acc)">★</div>
+      <div><h3 style="font-size:11pt;color:var(--pri);font-family:'Inter',sans-serif;font-weight:500">Feature Title</h3><p style="font-size:8.5pt;color:#555">Feature description.</p></div>
+    </div>
+  </div>
+  <div class="label" style="margin-top:4mm">How It Works</div>
+  <h2 style="font-size:18pt;color:var(--pri)">Three simple steps.</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:6mm;padding-top:6mm;border-top:1px solid #eee">
+    <div style="border-top:2pt solid var(--acc);padding-top:3mm">
+      <div style="font-size:28pt;color:var(--acc)">1</div>
+      <h3 style="font-size:12pt;color:var(--pri);margin:2mm 0">Step title</h3>
+      <p style="font-size:8.5pt;color:#555">Step description.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 3: PRICING -->
+<div class="page" style="padding:18mm;background:#fff">
+  <div class="label">Pricing</div>
+  <h2 style="font-size:22pt;color:var(--pri);margin-bottom:2mm">Transparent rates.</h2>
+  <p style="font-size:9pt;color:#555;margin-bottom:6mm">All prices exclude VAT.</p>
+  <table style="width:100%;border-collapse:collapse;font-size:8.5pt;margin-bottom:5mm">
+    <tr><th style="background:var(--pri);color:#fff;text-align:left;padding:5pt 7pt">Service</th><th style="background:var(--pri);color:#fff;padding:5pt 7pt">Price (VND)</th></tr>
+    <tr><td style="padding:4.5pt 7pt;border-bottom:.5pt solid #e8e4da">Service A</td><td style="padding:4.5pt 7pt;border-bottom:.5pt solid #e8e4da">XXX,000₫</td></tr>
+  </table>
+  <div style="background:var(--bg);border-left:3pt solid var(--acc);padding:5mm 6mm;font-size:7.5pt;color:#555">
+    <b>Policies:</b> Infants free · Night surcharge · Cancellation terms
+  </div>
+</div>
+
+<!-- PAGE 4: PARTNER + CONTACT -->
+<div class="page" style="background:var(--bg);padding:18mm">
+  <div class="label">Partnership</div>
+  <h2 style="font-size:22pt;color:var(--pri)">Grow your business.</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-bottom:8mm">
+    <div style="background:#fff;padding:5mm 6mm">
+      <h3 style="font-size:11pt;color:var(--pri);font-weight:500">Partner Type</h3>
+      <p style="font-size:8.5pt;color:#555">Description.</p>
+    </div>
+  </div>
+  <div style="background:var(--pri);color:#fff;padding:8mm 10mm;display:flex;justify-content:space-between;align-items:center">
+    <div><h3 style="font-size:15pt">Ready to work together?</h3><p style="font-size:8.5pt;color:rgba(255,255,255,.7)">Contact us on WhatsApp.</p></div>
+    <a href="https://wa.me/84xxxxxxxxx" style="background:var(--acc);color:#fff;padding:6pt 18pt;border-radius:2pt;text-decoration:none;font-size:10pt">WhatsApp</a>
+  </div>
+  <div style="margin-top:auto;padding-top:6mm;font-size:7pt;color:var(--muted);text-align:center">
+    BRAND NAME · Location · 📞 hotline · ✉️ email · 🌐 website
+  </div>
+</div>
+
+</body>
+</html>

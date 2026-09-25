@@ -1,0 +1,11 @@
+{
+  "id": "research-intel",
+  "name": "Research Intel - Market Research & SEO/AEO/GEO Specialist",
+  "model": "deepseek/deepseek-chat",
+  "skills": [
+    "last30days",
+    "humanizer",
+    "terminal-ops"
+  ],
+  "maxTurns": 20
+}

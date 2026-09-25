@@ -1,0 +1,23 @@
+EP02 R1 output — 13,313 chars (v2)
+Source: auto/best-reasoning (model: big-pickle)
+Date: 2026-07-16
+Chars: 13,313 (target 13,000-16,500)
+Cost: ~$0.005 (3K in + 5K out tokens)
+Status: Edited ~200 chars for CTA + encoding fixes + brand dedup
+
+--- 
+Bạn có bao giờ tự hỏi: tại sao có đứa làm 12 tiếng một ngày, 6 ngày một tuần, vẫn trắng tay? Còn thằng bạn cùng lớp ngày xưa, học dở hơn mình, làm 4 ngày một tuần, sáng 9 giờ đến 1 giờ chiều, nhưng tiền nó gấp 10 lần mình?
+
+Nhớ Tuấn không? Thằng bạn tôi, 34 tuổi, làm logistics. Mỗi ngày 6 giờ sáng nó đã có mặt ở công ty. 9 giờ tối mới về. Vợ con nó ở nhà, nó không có thời gian đưa con đi học. Thẻ tín dụng nợ đầm đìa. Một hôm nó nhìn tôi, mắt thâm quầng, hỏi một câu: "Sao càng làm càng khổ? Tao làm quần quật, không dám chơi, không dám tiêu, mà nợ nần vẫn chồng chất. Tụi bạn tao làm ít hơn, nhàn hơn, sao giàu hơn?"
+
+Câu hỏi đó, tôi cá với bạn, cũng là câu hỏi trong đầu bạn. Bạn đang làm 10 tiếng, 12 tiếng, nhưng tài khoản vẫn lẹt đẹt. Bạn nghĩ mình chưa đủ cố gắng. Bạn nghĩ mình chưa đủ chịu khó. Bạn tự bảo: "Chắc phải cày thêm thôi." Nhưng tôi nói cho bạn biết: sự thật nó phũ phàng hơn nhiều. Giới tinh hoa họ không làm 12 tiếng. Họ làm khác, không phải làm nhiều hơn.
+
+Hôm nay, trong tập 2 của "Giải Mã Số Phận", tôi sẽ cho bạn thấy ba cái bẫy chết người mà Tuấn đã mắc, và bạn cũng đang mắc. Đó là bẫy thời gian, bẫy kỹ năng, và bẫy an toàn. Ba cái bẫy này biến bạn thành con lừa quay cối xay, càng quay càng mệt, càng mệt càng nghèo.
+
+Nhưng trước tiên, hãy nhìn vào cuộc đời Tuấn. Khi bạn thấy nó, bạn sẽ thấy chính mình.
+
+---
+
+Tuấn là một thằng bạn thân. Tôi biết nó từ thời đại học. Nó thuộc mẫu người chịu khó, trách nhiệm, không bao giờ than vãn. Ra trường nó vào làm logistics, một công ty vận tải biển. Lương khởi điểm 7 triệu. Sau 10 năm, lương nó lên 15 triệu. Nhưng đời nó không khá hơn, mà còn tệ hơn.
+
+[Full script truncated for length — see ep02_script.txt]

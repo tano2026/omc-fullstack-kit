@@ -1,0 +1,59 @@
+{
+  "default_model": "openrouter/free",
+  "providers": {
+    "openrouter": {
+      "api": "openai-completions",
+      "baseUrl": "https://openrouter.ai/api/v1",
+      "apiKey": "${OPENROUTER_API_KEY}",
+      "models": [
+        {
+          "id": "openrouter/free",
+          "name": "OpenRouter Free Auto-Router",
+          "contextWindow": 200000,
+          "free": true
+        },
+        {
+          "id": "nousresearch/hermes-4-405b",
+          "name": "Nous Hermes 4 405B",
+          "contextWindow": 131072,
+          "free": false
+        },
+        {
+          "id": "nousresearch/hermes-3-llama-3.1-70b",
+          "name": "Nous Hermes 3 70B",
+          "contextWindow": 131072,
+          "free": false
+        },
+        {
+          "id": "google/gemini-2.5-flash",
+          "name": "Gemini 2.5 Flash",
+          "contextWindow": 1000000,
+          "free": true
+        },
+        {
+          "id": "deepseek/deepseek-chat",
+          "name": "DeepSeek V3",
+          "contextWindow": 64000,
+          "free": false
+        }
+      ]
+    },
+    "deepseek": {
+      "api": "openai-completions",
+      "baseUrl": "https://api.deepseek.com",
+      "apiKey": "${DEEPSEEK_API_KEY}"
+    },
+    "omniroute": {
+      "api": "openai-completions",
+      "baseUrl": "https://hhtechapi.com/v1",
+      "apiKey": "${HHTECH_API_KEY}"
+    }
+  },
+  "failover_chain": [
+    "openrouter/free",
+    "openrouter/nousresearch/hermes-3-llama-3.1-70b",
+    "deepseek/deepseek-chat",
+    "omniroute/deepseek-chat",
+    "google/gemini-2.5-flash"
+  ]
+}

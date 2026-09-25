@@ -1,0 +1,13 @@
+{
+  "id": "dev-automation",
+  "name": "Dev Automation - Senior Full-Stack & RPA/Bot Engineer",
+  "model": "deepseek/deepseek-chat",
+  "skills": [
+    "expert-coding-dev",
+    "test-driven-dev",
+    "debugging-and-error-recovery",
+    "frontend-ui-engineering",
+    "browser-testing-with-devtools"
+  ],
+  "maxTurns": 20
+}

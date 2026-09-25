@@ -1,0 +1,144 @@
+{
+  "version": 1,
+  "installed": {
+    "web-search": {
+      "source": "clawhub",
+      "identifier": "web-search",
+      "trust_level": "community",
+      "scan_verdict": "caution",
+      "content_hash": "sha256:01b727763d1bf054",
+      "install_path": "web-search",
+      "files": [
+        "scripts/search.py",
+        "SKILL.md",
+        "_meta.json"
+      ],
+      "metadata": {},
+      "installed_at": "2026-05-26T13:05:09.908696+00:00",
+      "updated_at": "2026-05-26T13:05:09.908718+00:00"
+    },
+    "scrapling": {
+      "source": "clawhub",
+      "identifier": "scrapling",
+      "trust_level": "community",
+      "scan_verdict": "caution",
+      "content_hash": "sha256:54337b41c499f8cc",
+      "install_path": "scrapling",
+      "files": [
+        "_meta.json",
+        "run.sh",
+        "SKILL.md"
+      ],
+      "metadata": {},
+      "installed_at": "2026-05-26T13:05:21.827010+00:00",
+      "updated_at": "2026-05-26T13:05:21.827019+00:00"
+    },
+    "copywriting": {
+      "source": "clawhub",
+      "identifier": "copywriting",
+      "trust_level": "community",
+      "scan_verdict": "safe",
+      "content_hash": "sha256:8da230540cab1a37",
+      "install_path": "copywriting",
+      "files": [
+        "SKILL.md",
+        "_meta.json"
+      ],
+      "metadata": {},
+      "installed_at": "2026-05-26T13:13:45.561633+00:00",
+      "updated_at": "2026-05-26T13:13:45.561654+00:00"
+    },
+    "content-strategy": {
+      "source": "clawhub",
+      "identifier": "content-strategy",
+      "trust_level": "community",
+      "scan_verdict": "safe",
+      "content_hash": "sha256:608a1d32b012effe",
+      "install_path": "content-strategy",
+      "files": [
+        "SKILL.md",
+        "_meta.json"
+      ],
+      "metadata": {},
+      "installed_at": "2026-05-26T13:13:55.652197+00:00",
+      "updated_at": "2026-05-26T13:13:55.652205+00:00"
+    },
+    "ai-seo": {
+      "source": "clawhub",
+      "identifier": "ai-seo",
+      "trust_level": "community",
+      "scan_verdict": "caution",
+      "content_hash": "sha256:eb81c252b81a06bf",
+      "install_path": "ai-seo",
+      "files": [
+        "evals/evals.json",
+        "references/content-patterns.md",
+        "references/platform-ranking-factors.md",
+        "SKILL.md",
+        "_meta.json"
+      ],
+      "metadata": {},
+      "installed_at": "2026-05-26T13:14:03.737254+00:00",
+      "updated_at": "2026-05-26T13:14:03.737262+00:00"
+    },
+    "cold-email": {
+      "source": "clawhub",
+      "identifier": "cold-email",
+      "trust_level": "community",
+      "scan_verdict": "safe",
+      "content_hash": "sha256:fc272844363f32aa",
+      "install_path": "cold-email",
+      "files": [
+        "SKILL.md",
+        "_meta.json"
+      ],
+      "metadata": {},
+      "installed_at": "2026-05-26T13:14:13.172130+00:00",
+      "updated_at": "2026-05-26T13:14:13.172139+00:00"
+    },
+    "business-guru": {
+      "source": "lobehub",
+      "identifier": "lobehub/business-guru",
+      "trust_level": "community",
+      "scan_verdict": "safe",
+      "content_hash": "sha256:33d4fbf35df54287",
+      "install_path": "business-guru",
+      "files": [
+        "SKILL.md"
+      ],
+      "metadata": {},
+      "installed_at": "2026-05-26T13:14:26.800398+00:00",
+      "updated_at": "2026-05-26T13:14:26.800415+00:00"
+    },
+    "product-description": {
+      "source": "lobehub",
+      "identifier": "lobehub/product-description",
+      "trust_level": "community",
+      "scan_verdict": "safe",
+      "content_hash": "sha256:6ce5bb5dbb300d44",
+      "install_path": "product-description",
+      "files": [
+        "SKILL.md"
+      ],
+      "metadata": {},
+      "installed_at": "2026-05-26T13:14:30.987264+00:00",
+      "updated_at": "2026-05-26T13:14:30.987284+00:00"
+    },
+    "openclaw-migration": {
+      "source": "clawhub",
+      "identifier": "openclaw-migration",
+      "trust_level": "community",
+      "scan_verdict": "dangerous",
+      "content_hash": "sha256:cf8dbc9cf283d5a8",
+      "install_path": "openclaw-migration",
+      "files": [
+        "skill-card.md",
+        "SKILL.md",
+        "_meta.json"
+      ],
+      "metadata": {},
+      "installed_at": "2026-05-29T03:27:00.863484+00:00",
+      "updated_at": "2026-05-29T03:27:00.863490+00:00"
+    }
+  }
+}

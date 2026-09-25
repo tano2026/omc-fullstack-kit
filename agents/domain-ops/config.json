@@ -1,0 +1,10 @@
+{
+  "id": "domain-ops",
+  "name": "Domain Ops - Business & Industry Operations Specialist",
+  "model": "openrouter/free",
+  "skills": [
+    "humanizer",
+    "api-and-interface-design"
+  ],
+  "maxTurns": 20
+}

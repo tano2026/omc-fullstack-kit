@@ -1,0 +1,11 @@
+{
+  "id": "jev-sentinel",
+  "name": "JEV Sentinel - Safety & Quality Gatekeeper",
+  "model": "openrouter/free",
+  "skills": [
+    "security-hardening",
+    "code-review-and-quality",
+    "code-simplification"
+  ],
+  "maxTurns": 20
+}

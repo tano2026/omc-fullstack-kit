@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>BRAND — Business Card</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter','Segoe UI',sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#eee;gap:20px;flex-wrap:wrap;padding:20px}
+  .card{width:90mm;height:55mm;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.12);border-radius:2px;display:flex;background:#fff}
+  .front{background:var(--pri,#1B3A6B);color:#fff;padding:6mm 5mm;flex-direction:column;display:flex}
+  .front .top{display:flex;align-items:flex-start;gap:3mm;margin-bottom:auto}
+  .front .brand h2{font-family:'Cormorant Garamond',serif;font-size:16pt;font-weight:300;letter-spacing:.04em}
+  .front .brand .sub{font-size:5.5pt;letter-spacing:.26em;color:var(--acc,#B8973A);text-transform:uppercase}
+  .front .name{margin-top:auto}
+  .front .name h3{font-size:10pt;font-weight:500}
+  .front .name .title{font-size:6.5pt;color:var(--acc,#B8973A);letter-spacing:.12em}
+  .front .contact{display:flex;flex-wrap:wrap;gap:1.5mm 3mm;margin-top:3mm;font-size:6.5pt;color:rgba(255,255,255,.75)}
+  .back{background:var(--bg,#F7F5F0);padding:6mm 5mm;flex-direction:column;display:flex;justify-content:center}
+  .back .tags{display:flex;flex-wrap:wrap;gap:2mm;margin-bottom:2mm}
+  .back .tag{background:var(--pri,#1B3A6B);color:#fff;padding:1.5pt 4pt;font-size:5.5pt;border-radius:1px}
+  .back .qr-area{display:flex;align-items:center;gap:3mm;margin-top:3mm;padding-top:3mm;border-top:1px solid #ddd}
+  .back .qr-placeholder{width:20mm;height:20mm;background:var(--pri,#1B3A6B);display:flex;align-items:center;justify-content:center;color:var(--acc,#B8973A);font-size:5pt;text-align:center;border-radius:1px}
+  .back .info{font-size:6pt;color:#555}
+  @media print{body{background:#fff;padding:0}.card{box-shadow:none;margin:10px auto;page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<!-- FRONT -->
+<div class="card front">
+  <div class="top">
+    <div class="brand">
+      <h2>BRAND</h2>
+      <div class="sub">Subtitle</div>
+      <div style="font-style:italic;font-size:6.5pt;color:rgba(255,255,255,.5)">Tagline</div>
+    </div>
+  </div>
+  <div class="name">
+    <h3>Contact Name</h3>
+    <div class="title">Role</div>
+  </div>
+  <div class="contact">
+    <span>📞 hotline</span>
+    <span>✉️ email</span>
+    <span>🌐 website</span>
+  </div>
+</div>
+
+<!-- BACK -->
+<div class="card back">
+  <div class="tags">
+    <span class="tag">Service A</span>
+    <span class="tag">Service B</span>
+    <span class="tag">Service C</span>
+    <span class="tag">Service D</span>
+  </div>
+  <div class="qr-area">
+    <div class="qr-placeholder">📱<br>QR<br>here</div>
+    <div class="info">
+      <b>BRAND Name</b><br>
+      Location<br>
+      24/7 Operations
+    </div>
+  </div>
+</div>
+
+<p style="width:100%;text-align:center;font-size:9pt;color:#666;margin-top:10px">Print: 6 cards/sheet A4, double-sided</p>
+</body>
+</html>

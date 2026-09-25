@@ -1,0 +1,15 @@
+{
+  "id": "hermes-master",
+  "name": "Hermes OMC Master Copilot & Chief of Staff",
+  "model": "openrouter/nousresearch/hermes-3-llama-3.1-70b",
+  "fallback_model": "deepseek/deepseek-reasoner",
+  "skills": [
+    "spec-driven-development",
+    "planning-and-task-breakdown",
+    "code-review-and-quality",
+    "documentation-and-adrs",
+    "humanizer"
+  ],
+  "maxTurns": 30,
+  "system_prompt_ref": "KNOWLEDGE_BASE.md"
+}

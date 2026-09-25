@@ -1,0 +1,12 @@
+{
+  "id": "hermes-architect",
+  "name": "Hermes Architect - Senior Software & Systems Architect",
+  "model": "deepseek/deepseek-reasoner",
+  "skills": [
+    "spec-driven-development",
+    "api-and-interface-design",
+    "code-review-and-quality",
+    "documentation-and-adrs"
+  ],
+  "maxTurns": 20
+}

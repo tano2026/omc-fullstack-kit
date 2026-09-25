@@ -1,0 +1,82 @@
+<!--
+Language Switcher VI/EN/CN — working implementation pattern
+Used in: An Bình Aviation landing page (Jul 2026)
+Pattern: data-attributes + JS innerHTML swap + localStorage
+CRITICAL: Do NOT use CSS display:none to hide languages — use JS innerHTML swap only
+-->
+
+<!-- Step 1: Switcher UI in header -->
+<div class="lang-switcher" style="display:flex;gap:4px;align-items:center">
+  <span data-lang="vi" class="active" style="cursor:pointer;padding:2px 8px;font-size:11px;font-weight:600;letter-spacing:0.06em;border-radius:4px;transition:all 0.25s;color:#006885">VI</span>
+  <span style="color:rgba(0,0,0,0.15)">|</span>
+  <span data-lang="en" style="cursor:pointer;padding:2px 8px;font-size:11px;font-weight:600;letter-spacing:0.06em;border-radius:4px;transition:all 0.25s;color:#4A4A52">EN</span>
+  <span style="color:rgba(0,0,0,0.15)">|</span>
+  <span data-lang="cn" style="cursor:pointer;padding:2px 8px;font-size:11px;font-weight:600;letter-spacing:0.06em;border-radius:4px;transition:all 0.25s;color:#4A4A52">CN</span>
+</div>
+
+<style>
+.lang-switcher .active { background:#006885; color:#fff !important; }
+.lang-switcher span:not(.active):hover { background:rgba(0,104,133,0.08); }
+</style>
+
+<!-- Step 2: Mark up text with data-vi, data-en, data-cn -->
+<h1 class="hero-title"
+    data-vi="Giải Pháp Hàng Không <span class='gold'>Toàn Diện</span>"
+    data-en="Comprehensive <span class='gold'>Aviation Solutions</span>"
+    data-cn="<span class='gold'>全面航空解决方案</span>">
+  Giải Pháp Hàng Không <span class="gold">Toàn Diện</span>
+</h1>
+
+<p data-vi="Từ đại diện hãng bay đến Fast Track VIP — đối tác tin cậy tại Việt Nam từ 2011."
+   data-en="Airline representation to VIP Fast Track — trusted aviation partner since 2011."
+   data-cn="从航空公司代表到VIP快速通道 — 自2011年起值得信赖的航空合作伙伴。">
+</p>
+
+<button data-vi="Gửi Yêu Cầu" data-en="Send Request" data-cn="发送请求">Gửi Yêu Cầu</button>
+
+<!-- Input placeholders -->
+<input type="text" data-vi="Họ và tên *" data-en="Full Name *" data-cn="全名 *" placeholder="Họ và tên *">
+
+<!-- Step 3: JavaScript -->
+<script>
+function switchLang(lang) {
+  // Update active button state
+  document.querySelectorAll('.lang-switcher span').forEach(function(el) {
+    el.classList.toggle('active', el.getAttribute('data-lang') === lang);
+  });
+  // Swap all content
+  document.querySelectorAll('[data-vi]').forEach(function(el) {
+    var val = el.getAttribute('data-' + lang);
+    if (val) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.setAttribute('placeholder', val);
+      } else {
+        el.innerHTML = val;
+      }
+    }
+  });
+  // Persist
+  localStorage.setItem('site_lang', lang);
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', function() {
+  var savedLang = localStorage.getItem('site_lang') || 'vi';
+  switchLang(savedLang);
+  document.querySelectorAll('.lang-switcher span').forEach(function(el) {
+    el.addEventListener('click', function() {
+      switchLang(this.getAttribute('data-lang'));
+    });
+  });
+});
+</script>
+
+<!--
+KEY RULES:
+1. QuerySelectorAll('[data-vi]') — only look for data-vi, the other attrs sit on the same element
+2. innerHTML not textContent — preserves <span>/<strong> tags inside translated strings
+3. Only INPUT/TEXTAREA use setAttribute('placeholder', val)
+4. localStorage persistence so user preference survives page reload
+5. DO NOT add CSS display:none rules for language visibility — they break the layout
+6. Init happens on DOMContentLoaded, NOT as IIFE (needs DOM ready)
+-->

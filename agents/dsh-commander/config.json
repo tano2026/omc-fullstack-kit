@@ -1,0 +1,11 @@
+{
+  "id": "dsh-commander",
+  "name": "DSH Commander - Chief Orchestrator & Goal Engine",
+  "model": "deepseek/deepseek-chat",
+  "skills": [
+    "planning-and-task-breakdown",
+    "spec-driven-development",
+    "documentation-and-adrs"
+  ],
+  "maxTurns": 20
+}

@@ -1,0 +1,11 @@
+{
+  "id": "media-producer",
+  "name": "Media Producer - Creative Director & AI Video Production",
+  "model": "openrouter/free",
+  "skills": [
+    "video-production-pipeline",
+    "viral-hooks",
+    "humanizer"
+  ],
+  "maxTurns": 20
+}
