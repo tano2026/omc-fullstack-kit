@@ -50,8 +50,16 @@ def clone_company(name: str, domain: str, dest_dir: Path, bot_token: str = ""):
     print("🌐 5/6. Thiết lập Cổng Ingress & Webhook...")
     shutil.copytree(KIT_ROOT / "gateway", dest_dir / "gateway")
 
-    # Copy installer files & configs
-    for f in ["requirements.txt", "package.json", "install.bat", "install.sh", "INSTALL_GUIDE.md", "AGENTS.md"]:
+    # Copy installer files, launchers & configs
+    launcher_files = [
+        "requirements.txt", "package.json", "install.bat", "install.sh", 
+        "INSTALL_GUIDE.md", "README.md", "AGENTS.md", "ecosystem.config.js",
+        "copilot.bat", "copilot.sh", "start.bat", "start.sh",
+        "chat.bat", "chat.sh", "dev-superpowers.bat", "dev-superpowers.sh",
+        "hermes-chat.bat", "hermes-chat.sh", "hermes-dashboard.bat", "hermes-dashboard.sh",
+        "openclaw-dashboard.bat", "openclaw-dashboard.sh", "openclaw-chat.bat", "openclaw-chat.sh"
+    ]
+    for f in launcher_files:
         src_f = KIT_ROOT / f
         if src_f.exists():
             shutil.copy2(src_f, dest_dir / f)
