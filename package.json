@@ -1,6 +1,6 @@
 {
   "name": "omc-fullstack-kit",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "One-Man Company Fullstack Master Kit (Quad-Engine Trio + JEV + Obsidian Second Brain + Superpowers & Harness)",
   "main": "gateway/webhook_server.py",
   "scripts": {
@@ -8,6 +8,10 @@
     "copilot": "python engines/hermes_reasoner/hermes_copilot.py",
     "pipeline": "python engines/trio_orchestrator.py",
     "chat": "python gateway/webhook_server.py",
+    "hermes:chat": "hermes",
+    "hermes:ui": "hermes dashboard",
+    "openclaw:ui": "openclaw dashboard",
+    "openclaw:chat": "openclaw chat",
     "superpowers": "python engines/harness/dev_harness.py",
     "harness": "python engines/harness/dev_harness.py --action eval",
     "skills": "python skills/manager.py list",
