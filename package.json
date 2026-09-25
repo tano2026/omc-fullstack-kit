@@ -1,14 +1,19 @@
 {
   "name": "omc-fullstack-kit",
-  "version": "1.0.0",
-  "description": "One-Man Company Fullstack Master Kit (Quad-Engine Trio + JEV + Obsidian Second Brain)",
+  "version": "1.1.0",
+  "description": "One-Man Company Fullstack Master Kit (Quad-Engine Trio + JEV + Obsidian Second Brain + Superpowers & Harness)",
   "main": "gateway/webhook_server.py",
   "scripts": {
     "start": "python gateway/telegram_gateway.py",
     "copilot": "python engines/hermes_reasoner/hermes_copilot.py",
     "pipeline": "python engines/trio_orchestrator.py",
+    "superpowers": "python engines/harness/dev_harness.py",
+    "harness": "python engines/harness/dev_harness.py --action eval",
     "skills": "python skills/manager.py list",
-    "clone": "python clone_company.py"
+    "clone": "python clone_company.py",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop ecosystem.config.js",
+    "pm2:logs": "pm2 logs"
   },
   "keywords": [
     "omc",
@@ -18,7 +23,9 @@
     "dsh",
     "jev",
     "obsidian",
-    "ai-agents"
+    "ai-agents",
+    "superpowers",
+    "harness-engineering"
   ],
   "author": "Nguyen Ngoc Tan",
   "license": "MIT"

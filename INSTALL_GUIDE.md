@@ -1,6 +1,6 @@
 # 🛠️ CẨM NANG CÀI ĐẶT & THIẾT LẬP OMC FULLSTACK KIT
 
-> Hướng dẫn triển khai toàn diện bộ khung **One-Man Company (OMC)** trên bất kỳ máy tính mới nào (Windows, macOS, Linux, VPS Ubuntu).
+> Hướng dẫn triển khai toàn diện bộ khung **One-Man Company (OMC)** trên bất kỳ máy tính mới nào (Windows, macOS, Linux, VPS Ubuntu) tích hợp sẵn **Dev Superpowers & Harness Engineering**.
 
 ---
 
@@ -13,9 +13,10 @@
    ```
 2. Bộ cài tự động:
    - Kiểm tra Python (>= 3.10) và Node.js (>= 20).
-   - Tự động cài đặt toàn bộ thư viện Python trong `requirements.txt`.
-   - Cài đặt **OpenClaw 2.0 Engine** toàn cục qua `npm install -g openclaw`.
+   - Tự động cài đặt toàn bộ thư viện Python trong `requirements.txt` (bao gồm `filelock`, `fastapi`, `pydantic`).
+   - Cài đặt **OpenClaw 2.0 Engine** và **PM2 Supervisor** toàn cục.
    - Khởi tạo file cấu hình mẫu `config/.env`.
+   - Kiểm tra độ an toàn của JEV Sentinel & kích hoạt bộ Developer Superpowers.
 
 ### B. Trên Linux / VPS (Ubuntu / Debian):
 Chạy đúng 2 dòng lệnh:
@@ -26,20 +27,48 @@ chmod +x install.sh
 
 ---
 
-## 🧩 2. CÁC THÀNH PHẦN ĐƯỢC CÀI ĐẶT & KẾT NỐI
+## 🚀 2. BỘ CÔNG CỤ DEVELOPER SUPERPOWERS & HARNESS (TÍCH HỢP SẴN)
 
-| Thành phần | Cơ chế cài đặt & Vai trò | Vị trí trong Kit |
+Bộ kit đi kèm công cụ phát triển phần mềm chuẩn mực theo triết lý **Jesse Vincent (Superpowers)** và **Mitchell Hashimoto / Anthropic (Harness Engineering)**:
+
+| Lệnh / Flag | Quy trình thực hiện | Ý nghĩa |
 | :--- | :--- | :--- |
-| **OpenClaw 2.0** | Engine thực thi terminal, git, devops, tự phục hồi lỗi 24/7. Cài qua `npm install -g openclaw@latest`. | `engines/openclaw_runtime/` |
-| **Hermes Reasoner** | Tư duy chiều sâu (Chain-of-Thought), đặc tả kiến trúc và tự học kỹ năng mới. | `engines/hermes_reasoner/` |
-| **DSH Planner** | Phân rã mục tiêu lớn thành các task con không phụ thuộc vòng lặp (DAG Task Breakdown). | `engines/dsh_planner/` |
-| **JEV Gateway** | Cổng đón tin nhắn phản xạ 10ms và Rào chắn bảo mật phòng thủ Zero-Damage. | `engines/jev_gateway/` |
-| **Obsidian Vault** | Bộ não thứ hai (Second Brain) quản lý dự án, OKR và sổ cái quyết định ADR. | `obsidian-vault/` |
-| **Kho 722+ Skills** | Tích hợp sẵn 100% trong repo, không cần tải thêm từ bên ngoài. | `skills/` |
+| **`/spec`** | Lập đặc tả yêu cầu & Acceptance Criteria (AC) | Làm rõ tiêu chí nghiệm thu trước khi gõ 1 dòng code |
+| **`/plan`** | Phân rã mục tiêu thành DAG tasks | Bẻ nhỏ việc thành các phần việc độc lập |
+| **`/build`** | Test-Driven Development (TDD) | Vòng lặp Red-Green-Refactor: viết test trước |
+| **`/review`** | 5-Axis Quality Code Review | Đánh giá Correctness, Security, Simplicity, Performance, ADR |
+| **`/ship`** | JEV Sentinel Safety Gate & Commit | Kiểm duyệt Zero-Damage và tạo git commit nguyên tử |
+| **`/eval`** | Closed-Loop Evaluation Gate | Kiểm chứng 100% assertions, chống ảo giác (hallucination) |
+
+### Cách chạy:
+- **Windows:** Click đúp `dev-superpowers.bat` hoặc:
+  ```cmd
+  python engines\harness\dev_harness.py --action all --task "Tên tính năng cần làm"
+  ```
+- **Linux/Mac:** `./dev-superpowers.sh --action all --task "Tên tính năng cần làm"`
+- **Qua npm:** `npm run superpowers` hoặc `npm run harness`
 
 ---
 
-## 🔑 3. CẤU HÌNH API KEYS (CONFIG/.ENV)
+## 🛡️ 3. TÍNH NĂNG BẢO MẬT & VÒNG LẶP TỰ PHỤC HỒI (SECURITY & RESILIENT LOOP)
+
+1. **JEV Sentinel Zero-Damage Guard & Secret Sanitizer (`engines/jev_gateway/safety_guard.py`):**
+   - Chặn đứng 100% các lệnh phá hoại: `rm -rf`, `drop table`, `format`, `dd`, `git push -f origin main`.
+   - Tự động che giấu (mask) API Key, Telegram Bot Token khỏi toàn bộ terminal log.
+2. **Obsidian Thread-Safe & Atomic Lock (`obsidian-vault/vault_sync.py`):**
+   - Chống xung đột ghi đè Markdown khi nhiều agent chạy song song.
+   - Cơ chế ghi đè nguyên tử (Atomic replace qua `.tmp`).
+3. **Resilient LLM Loop với Exponential Backoff & 5-Layer Failover (`engines/llm_client.py`):**
+   - Tự động bắt lỗi HTTP 429 (Rate Limit), 503 để chờ thử lại theo hàm mũ (`2^attempt + jitter`).
+   - Tự động nhảy sang model kế tiếp trong chuỗi failover: `openrouter/free` ➔ `nous-hermes-70b` ➔ `deepseek-chat` ➔ `omniroute` ➔ `gemini-2.5-flash`.
+4. **Vận hành 24/7 với PM2 Supervisor:**
+   - Khởi động giám sát nền: `npm run pm2:start`
+   - Xem log real-time: `npm run pm2:logs`
+   - Dừng hệ thống: `npm run pm2:stop`
+
+---
+
+## 🔑 4. CẤU HÌNH API KEYS (CONFIG/.ENV)
 
 Mở file `config/.env` và cập nhật khóa API:
 ```env
@@ -55,22 +84,9 @@ DEFAULT_MODEL="openrouter/free"
 
 ---
 
-## 📓 4. KẾT NỐI VỚI OBSIDIAN
+## 📓 5. KẾT NỐI VỚI OBSIDIAN (SECOND BRAIN)
 
 1. Tải ứng dụng **Obsidian** (miễn phí) tại: [https://obsidian.md](https://obsidian.md).
-2. Mở Obsidian ➔ Chọn **Open folder as vault**.
-3. Chọn đường dẫn đến thư mục `obsidian-vault/` trong repo.
-4. Bạn sẽ thấy toàn bộ cơ cấu công ty, Kanban dự án, sơ đồ tổ chức dạng đồ thị trực quan (Graph View) và các quyết định ADR.
-
----
-
-## 🎯 5. BẮT ĐẦU VẬN HÀNH
-
-- **Trò chuyện cùng Cố vấn Trưởng Hermes Copilot:**
-  - Click đúp `copilot.bat` (Windows) hoặc `./copilot.sh` (Linux).
-- **Khởi động Bot Telegram 24/7:**
-  - Click đúp `start.bat` (Windows) hoặc `./start.sh` (Linux).
-- **Nhân bản một công ty mới trong 8 giây:**
-  ```cmd
-  python clone_company.py --name "MyAgency" --domain "Digital Marketing & AI"
-  ```
+2. Chọn **"Open folder as vault"** ➔ Trỏ tới thư mục:
+   `omc-fullstack-kit/obsidian-vault`
+3. Mở file `02 - Projects/TASKBOARD.md` để xem toàn cảnh tiến độ các dự án và luồng quyết định ADR.
