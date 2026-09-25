@@ -1,0 +1,25 @@
+{
+  "name": "omc-fullstack-kit",
+  "version": "1.0.0",
+  "description": "One-Man Company Fullstack Master Kit (Quad-Engine Trio + JEV + Obsidian Second Brain)",
+  "main": "gateway/webhook_server.py",
+  "scripts": {
+    "start": "python gateway/telegram_gateway.py",
+    "copilot": "python engines/hermes_reasoner/hermes_copilot.py",
+    "pipeline": "python engines/trio_orchestrator.py",
+    "skills": "python skills/manager.py list",
+    "clone": "python clone_company.py"
+  },
+  "keywords": [
+    "omc",
+    "one-man-company",
+    "openclaw",
+    "hermes",
+    "dsh",
+    "jev",
+    "obsidian",
+    "ai-agents"
+  ],
+  "author": "Nguyen Ngoc Tan",
+  "license": "MIT"
+}

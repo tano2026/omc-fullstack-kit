@@ -43,6 +43,8 @@
 
 | Thư mục / File | Chức năng chi tiết |
 | :--- | :--- |
+| **`install.bat` / `install.sh`** | **Bộ Cài Đặt Tự Động 1-Click**: Tự động cài Python deps, Node.js, OpenClaw 2.0, Hermes, DSH, JEV trên máy mới. |
+| **`copilot.bat` / `copilot.sh`** | **Trợ Lý Ruột & Cố Vấn Tối Cao Hermes Master**: Hướng dẫn, onboard, điều phối và tự học kỹ năng mới. |
 | **`engines/`** | **Bộ Lõi Quad-Engine Trio + JEV** (DSH Planning + Hermes Reasoner + OpenClaw Runner + JEV Gateway & Safety Guard). |
 | **`agents/`** | **9 Phòng Ban Chuyên Môn** (`main`, `dsh-commander`, `hermes-architect`, `dev-automation`, `media-producer`, `openclaw-executor`, `jev-sentinel`, `research-intel`, `domain-ops`). |
 | **`obsidian-vault/`** | **Bộ Não Thứ Hai (Second Brain)**: Quản trị mục tiêu, dự án, nhật ký, quyết định ADR và tự động đồng bộ 2 chiều với Agent qua `vault_sync.py`. |
@@ -53,18 +55,20 @@
 
 ---
 
-## 🚀 HƯỚNG DẪN SỬ DỤNG NHANH
+## 🚀 HƯỚNG DẪN BẮT ĐẦU NHANH
 
-### 1. Khởi Động Công Ty Hiện Tại
-- **Trên Windows:** Click đúp vào `start.bat` hoặc chạy:
-  ```cmd
-  python gateway/telegram_gateway.py
-  ```
-- **Trên Linux / VPS:**
-  ```bash
-  chmod +x start.sh
-  ./start.sh
-  ```
+### 0. Cài Đặt Môi Trường (Lần đầu trên máy mới)
+- **Windows:** Click đúp **`install.bat`** (Tự động cài OpenClaw 2.0, requirements, config).
+- **Linux/VPS:** Chạy `./install.sh`.
+- Chi tiết xem tại [INSTALL_GUIDE.md](file:///d:/TanoAgencyStorage/platform/omc-fullstack-kit/INSTALL_GUIDE.md).
+
+### 1. Trò Chuyện & Làm Việc Cùng Cố Vấn Hermes Master
+- Click đúp **`copilot.bat`** (Windows) hoặc `./copilot.sh` (Linux).
+- Hermes Master am hiểu toàn bộ hệ sinh thái, hướng dẫn và điều phối các phòng ban cho bạn.
+
+### 2. Khởi Động Telegram Ingress Gateway 24/7
+- **Trên Windows:** Click đúp vào `start.bat`
+- **Trên Linux / VPS:** Chạy `./start.sh`
 
 ### 2. Nhân Bản Công Ty Mới (1-Click Cloning)
 Muốn tạo một công ty mới (Ví dụ: Công ty Dịch Vụ Sân Bay `AnBinhAir` hoặc Agency Marketing `TanoAgency`):

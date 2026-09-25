@@ -50,6 +50,12 @@ def clone_company(name: str, domain: str, dest_dir: Path, bot_token: str = ""):
     print("🌐 5/6. Thiết lập Cổng Ingress & Webhook...")
     shutil.copytree(KIT_ROOT / "gateway", dest_dir / "gateway")
 
+    # Copy installer files & configs
+    for f in ["requirements.txt", "package.json", "install.bat", "install.sh", "INSTALL_GUIDE.md", "AGENTS.md"]:
+        src_f = KIT_ROOT / f
+        if src_f.exists():
+            shutil.copy2(src_f, dest_dir / f)
+
     # 6. Customize Company Profile & Second Brain
     print("✍️ 6/6. Tùy biến thông số doanh nghiệp...")
     profile_path = dest_dir / "obsidian-vault" / "01 - Org" / "Company-Profile.md"
