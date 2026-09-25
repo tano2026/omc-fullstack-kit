@@ -104,10 +104,27 @@ Bộ kit cung cấp đầy đủ các kênh giao diện chat bản địa của 
   ```
   Xem log: `npm run pm2:logs` | Dừng lại: `npm run pm2:stop`
 
-### 4. Nhân Bản Công Ty Mới (Cloning)
-```bash
-python clone_company.py --name "an-binh-travel" --domain "Du lịch & Đón tiễn Sân bay VIP"
-```
+### 4. Gói Mẫu Doanh Nghiệp SME & Đội Ngũ Agent Bán Hàng (`templates/sme-client-pack/`)
+Bộ giải pháp triển khai sẵn cho khách hàng SME, dịch vụ, bán lẻ hoặc xây dựng thương hiệu cá nhân:
+- **5 Agent chuyên trách:** `cskh-consultant`, `social-creator`, `market-spy`, `ceo-copilot`, `brand-guard`.
+- **3 Tệp tri thức lõi:** `01-Brand-Soul.md`, `02-Products-Pricing.md`, `03-FAQ-Objections.md`.
+- **Bộ tài liệu bán hàng:** `PITCH_DECK_ONE_PAGE.md`, `ONBOARDING_CHECKLIST.md`, `PROPOSAL_CONTRACT_TEMPLATE.md`.
+- **Khởi động nhanh cho khách hàng:** Click đúp `start-client.bat` hoặc nhân bản:
+  ```bash
+  python clone_company.py --name "spa-hoa-mai" --domain "Làm đẹp & Thẩm mỹ viện" --template sme-client
+  ```
+
+### 5. Hệ Thống 13 Tools Thực Thi Của Agent (`engines/tools/`)
+Tất cả các Agent đều sở hữu các công cụ thực thi mã nguồn độc lập (không phụ thuộc vào ảo giác của LLM):
+- **Sản xuất Video & Social:** `generate_video_script` (kịch bản 30-60s retention), `generate_viral_hooks` (5 đòn bẩy tâm lý), `format_social_post` (Zalo/TikTok/Facebook), `generate_visual_prompt` (Midjourney/Runway Gen-3).
+- **Nghiên cứu Thị trường:** `search_market_trends` (xu hướng 30 ngày), `inspect_competitor_content` (bóc tách đối thủ), `extract_customer_painpoints` (trích xuất nỗi đau và từ vựng khách hàng).
+- **CSKH & Tự Động Hóa CRM:** `lookup_pricing` (tra cứu giá niêm yết/khuyến mãi), `resolve_objection` (xử lý từ chối 3 bước), `capture_lead_crm` (validate Regex SĐT Việt Nam & lưu CRM), `notify_owner_telegram` (bắn tin báo khẩn).
+- **Rào Chắn An Toàn:** `audit_brand_safety` (quét từ cấm Meta/TikTok, cam kết lố 100%), `verify_price_accuracy` (ngăn AI báo giá sai lệch).
+- **Chạy trực tiếp qua CLI:**
+  ```bash
+  python engines/tools/tool_runner.py --list
+  python engines/tools/tool_runner.py --tool generate_viral_hooks --args topic="Chăm sóc da sau lăn kim"
+  ```
 
 ---
 
@@ -118,3 +135,4 @@ python clone_company.py --name "an-binh-travel" --domain "Du lịch & Đón ti�
 3. **Resilient LLM Loop:** Cơ chế Exponential Backoff với Jitter tự động vượt qua tình trạng Rate Limit (429/503) và nhảy tầng trong 5 lớp failover:
    `openrouter/free` ➔ `nous-hermes-70b` ➔ `deepseek-chat` ➔ `omniroute` ➔ `gemini-2.5-flash`
 4. **JEV Closed-Loop Delivery Gate:** Đóng gói sản phẩm với 100% assertions được kiểm chứng, loại bỏ hoàn toàn hiện tượng báo cáo ảo.
+
