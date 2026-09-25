@@ -1,13 +1,16 @@
 {
   "name": "omc-fullstack-kit",
-  "version": "1.2.0",
-  "description": "One-Man Company Fullstack Master Kit (Quad-Engine Trio + JEV + Obsidian Second Brain + Superpowers & Harness)",
+  "version": "1.3.0",
+  "description": "One-Man Company Fullstack Master Kit (Quad-Engine Trio + JEV + Obsidian Second Brain + Superpowers & Harness + Omni-Social Studio)",
   "main": "gateway/webhook_server.py",
   "scripts": {
     "start": "python gateway/telegram_gateway.py",
     "copilot": "python engines/hermes_reasoner/hermes_copilot.py",
     "pipeline": "python engines/trio_orchestrator.py",
     "chat": "python gateway/webhook_server.py",
+    "video": "python engines/media/video_script_generator.py",
+    "social": "python gateway/social_gateway.py",
+    "test:social": "test-social-pipeline.bat",
     "hermes:chat": "hermes",
     "hermes:ui": "hermes dashboard",
     "openclaw:ui": "openclaw dashboard",
@@ -30,7 +33,10 @@
     "obsidian",
     "ai-agents",
     "superpowers",
-    "harness-engineering"
+    "harness-engineering",
+    "tiktok-automation",
+    "zalo-bot",
+    "facebook-messenger"
   ],
   "author": "Nguyen Ngoc Tan",
   "license": "MIT"
