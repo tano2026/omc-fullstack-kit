@@ -7,5 +7,10 @@
     "humanizer",
     "terminal-ops"
   ],
+  "tools": [
+    "search_market_trends",
+    "inspect_competitor_content",
+    "extract_customer_painpoints"
+  ],
   "maxTurns": 20
 }

@@ -1,0 +1,106 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "lookup_pricing",
+      "description": "Tra cứu danh mục sản phẩm, gói dịch vụ, giá niêm yết, giá khuyến mãi và quyền lợi cam kết từ tệp tri thức chuẩn của doanh nghiệp (02-Products-Pricing.md).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "product_keyword": {
+            "type": "string",
+            "description": "Tên gói hoặc từ khóa sản phẩm (ví dụ: 'Starter', 'Pro', 'VIP', 'Gói Tiêu Chuẩn')",
+            "default": ""
+          },
+          "knowledge_dir": {
+            "type": "string",
+            "description": "Thư mục chứa tri thức giá",
+            "default": "templates/sme-client-pack/knowledge"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "notify_owner_telegram",
+      "description": "Gửi thông báo khẩn cấp (Push Alert) đến Telegram của Chủ doanh nghiệp hoặc Trưởng phòng kinh doanh khi có khách hàng nóng để lại số điện thoại.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_name": {
+            "type": "string",
+            "description": "Tên khách"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Số điện thoại"
+          },
+          "platform": {
+            "type": "string",
+            "description": "Kênh liên hệ",
+            "default": "Zalo"
+          },
+          "interest": {
+            "type": "string",
+            "description": "Sản phẩm quan tâm",
+            "default": "Gói Pro"
+          }
+        },
+        "required": [
+          "customer_name",
+          "phone"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "audit_brand_safety",
+      "description": "Kiểm duyệt nội dung bài viết, video script hoặc tin nhắn trả lời khách hàng trước khi xuất bản. Phát hiện các từ khóa vi phạm chính sách Facebook/TikTok, cam kết lố 100%, rủi ro pháp lý hoặc văn phong công kích.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Nội dung cần kiểm duyệt (bài post, kịch bản video, hoặc phản hồi CSKH)"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Kênh xuất bản (facebook_ads, tiktok_organic, cskh_chat)",
+            "default": "cskh_chat"
+          }
+        },
+        "required": [
+          "content"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "verify_price_accuracy",
+      "description": "Xác minh mức giá hoặc ưu đãi mà Agent chuẩn bị báo cho khách hàng có trùng khớp với Bảng giá chính thức trong tri thức doanh nghiệp hay không. Ngăn chặn triệt để tình trạng AI 'ảo giác' tự ý giảm giá làm thâm hụt doanh thu.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "quoted_price": {
+            "type": "integer",
+            "description": "Mức giá bằng VNĐ mà Bot định báo cho khách (ví dụ: 1990000, 4990000)"
+          },
+          "product_code_or_name": {
+            "type": "string",
+            "description": "Mã hoặc tên gói dịch vụ (ví dụ: 'P-01', 'P-02', 'Starter', 'Pro')"
+          }
+        },
+        "required": [
+          "quoted_price",
+          "product_code_or_name"
+        ]
+      }
+    }
+  }
+]

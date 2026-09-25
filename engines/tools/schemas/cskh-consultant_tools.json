@@ -1,0 +1,152 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "lookup_pricing",
+      "description": "Tra cứu danh mục sản phẩm, gói dịch vụ, giá niêm yết, giá khuyến mãi và quyền lợi cam kết từ tệp tri thức chuẩn của doanh nghiệp (02-Products-Pricing.md).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "product_keyword": {
+            "type": "string",
+            "description": "Tên gói hoặc từ khóa sản phẩm (ví dụ: 'Starter', 'Pro', 'VIP', 'Gói Tiêu Chuẩn')",
+            "default": ""
+          },
+          "knowledge_dir": {
+            "type": "string",
+            "description": "Thư mục chứa tri thức giá",
+            "default": "templates/sme-client-pack/knowledge"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "resolve_objection",
+      "description": "Truy xuất kịch bản xử lý từ chối (Objection Handling) theo công thức chuẩn: (1) Đồng cảm chân thành -> (2) Tái định khung giá trị -> (3) Kêu gọi hành động nhẹ nhàng. Xử lý các tình huống: Chê đắt, Cần suy nghĩ thêm, Hỏi ý kiến người thân, Nghi ngờ hiệu quả.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "objection_type": {
+            "type": "string",
+            "enum": [
+              "price_too_high",
+              "need_time_to_think",
+              "ask_spouse_or_boss",
+              "doubt_effectiveness",
+              "busy"
+            ],
+            "description": "Loại từ chối của khách hàng"
+          },
+          "custom_note": {
+            "type": "string",
+            "description": "Ghi chú thêm về ngữ cảnh của khách",
+            "default": ""
+          }
+        },
+        "required": [
+          "objection_type"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "capture_lead_crm",
+      "description": "Xác thực số điện thoại Việt Nam hợp lệ và tự động lưu thông tin khách hàng tiềm năng (Lead) vào tệp CRM Leads Markdown và cơ sở dữ liệu để đội Sales chốt đơn.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Tên khách hàng"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Số điện thoại của khách hàng (ví dụ: 0912345678)"
+          },
+          "platform": {
+            "type": "string",
+            "description": "Nền tảng tiếp nhận (Zalo, Facebook, TikTok, Web)",
+            "default": "Zalo"
+          },
+          "interest": {
+            "type": "string",
+            "description": "Dịch vụ hoặc gói khách quan tâm",
+            "default": "Tư vấn chung"
+          },
+          "note": {
+            "type": "string",
+            "description": "Ghi chú thêm về nhu cầu hoặc thời gian gọi lại",
+            "default": ""
+          }
+        },
+        "required": [
+          "name",
+          "phone"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "notify_owner_telegram",
+      "description": "Gửi thông báo khẩn cấp (Push Alert) đến Telegram của Chủ doanh nghiệp hoặc Trưởng phòng kinh doanh khi có khách hàng nóng để lại số điện thoại.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_name": {
+            "type": "string",
+            "description": "Tên khách"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Số điện thoại"
+          },
+          "platform": {
+            "type": "string",
+            "description": "Kênh liên hệ",
+            "default": "Zalo"
+          },
+          "interest": {
+            "type": "string",
+            "description": "Sản phẩm quan tâm",
+            "default": "Gói Pro"
+          }
+        },
+        "required": [
+          "customer_name",
+          "phone"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "verify_price_accuracy",
+      "description": "Xác minh mức giá hoặc ưu đãi mà Agent chuẩn bị báo cho khách hàng có trùng khớp với Bảng giá chính thức trong tri thức doanh nghiệp hay không. Ngăn chặn triệt để tình trạng AI 'ảo giác' tự ý giảm giá làm thâm hụt doanh thu.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "quoted_price": {
+            "type": "integer",
+            "description": "Mức giá bằng VNĐ mà Bot định báo cho khách (ví dụ: 1990000, 4990000)"
+          },
+          "product_code_or_name": {
+            "type": "string",
+            "description": "Mã hoặc tên gói dịch vụ (ví dụ: 'P-01', 'P-02', 'Starter', 'Pro')"
+          }
+        },
+        "required": [
+          "quoted_price",
+          "product_code_or_name"
+        ]
+      }
+    }
+  }
+]

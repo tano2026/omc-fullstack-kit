@@ -1,0 +1,116 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "generate_viral_hooks",
+      "description": "Tạo 5 biến thể câu Hook mở đầu (0-3 giây đầu tiên) giật ngón tay cái người xem dừng lướt. Áp dụng 5 đòn bẩy tâm lý: Phủ định (Loss Aversion), Bí mật ngành, Con số thực tế, Nghịch lý phản trực giác, và Câu hỏi đồng cảm nỗi đau.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "Chủ đề cần tạo câu mở đầu cuốn hút"
+          },
+          "audience": {
+            "type": "string",
+            "description": "Đối tượng người xem",
+            "default": "đại chúng"
+          },
+          "industry": {
+            "type": "string",
+            "description": "Ngành hàng (làm đẹp, dịch vụ, tài chính, khóa học, bán lẻ...)",
+            "default": "chung"
+          }
+        },
+        "required": [
+          "topic"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "search_market_trends",
+      "description": "Nghiên cứu xu hướng thị trường trong 30 ngày qua cho một ngành hàng hoặc chủ đề. Tìm ra các góc tiếp cận nội dung (Content Angles) đang viral, nhu cầu tìm kiếm thực tế và xu hướng hành vi của khách hàng.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Từ khóa ngách hoặc ngành hàng (ví dụ: 'kem chống nắng', 'khóa học tiếng anh', 'dịch vụ đón tiễn sân bay')"
+          },
+          "timeframe_days": {
+            "type": "integer",
+            "description": "Khoảng thời gian khảo sát (mặc định 30 ngày)",
+            "default": 30
+          },
+          "target_country": {
+            "type": "string",
+            "description": "Quốc gia hoặc thị trường mục tiêu",
+            "default": "Vietnam"
+          }
+        },
+        "required": [
+          "keyword"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "inspect_competitor_content",
+      "description": "Phân tích chiến lược nội dung và đối thủ cạnh tranh. Tìm ra điểm mạnh, điểm yếu, các định dạng họ làm tốt và phát hiện các 'khoảng trống thị trường' (Blue Ocean angles) mà đối thủ chưa khai thác.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "competitor_name": {
+            "type": "string",
+            "description": "Tên đối thủ hoặc thương hiệu cùng ngành"
+          },
+          "platform": {
+            "type": "string",
+            "description": "Kênh chính của họ (tiktok, facebook, youtube)",
+            "default": "tiktok"
+          },
+          "industry": {
+            "type": "string",
+            "description": "Lĩnh vực kinh doanh",
+            "default": "dịch vụ"
+          }
+        },
+        "required": [
+          "competitor_name"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "extract_customer_painpoints",
+      "description": "Trích xuất nỗi đau, băn khoăn thầm kín và từ vựng thực tế (Customer Verbatim) từ phản hồi khách hàng để đưa vào kịch bản video và thông điệp bán hàng.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "Chủ đề hoặc dịch vụ cần đào sâu nỗi đau khách hàng"
+          },
+          "sample_feedback": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Các đoạn bình luận hoặc câu hỏi mẫu của khách (nếu có)",
+            "default": []
+          }
+        },
+        "required": [
+          "topic"
+        ]
+      }
+    }
+  }
+]

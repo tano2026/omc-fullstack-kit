@@ -8,5 +8,13 @@
     "ceo-decision-lens",
     "planning-and-task-breakdown",
     "documentation-and-adrs"
+  ],
+  "tools": [
+    "search_market_trends",
+    "lookup_pricing",
+    "resolve_objection",
+    "capture_lead_crm",
+    "notify_owner_telegram",
+    "audit_brand_safety"
   ]
 }

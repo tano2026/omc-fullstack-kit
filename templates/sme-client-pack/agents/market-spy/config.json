@@ -8,5 +8,11 @@
     "last30days",
     "competitive-intel",
     "competitor-research"
+  ],
+  "tools": [
+    "search_market_trends",
+    "inspect_competitor_content",
+    "extract_customer_painpoints",
+    "generate_viral_hooks"
   ]
 }

@@ -1,0 +1,36 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "generate_video_script",
+      "description": "Tạo kịch bản video ngắn (30-60s) chuẩn tỉ lệ giữ chân (retention) cho TikTok, Reels, YouTube Shorts. Bao gồm 3 biến thể Hook (0-3s), phân cảnh Storyboard, prompt AI sinh hình ảnh, lời thoại voiceover và lưu ý dựng CapCut.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "Chủ đề video (ví dụ: 'Cách chọn kem chống nắng cho da dầu mụn')"
+          },
+          "duration_sec": {
+            "type": "integer",
+            "description": "Thời lượng video bằng giây (30, 45, hoặc 60)",
+            "default": 45
+          },
+          "tone": {
+            "type": "string",
+            "description": "Giọng điệu (ví dụ: 'chuyên gia hóm hỉnh', 'cảnh báo dứt khoát', 'tâm sự gần gũi')",
+            "default": "chuyên gia gần gũi"
+          },
+          "target_audience": {
+            "type": "string",
+            "description": "Đối tượng mục tiêu (ví dụ: 'chị em văn phòng 25-35t', 'gen Z')",
+            "default": "khách hàng mục tiêu"
+          }
+        },
+        "required": [
+          "topic"
+        ]
+      }
+    }
+  }
+]

@@ -154,6 +154,12 @@ class VideoScriptGenerator:
             
         return package
 
+
+def generate_short_form_video_script(topic: str, target_audience: str = "Khách hàng mục tiêu", duration_sec: int = 45, tone: str = "chuyên gia gần gũi") -> dict:
+    """Wrapper function to generate viral short-form script."""
+    gen = VideoScriptGenerator()
+    return gen.generate_tiktok_script(topic=topic, target_audience=target_audience, duration_sec=duration_sec)
+
 def main():
     parser = argparse.ArgumentParser(description="OMC Viral Video Script Generator")
     parser.add_argument("--topic", required=True, type=str, help="Chủ đề video (vd: 'Fast Track Sân Bay', 'Trị Mụn Laser')")
@@ -165,3 +171,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -7,5 +7,11 @@
   "skills": [
     "security-hardening",
     "code-review-and-quality"
+  ],
+  "tools": [
+    "audit_brand_safety",
+    "verify_price_accuracy",
+    "lookup_pricing",
+    "notify_owner_telegram"
   ]
 }

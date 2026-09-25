@@ -9,5 +9,12 @@
     "video-production-pipeline",
     "humanizer",
     "content-strategy"
+  ],
+  "tools": [
+    "generate_video_script",
+    "generate_viral_hooks",
+    "format_social_post",
+    "generate_visual_prompt",
+    "extract_customer_painpoints"
   ]
 }

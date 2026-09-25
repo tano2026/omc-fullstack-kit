@@ -7,5 +7,9 @@
     "code-review-and-quality",
     "code-simplification"
   ],
+  "tools": [
+    "audit_brand_safety",
+    "verify_price_accuracy"
+  ],
   "maxTurns": 20
 }

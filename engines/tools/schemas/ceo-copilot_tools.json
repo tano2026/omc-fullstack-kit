@@ -1,0 +1,181 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "search_market_trends",
+      "description": "Nghiên cứu xu hướng thị trường trong 30 ngày qua cho một ngành hàng hoặc chủ đề. Tìm ra các góc tiếp cận nội dung (Content Angles) đang viral, nhu cầu tìm kiếm thực tế và xu hướng hành vi của khách hàng.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Từ khóa ngách hoặc ngành hàng (ví dụ: 'kem chống nắng', 'khóa học tiếng anh', 'dịch vụ đón tiễn sân bay')"
+          },
+          "timeframe_days": {
+            "type": "integer",
+            "description": "Khoảng thời gian khảo sát (mặc định 30 ngày)",
+            "default": 30
+          },
+          "target_country": {
+            "type": "string",
+            "description": "Quốc gia hoặc thị trường mục tiêu",
+            "default": "Vietnam"
+          }
+        },
+        "required": [
+          "keyword"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "lookup_pricing",
+      "description": "Tra cứu danh mục sản phẩm, gói dịch vụ, giá niêm yết, giá khuyến mãi và quyền lợi cam kết từ tệp tri thức chuẩn của doanh nghiệp (02-Products-Pricing.md).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "product_keyword": {
+            "type": "string",
+            "description": "Tên gói hoặc từ khóa sản phẩm (ví dụ: 'Starter', 'Pro', 'VIP', 'Gói Tiêu Chuẩn')",
+            "default": ""
+          },
+          "knowledge_dir": {
+            "type": "string",
+            "description": "Thư mục chứa tri thức giá",
+            "default": "templates/sme-client-pack/knowledge"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "resolve_objection",
+      "description": "Truy xuất kịch bản xử lý từ chối (Objection Handling) theo công thức chuẩn: (1) Đồng cảm chân thành -> (2) Tái định khung giá trị -> (3) Kêu gọi hành động nhẹ nhàng. Xử lý các tình huống: Chê đắt, Cần suy nghĩ thêm, Hỏi ý kiến người thân, Nghi ngờ hiệu quả.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "objection_type": {
+            "type": "string",
+            "enum": [
+              "price_too_high",
+              "need_time_to_think",
+              "ask_spouse_or_boss",
+              "doubt_effectiveness",
+              "busy"
+            ],
+            "description": "Loại từ chối của khách hàng"
+          },
+          "custom_note": {
+            "type": "string",
+            "description": "Ghi chú thêm về ngữ cảnh của khách",
+            "default": ""
+          }
+        },
+        "required": [
+          "objection_type"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "capture_lead_crm",
+      "description": "Xác thực số điện thoại Việt Nam hợp lệ và tự động lưu thông tin khách hàng tiềm năng (Lead) vào tệp CRM Leads Markdown và cơ sở dữ liệu để đội Sales chốt đơn.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Tên khách hàng"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Số điện thoại của khách hàng (ví dụ: 0912345678)"
+          },
+          "platform": {
+            "type": "string",
+            "description": "Nền tảng tiếp nhận (Zalo, Facebook, TikTok, Web)",
+            "default": "Zalo"
+          },
+          "interest": {
+            "type": "string",
+            "description": "Dịch vụ hoặc gói khách quan tâm",
+            "default": "Tư vấn chung"
+          },
+          "note": {
+            "type": "string",
+            "description": "Ghi chú thêm về nhu cầu hoặc thời gian gọi lại",
+            "default": ""
+          }
+        },
+        "required": [
+          "name",
+          "phone"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "notify_owner_telegram",
+      "description": "Gửi thông báo khẩn cấp (Push Alert) đến Telegram của Chủ doanh nghiệp hoặc Trưởng phòng kinh doanh khi có khách hàng nóng để lại số điện thoại.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_name": {
+            "type": "string",
+            "description": "Tên khách"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Số điện thoại"
+          },
+          "platform": {
+            "type": "string",
+            "description": "Kênh liên hệ",
+            "default": "Zalo"
+          },
+          "interest": {
+            "type": "string",
+            "description": "Sản phẩm quan tâm",
+            "default": "Gói Pro"
+          }
+        },
+        "required": [
+          "customer_name",
+          "phone"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "audit_brand_safety",
+      "description": "Kiểm duyệt nội dung bài viết, video script hoặc tin nhắn trả lời khách hàng trước khi xuất bản. Phát hiện các từ khóa vi phạm chính sách Facebook/TikTok, cam kết lố 100%, rủi ro pháp lý hoặc văn phong công kích.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Nội dung cần kiểm duyệt (bài post, kịch bản video, hoặc phản hồi CSKH)"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Kênh xuất bản (facebook_ads, tiktok_organic, cskh_chat)",
+            "default": "cskh_chat"
+          }
+        },
+        "required": [
+          "content"
+        ]
+      }
+    }
+  }
+]

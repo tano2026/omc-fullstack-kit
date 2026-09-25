@@ -1,0 +1,50 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "audit_brand_safety",
+      "description": "Kiểm duyệt nội dung bài viết, video script hoặc tin nhắn trả lời khách hàng trước khi xuất bản. Phát hiện các từ khóa vi phạm chính sách Facebook/TikTok, cam kết lố 100%, rủi ro pháp lý hoặc văn phong công kích.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Nội dung cần kiểm duyệt (bài post, kịch bản video, hoặc phản hồi CSKH)"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Kênh xuất bản (facebook_ads, tiktok_organic, cskh_chat)",
+            "default": "cskh_chat"
+          }
+        },
+        "required": [
+          "content"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "verify_price_accuracy",
+      "description": "Xác minh mức giá hoặc ưu đãi mà Agent chuẩn bị báo cho khách hàng có trùng khớp với Bảng giá chính thức trong tri thức doanh nghiệp hay không. Ngăn chặn triệt để tình trạng AI 'ảo giác' tự ý giảm giá làm thâm hụt doanh thu.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "quoted_price": {
+            "type": "integer",
+            "description": "Mức giá bằng VNĐ mà Bot định báo cho khách (ví dụ: 1990000, 4990000)"
+          },
+          "product_code_or_name": {
+            "type": "string",
+            "description": "Mã hoặc tên gói dịch vụ (ví dụ: 'P-01', 'P-02', 'Starter', 'Pro')"
+          }
+        },
+        "required": [
+          "quoted_price",
+          "product_code_or_name"
+        ]
+      }
+    }
+  }
+]
