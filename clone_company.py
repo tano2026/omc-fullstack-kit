@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """
-OMC 1-Click Company Cloner
+OMC 1-Click Company Cloner & Client Provisioning Engine
 Nhân bản một công ty One-Man Company (OMC) hoàn chỉnh chỉ trong 30 giây!
-Bao gồm: Quad-Engine Trio + JEV, 9 Agents, Kho 700+ Skills, Obsidian Second Brain và Telegram Gateway.
+Hỗ trợ 2 chế độ:
+1. Standard OMC: Bộ 9 phòng ban nội bộ đầy đủ.
+2. SME Client Pack (--template sme-client): Bộ 5 Agent chuyên biệt bàn giao cho khách hàng SME/Cá nhân.
 """
 
 import os
@@ -17,9 +19,9 @@ if hasattr(sys.stdout, "reconfigure"):
 
 KIT_ROOT = Path(__file__).resolve().parent
 
-def clone_company(name: str, domain: str, dest_dir: Path, bot_token: str = ""):
+def clone_company(name: str, domain: str, dest_dir: Path, bot_token: str = "", template: str = "standard"):
     print("\n" + "=" * 70)
-    print(f"🏭 TIẾN HÀNH NHÂN BẢN CÔNG TY OMC: '{name}'")
+    print(f"🏭 TIẾN HÀNH NHÂN BẢN CÔNG TY OMC: '{name}' (Template: {template})")
     print(f"📌 Lĩnh vực: {domain}")
     print(f"📂 Thư mục đích: {dest_dir}")
     print("=" * 70)
@@ -35,19 +37,47 @@ def clone_company(name: str, domain: str, dest_dir: Path, bot_token: str = ""):
     shutil.copytree(KIT_ROOT / "engines", dest_dir / "engines")
 
     # 2. Copy Agents
-    print("👥 2/6. Khởi tạo 9 Phòng Ban Chuyên Môn...")
+    print("👥 2/6. Khởi tạo Bộ Máy Phòng Ban Chuyên Môn...")
     shutil.copytree(KIT_ROOT / "agents", dest_dir / "agents")
+
+    # If SME Client template, inject the 5 specialized client agents
+    sme_pack_dir = KIT_ROOT / "templates" / "sme-client-pack"
+    if template == "sme-client" and sme_pack_dir.exists():
+        print("   🌟 Nạp Biệt Đội 5 Agent Chuyên Biệt Cho Khách Hàng SME:")
+        sme_agents = sme_pack_dir / "agents"
+        if sme_agents.exists():
+            for agent_dir in sme_agents.iterdir():
+                if agent_dir.is_dir():
+                    target_agent = dest_dir / "agents" / agent_dir.name
+                    if target_agent.exists():
+                        shutil.rmtree(target_agent)
+                    shutil.copytree(agent_dir, target_agent)
+                    print(f"      • @{agent_dir.name}")
 
     # 3. Copy Obsidian Vault
     print("📓 3/6. Thiết lập Obsidian Second Brain...")
     shutil.copytree(KIT_ROOT / "obsidian-vault", dest_dir / "obsidian-vault")
 
+    # If SME Client template, inject the 3 core Knowledge files
+    if template == "sme-client" and sme_pack_dir.exists():
+        print("   📄 Nạp Bộ 3 File Tri Thức Mẫu (Brand Soul, Products, FAQ)...")
+        sme_knowledge = sme_pack_dir / "knowledge"
+        dest_knowledge = dest_dir / "obsidian-vault" / "04 - Knowledge"
+        dest_knowledge.mkdir(parents=True, exist_ok=True)
+        if sme_knowledge.exists():
+            for kf in sme_knowledge.glob("*.md"):
+                with open(kf, "r", encoding="utf-8") as f:
+                    k_content = f.read()
+                k_content = k_content.replace("{{BRAND_NAME}}", name).replace("{{FOUNDER_NAME}}", "Chủ Doanh Nghiệp").replace("{{INDUSTRY}}", domain)
+                with open(dest_knowledge / kf.name, "w", encoding="utf-8") as f:
+                    f.write(k_content)
+
     # 4. Copy Skills
-    print("🧰 4/6. Nạp Kho 700+ Skills & Central Manager...")
+    print("🧰 4/6. Nạp Kho 720+ Skills & Central Taxonomy...")
     shutil.copytree(KIT_ROOT / "skills", dest_dir / "skills")
 
     # 5. Copy Gateway
-    print("🌐 5/6. Thiết lập Cổng Ingress & Webhook...")
+    print("🌐 5/6. Thiết lập Cổng Ingress, Web Chat & Webhook...")
     shutil.copytree(KIT_ROOT / "gateway", dest_dir / "gateway")
 
     # Copy installer files, launchers & configs
@@ -63,6 +93,12 @@ def clone_company(name: str, domain: str, dest_dir: Path, bot_token: str = ""):
         src_f = KIT_ROOT / f
         if src_f.exists():
             shutil.copy2(src_f, dest_dir / f)
+
+    if template == "sme-client" and sme_pack_dir.exists():
+        for sf in ["start-client.bat", "start-client.sh"]:
+            src_sf = sme_pack_dir / sf
+            if src_sf.exists():
+                shutil.copy2(src_sf, dest_dir / sf)
 
     # 6. Customize Company Profile & Second Brain
     print("✍️ 6/6. Tùy biến thông số doanh nghiệp...")
@@ -125,51 +161,32 @@ python3 gateway/telegram_gateway.py
     except Exception:
         pass
 
-    # Create Copilot scripts
-    copilot_bat_content = f"""@echo off
-title Hermes OMC Master Copilot - {name}
-python "%~dp0engines\\hermes_reasoner\\hermes_copilot.py"
-pause
-"""
-    with open(dest_dir / "copilot.bat", "w", encoding="utf-8") as f:
-        f.write(copilot_bat_content)
-
-    copilot_sh_content = f"""#!/bin/bash
-DIR="$( cd "$( dirname "${{BASH_SOURCE[0]}}" )" >/dev/null 2>&1 && pwd )"
-python3 "$DIR/engines/hermes_reasoner/hermes_copilot.py"
-"""
-    with open(dest_dir / "copilot.sh", "w", encoding="utf-8") as f:
-        f.write(copilot_sh_content)
-    try:
-        os.chmod(dest_dir / "copilot.sh", 0o755)
-    except Exception:
-        pass
-
     # Create README in cloned company
     cloned_readme = f"""# 🏢 {name} - One-Man Company (OMC)
 
 > Lĩnh vực: **{domain}**
+> Template: **{template}**
 > Vận hành bởi: **OMC Quad-Engine (DSH + Hermes + OpenClaw + JEV)** kết hợp **Obsidian Second Brain**.
 
 ---
 
 ## 🚀 Khởi Chạy
-- **Trên Windows:** Click đúp vào `start.bat`
-- **Trên Linux/VPS:** Chạy lệnh `./start.sh`
+- **Bàn giao cho Khách hàng SME:** Click đúp vào `start-client.bat`
+- **Mở giao diện Web Chat:** Click đúp vào `chat.bat` (hoặc truy cập http://localhost:19888)
+- **Kích hoạt Telegram Gateway:** Click đúp vào `start.bat`
 
-## 👥 9 Phòng Ban Chuyên Môn
-1. `main`: Cổng định tuyến JEV Ingress Gateway
-2. `dsh-commander`: Lập kế hoạch mục tiêu DAG
-3. `hermes-architect`: Thiết kế kiến trúc & code phức tạp
-4. `dev-automation`: Kỹ sư Full-Stack & Bot Automation
-5. `media-producer`: Kịch bản video viral & media AI
-6. `openclaw-executor`: Thực thi terminal & DevOps 24/7
-7. `jev-sentinel`: Rào chắn phòng thủ an toàn Zero-Damage
-8. `research-intel`: Nghiên cứu thị trường & SEO/AEO
-9. `domain-ops`: Chuyên gia nghiệp vụ chuyên sâu cho `{domain}`
+## 👥 Biệt Đội Nhân Sự AI Chuyên Trách
+1. `@cskh-consultant`: Chuyên viên Tư vấn & Chốt Đơn 24/7 (phản xạ 10ms, trích xuất bảng giá chuẩn)
+2. `@social-creator`: Đạo diễn Kịch bản Video & Bài viết Social (Hook 3s, giữ Brand Soul)
+3. `@market-spy`: Thám tử Đối thủ & Xu hướng 30 ngày (`last30days`)
+4. `@ceo-copilot`: Thư ký riêng cho Chủ SME (Báo cáo 8h sáng & 8h tối)
+5. `@brand-guard`: Rào chắn an toàn bảo vệ uy tín thương hiệu (Zero-Damage)
 
-## 📓 Quản Trị Tri Thức
-Mở thư mục `obsidian-vault/` bằng ứng dụng **Obsidian** để xem sơ đồ tổ chức, dự án, nhật ký và sổ cái quyết định ADR.
+## 📓 Tri Thức Doanh Nghiệp (Obsidian Second Brain)
+Mở thư mục `obsidian-vault/` bằng ứng dụng **Obsidian**:
+- `04 - Knowledge/01-Brand-Soul.md`: Câu chuyện thương hiệu & Tone of Voice
+- `04 - Knowledge/02-Products-Pricing.md`: Danh mục sản phẩm & Bảng giá
+- `04 - Knowledge/03-FAQ-Objections.md`: 25 kịch bản xử lý từ chối
 """
     with open(dest_dir / "README.md", "w", encoding="utf-8") as f:
         f.write(cloned_readme)
@@ -181,11 +198,12 @@ Mở thư mục `obsidian-vault/` bằng ứng dụng **Obsidian** để xem sơ
     return True
 
 def main():
-    parser = argparse.ArgumentParser(description="OMC 1-Click Company Cloner")
-    parser.add_argument("--name", required=True, type=str, help="Tên công ty mới (VD: AnBinhAir, TanoDigital)")
-    parser.add_argument("--domain", required=True, type=str, help="Lĩnh vực kinh doanh (VD: Airport Services, Marketing Agency)")
-    parser.add_argument("--dest", type=str, default="", help="Đường dẫn thư mục lưu trữ (mặc định: platform/companies/<name>)")
+    parser = argparse.ArgumentParser(description="OMC 1-Click Company Cloner & Provisioner")
+    parser.add_argument("--name", required=True, type=str, help="Tên công ty mới (VD: SpaThuyTien, AnBinhAir)")
+    parser.add_argument("--domain", required=True, type=str, help="Lĩnh vực kinh doanh (VD: Spa & Skincare, Du lịch sân bay)")
+    parser.add_argument("--dest", type=str, default="", help="Đường dẫn thư mục lưu trữ")
     parser.add_argument("--bot-token", type=str, default="", help="Token bot Telegram dành riêng cho công ty này (tùy chọn)")
+    parser.add_argument("--template", type=str, choices=["standard", "sme-client"], default="standard", help="Template công ty: standard (OMC nội bộ) hoặc sme-client (Bàn giao cho khách hàng)")
 
     args = parser.parse_args()
     if args.dest:
@@ -193,7 +211,7 @@ def main():
     else:
         dest_dir = KIT_ROOT.parent / "companies" / args.name
 
-    clone_company(args.name, args.domain, dest_dir, args.bot_token)
+    clone_company(args.name, args.domain, dest_dir, args.bot_token, args.template)
 
 if __name__ == "__main__":
     main()

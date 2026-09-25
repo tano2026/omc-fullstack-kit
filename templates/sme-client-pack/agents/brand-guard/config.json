@@ -1,0 +1,11 @@
+{
+  "id": "brand-guard",
+  "name": "Rào Chắn Bảo Vệ Thương Hiệu (JEV Gatekeeper)",
+  "role": "Brand Safety Gatekeeper",
+  "model": "openrouter/free",
+  "temperature": 0.0,
+  "skills": [
+    "security-hardening",
+    "code-review-and-quality"
+  ]
+}

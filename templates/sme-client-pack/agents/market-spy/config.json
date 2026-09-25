@@ -1,0 +1,12 @@
+{
+  "id": "market-spy",
+  "name": "Thám Tử Thị Trường & Đối Thủ",
+  "role": "Market & Competitor Spy",
+  "model": "deepseek/deepseek-chat",
+  "temperature": 0.2,
+  "skills": [
+    "last30days",
+    "competitive-intel",
+    "competitor-research"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "social-creator",
+  "name": "Đạo Diễn Kịch Bản Video & Social",
+  "role": "Social & Video Content Creator",
+  "model": "openrouter/free",
+  "temperature": 0.7,
+  "skills": [
+    "viral-hooks",
+    "video-production-pipeline",
+    "humanizer",
+    "content-strategy"
+  ]
+}

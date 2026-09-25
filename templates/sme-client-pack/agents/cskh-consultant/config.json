@@ -1,0 +1,12 @@
+{
+  "id": "cskh-consultant",
+  "name": "Chuyên Viên Tư Vấn & Chốt Đơn 24/7",
+  "role": "CSKH & Sales Consultant",
+  "model": "openrouter/free",
+  "temperature": 0.3,
+  "skills": [
+    "customer-billing-ops",
+    "conversion-ops",
+    "brand-voice"
+  ]
+}
