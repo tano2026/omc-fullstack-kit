@@ -41,12 +41,13 @@
 
 ## 🗂️ 2. CHI TIẾT 10 NHÓM CHỨC NĂNG (TAXONOMY DIRECTORY)
 
-### 📈 Marketing, SEO & Tăng Trưởng (Growth) (`marketing-growth-seo`) — [63 Skills]
+### 📈 Marketing, SEO & Tăng Trưởng (Growth) (`marketing-growth-seo`) — [64 Skills]
 > *Nghiên cứu đối thủ, tối ưu SEO/AEO/GEO, viết bài quảng cáo, email marketing, affiliate và phễu chuyển đổi.*
 
 | Tên Skill | Cốt lõi | Mô tả chức năng |
 | :--- | :---: | :--- |
 | `documentation-and-adrs` | ⭐ Core | Ghi lại tài liệu quyết định kiến trúc (ADR) và lý do đằng sau các giải... |
+| `social-lead-funnel` | ⭐ Core | Quy trình thiết kế phễu chuyển đổi từ video ngắn (TikTok, Reels, Short... |
 | `affiliate-skills` | Vault | Live affiliate program data from openaffiliate.dev. Search programs, c... |
 | `ai-seo` | Vault | "When the user wants to optimize content for AI search engines, get ci... |
 | `autoresearch` | Vault | "Autonomous web research agent: deep-dive any topic, gather sources, s... |
@@ -65,16 +66,16 @@
 | `copywriting` | Vault | Write persuasive copy for landing pages, emails, ads, sales pages, and... |
 | `customs-trade-compliance` | Vault | ---... |
 | `ecc-brand-voice` | Vault | Vibe Toolkit skill: ecc-brand-voice... |
-| `ecc-customs-trade-compliance` | Vault | Vibe Toolkit skill: ecc-customs-trade-compliance... |
-| *... và 43 kỹ năng chuyên sâu khác* | Vault | Tra cứu đầy đủ bằng: `python skills/manager.py group marketing-growth-seo` |
+| *... và 44 kỹ năng chuyên sâu khác* | Vault | Tra cứu đầy đủ bằng: `python skills/manager.py group marketing-growth-seo` |
 
-### 🎬 Sáng Tạo Nội Dung & Video AI (Media Production) (`media-content-creation`) — [54 Skills]
+### 🎬 Sáng Tạo Nội Dung & Video AI (Media Production) (`media-content-creation`) — [55 Skills]
 > *Biên kịch video ngắn TikTok/Reels/Shorts, kịch bản YouTube, tạo ảnh Midjourney, podcast và viral hooks.*
 
 | Tên Skill | Cốt lõi | Mô tả chức năng |
 | :--- | :---: | :--- |
 | `humanizer` | ⭐ Core | Rewrite AI-generated content to sound natural, human, with personality... |
 | `last30days` | ⭐ Core | "Research what people actually say about any topic in the last 30 days... |
+| `omni-channel-cskh` | ⭐ Core | Quy trình tư vấn bán hàng & chăm sóc khách hàng đa kênh 24/7 (Zalo OA,... |
 | `video-production-pipeline` | ⭐ Core | Automated video production workflow for 'Giải Mã Số Phận' project, cov... |
 | `viral-hooks` | ⭐ Core | Generate 3 scroll-stopping hook variants for short-form video scripts ... |
 | `ai-content-writing` | Vault | 6 professional content writing prompts. Rewrite, expand, improve Vietn... |
@@ -92,8 +93,7 @@
 | `duplicate-checker` | Vault | Hướng dẫn kiểm tra trùng lặp repo/tool trước khi viết file và script m... |
 | `ecc-content-engine` | Vault | Vibe Toolkit skill: ecc-content-engine... |
 | `ecc-content-hash-cache-pattern` | Vault | Vibe Toolkit skill: ecc-content-hash-cache-pattern... |
-| `ecc-fal-ai-media` | Vault | Vibe Toolkit skill: ecc-fal-ai-media... |
-| *... và 34 kỹ năng chuyên sâu khác* | Vault | Tra cứu đầy đủ bằng: `python skills/manager.py group media-content-creation` |
+| *... và 35 kỹ năng chuyên sâu khác* | Vault | Tra cứu đầy đủ bằng: `python skills/manager.py group media-content-creation` |
 
 ### ✈️ Du Lịch, Khách Sạn & Vận Tải (Travel & Logistics) (`travel-hospitality-logistics`) — [9 Skills]
 > *Nghiệp vụ đón tiễn sân bay (Fast Track, VIP Lounge), đặt vé máy bay, khách sạn, tour du lịch, hải quan và vận tải.*

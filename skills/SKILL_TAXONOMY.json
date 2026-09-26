@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "total_skills": 720,
+  "total_skills": 722,
   "total_categories": 10,
   "categories": {
     "marketing-growth-seo": {
@@ -30,6 +30,13 @@
           "name": "documentation-and-adrs",
           "description": "Ghi lại tài liệu quyết định kiến trúc (ADR) và lý do đằng sau các giải pháp kỹ thuật.",
           "relative_path": "core\\documentation-and-adrs",
+          "is_core": true
+        },
+        {
+          "id": "social-lead-funnel",
+          "name": "social-lead-funnel",
+          "description": "Quy trình thiết kế phễu chuyển đổi từ video ngắn (TikTok, Reels, Shorts) về Zalo OA & Messenger để thu hút khách hàng tiềm năng. Hướng dẫn Agent cách xây dựng kịch bản gắn liền CTA, tối ưu bình luận ghim, và thiết kế quà tặng đầu phễu (Lead Magnet).",
+          "relative_path": "core\\social-lead-funnel",
           "is_core": true
         },
         {
@@ -501,6 +508,13 @@
           "name": "last30days",
           "description": "\"Research what people actually say about any topic in the last 30 days. Pulls posts and engagement from Reddit, X, YouTube, TikTok, Hacker News, Polymarket, GitHub, and the web.\"",
           "relative_path": "core\\last30days",
+          "is_core": true
+        },
+        {
+          "id": "omni-channel-cskh",
+          "name": "omni-channel-cskh",
+          "description": "Quy trình tư vấn bán hàng & chăm sóc khách hàng đa kênh 24/7 (Zalo OA, Facebook Messenger, TikTok DM, Web Chat). Hướng dẫn Agent cách dẫn dắt hội thoại qua 4 giai đoạn để thu thập số điện thoại (Lead Capture) và chốt lịch hẹn/đơn hàng với tỷ lệ chuyển đổi cao nhất.",
+          "relative_path": "core\\omni-channel-cskh",
           "is_core": true
         },
         {

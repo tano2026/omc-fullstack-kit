@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
 OMC Webhook & Omni-Channel Social Gateway (Web Chat, Zalo, Facebook, TikTok)
-Cổng máy chủ HTTP tích hợp 4-trong-1 dành cho khách hàng tự vận hành:
+Cổng máy chủ HTTP tích hợp 5-trong-1 dành cho Agency và Doanh Nghiệp tự vận hành:
 1. Giao diện Web Control Center trực quan tại http://localhost:19888
+   - Multi-Brand Selector: Chuyển đổi giữa các thương hiệu (Spa, Travel, Agency)
+   - Real-Time ROI Metrics: 4 Thẻ đo lường lượt chat, leads, video, và tiền lương tiết kiệm
    - Tab 1: Chat điều phối với 5 Nhân Sự AI (CSKH, Video, Soi trend, Thư ký)
    - Tab 2: Studio Tạo Kịch Bản Video & Hooks 1-Click
    - Tab 3: Sổ Khách Hàng Tiềm Năng (CRM Leads) xem & xuất CSV
-   - Tab 4: Bảng Điều Khiển Cứu Hộ Kỹ Thuật (Health Check & Self-Healing)
+   - Tab 4: Quản Lý Đa Thương Hiệu & Form Tạo Brand Mới 1-Click
+   - Tab 5: Bảng Điều Khiển Cứu Hộ Kỹ Thuật (Health Check & Self-Healing)
 2. Cổng nhận webhook mạng xã hội: Zalo OA, Facebook Messenger, TikTok
 3. Cổng nhận webhook REST API cho các hệ thống CRM, n8n, Stripe.
 """
@@ -30,6 +33,13 @@ from engines.trio_orchestrator import execute_omc_pipeline
 from engines.jev_gateway.ingress_router import IngressRouter
 from vault_sync import VaultSync
 from gateway.social_gateway import OmniSocialGateway
+from engines.brand_manager import (
+    list_brands,
+    get_active_brand,
+    set_active_brand,
+    create_brand
+)
+from engines.metrics_tracker import get_metrics, record_activity
 
 PORT = 19888
 
@@ -62,7 +72,7 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMC Client Control Center - Bảng Điều Khiển Doanh Nghiệp Tự Hành</title>
+    <title>OMC Agency OS - Bảng Điều Khiển Đa Thương Hiệu & Doanh Nghiệp Tự Hành</title>
     <style>
         :root {
             --bg-primary: #0d1117;
@@ -81,28 +91,40 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
         
         /* Sidebar */
         .sidebar { width: 300px; background: var(--bg-secondary); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
-        .sidebar-header { padding: 20px; border-bottom: 1px solid var(--border); }
+        .sidebar-header { padding: 18px 20px; border-bottom: 1px solid var(--border); }
         .sidebar-header h1 { font-size: 1.05rem; color: #fff; display: flex; align-items: center; gap: 8px; }
-        .sidebar-header p { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+        .sidebar-header p { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
+        
+        /* Brand Switcher Bar */
+        .brand-switcher-box { padding: 12px 16px; background: #1f6feb15; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; }
+        .brand-switcher-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--accent); letter-spacing: 0.5px; }
+        .brand-select { background: var(--bg-card); border: 1px solid var(--accent); color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; outline: none; cursor: pointer; }
         
         /* Navigation Tabs */
-        .nav-tabs { display: flex; flex-direction: column; padding: 12px; gap: 6px; border-bottom: 1px solid var(--border); }
-        .tab-btn { background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 10px 14px; border-radius: 6px; text-align: left; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
+        .nav-tabs { display: flex; flex-direction: column; padding: 10px; gap: 4px; border-bottom: 1px solid var(--border); }
+        .tab-btn { background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 8px 12px; border-radius: 6px; text-align: left; font-size: 0.84rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
         .tab-btn:hover { background: var(--bg-card); color: #fff; }
         .tab-btn.active { background: #1f6feb22; border-color: #1f6feb; color: #58a6ff; font-weight: 600; }
         
-        .section-title { font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); padding: 12px 16px 4px; font-weight: 600; letter-spacing: 0.5px; }
-        .agent-list { flex: 1; overflow-y: auto; padding: 6px 12px; }
-        .agent-item { padding: 8px 12px; border-radius: 6px; margin-bottom: 4px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background 0.15s; font-size: 0.82rem; }
+        .section-title { font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); padding: 10px 16px 4px; font-weight: 600; letter-spacing: 0.5px; }
+        .agent-list { flex: 1; overflow-y: auto; padding: 4px 10px; }
+        .agent-item { padding: 7px 10px; border-radius: 6px; margin-bottom: 3px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.15s; font-size: 0.8rem; }
         .agent-item:hover, .agent-item.active { background: var(--bg-card); color: #fff; }
         .agent-badge { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green); }
 
         /* Main Container */
         .main-container { flex: 1; display: flex; flex-direction: column; background: var(--bg-primary); overflow: hidden; }
-        .top-bar { padding: 14px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-secondary); }
+        .top-bar { padding: 12px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-secondary); }
         .top-bar .title { font-weight: 600; font-size: 0.95rem; color: #fff; }
         .channels { font-size: 0.75rem; color: var(--text-muted); display: flex; gap: 8px; }
-        .channel-pill { background: var(--bg-card); padding: 3px 8px; border-radius: 12px; border: 1px solid var(--border); font-size: 0.75rem; }
+        .channel-pill { background: var(--bg-card); padding: 3px 8px; border-radius: 12px; border: 1px solid var(--border); font-size: 0.72rem; }
+
+        /* Real-Time Metrics Strip */
+        .metrics-strip { padding: 10px 24px; background: var(--bg-primary); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        .metric-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+        .metric-info h5 { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .metric-info .value { font-size: 1.15rem; font-weight: 700; color: #fff; margin-top: 2px; }
+        .metric-icon { font-size: 1.4rem; opacity: 0.85; }
 
         .content-view { flex: 1; display: none; flex-direction: column; overflow: hidden; }
         .content-view.active { display: flex; }
@@ -146,7 +168,19 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
         .phone-badge { background: #1f6feb22; color: #58a6ff; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
         .btn-call { background: var(--accent-green); color: #fff; text-decoration: none; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
 
-        /* View 4: Rescue & Health */
+        /* View 4: Brand Manager & Onboarding */
+        .brand-container { padding: 24px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .brand-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+        .brand-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+        .brand-card.active-card { border-color: var(--accent); background: #1f6feb0c; }
+        .brand-header-row { display: flex; justify-content: space-between; align-items: center; }
+        .brand-header-row h3 { font-size: 0.95rem; color: #fff; }
+        .status-pill { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+        .status-pill.active { background: #2ea04333; color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .btn-switch { background: var(--bg-card); border: 1px solid var(--border); color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; align-self: flex-start; margin-top: 6px; }
+        .btn-switch:hover { background: #30363d; border-color: var(--accent); }
+
+        /* View 5: Rescue & Health */
         .health-container { padding: 24px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 20px; }
         .health-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
         .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
@@ -162,15 +196,24 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
     <!-- Sidebar Navigation -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <h1>🏢 OMC Control Center</h1>
-            <p>Hệ Thống Doanh Nghiệp Tự Hành 24/7</p>
+            <h1>🏢 OMC Agency OS</h1>
+            <p>Hệ Thống Doanh Nghiệp Tự Hành Đa Thương Hiệu</p>
+        </div>
+
+        <!-- Multi-Brand Switcher Box -->
+        <div class="brand-switcher-box">
+            <div class="brand-switcher-label">🎯 Thương Hiệu Đang Chọn:</div>
+            <select id="brand-selector" class="brand-select" onchange="onBrandSelected(this.value)">
+                <option value="tano-agency">Tano Agency (Mặc định)</option>
+            </select>
         </div>
         
         <div class="nav-tabs">
             <button class="tab-btn active" onclick="switchTab('chat')">💬 1. Phòng Chat & Giao Việc</button>
             <button class="tab-btn" onclick="switchTab('studio')">🎬 2. Studio Kịch Bản Video</button>
             <button class="tab-btn" onclick="switchTab('crm')">👥 3. Sổ Khách Hàng (CRM)</button>
-            <button class="tab-btn" onclick="switchTab('health')">🩺 4. Cứu Hộ & Sức Khỏe IT</button>
+            <button class="tab-btn" onclick="switchTab('brand')">🏢 4. Quản Lý Đa Thương Hiệu</button>
+            <button class="tab-btn" onclick="switchTab('health')">🩺 5. Cứu Hộ & Sức Khỏe IT</button>
         </div>
 
         <div class="section-title">Nhân Sự AI Túc Trực (Click để chat)</div>
@@ -187,7 +230,7 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
     <!-- Main Content Area -->
     <div class="main-container">
         <div class="top-bar">
-            <div class="title" id="page-title">💬 Phòng Trò Chuyện & Điều Phối Doanh Nghiệp</div>
+            <div class="title" id="page-title">💬 Phòng Trò Chuyện & Điều Phối: <span id="current-brand-name" style="color: var(--accent);">Tano Agency</span></div>
             <div class="channels">
                 <span class="channel-pill">Zalo OA: 🟢</span>
                 <span class="channel-pill">Facebook: 🟢</span>
@@ -196,11 +239,43 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
             </div>
         </div>
 
+        <!-- Real-Time Metrics Strip -->
+        <div class="metrics-strip">
+            <div class="metric-card">
+                <div class="metric-info">
+                    <h5>Lượt Khách Chat AI</h5>
+                    <div class="value" id="metric-chat">128</div>
+                </div>
+                <div class="metric-icon">💬</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-info">
+                    <h5>Số ĐT Khách Mới (CRM)</h5>
+                    <div class="value" id="metric-lead" style="color: var(--accent-green);">14</div>
+                </div>
+                <div class="metric-icon">👥</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-info">
+                    <h5>Kịch Bản Video Đã Tạo</h5>
+                    <div class="value" id="metric-video" style="color: var(--accent);">28</div>
+                </div>
+                <div class="metric-icon">🎬</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-info">
+                    <h5>Chi Phí Lương Tiết Kiệm</h5>
+                    <div class="value" id="metric-cost" style="color: var(--accent-orange);">10.3 tr đ</div>
+                </div>
+                <div class="metric-icon">💰</div>
+            </div>
+        </div>
+
         <!-- VIEW 1: CHAT -->
         <div class="content-view active" id="view-chat">
             <div class="chat-box" id="chat-box">
                 <div class="msg bot">
-                    <div class="msg-bubble">👋 Chào Sếp! Tôi là Trợ Lý Tư Vấn & CSKH 24/7. Tôi túc trực đa kênh trên Zalo, Facebook Messenger và TikTok. Sếp muốn kiểm tra đơn hàng, xem khách mới, hay cần lên nội dung video nào hôm nay?</div>
+                    <div class="msg-bubble" id="welcome-msg">👋 Chào Sếp! Tôi là Trợ Lý Tư Vấn & CSKH 24/7. Tôi túc trực đa kênh trên Zalo, Facebook Messenger và TikTok. Sếp muốn kiểm tra đơn hàng, xem khách mới, hay cần lên nội dung video nào hôm nay?</div>
                     <div class="msg-meta">Hệ thống • Vừa xong</div>
                 </div>
             </div>
@@ -276,7 +351,66 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- VIEW 4: RESCUE & HEALTH -->
+        <!-- VIEW 4: BRAND MANAGER & ONBOARDING -->
+        <div class="content-view" id="view-brand">
+            <div class="brand-container">
+                <div>
+                    <h2>🏢 Quản Lý Đa Thương Hiệu & Khách Hàng (Agency Multi-Tenancy)</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Một Agency phục vụ nhiều khách hàng cùng lúc: Spa, Tour du lịch, Nha khoa. Chọn thương hiệu để kích hoạt tri thức riêng.</p>
+                </div>
+
+                <!-- Active Brands Grid -->
+                <div class="brand-grid" id="brand-cards-container"></div>
+
+                <!-- Onboarding Wizard Form -->
+                <div class="studio-form" style="margin-top: 10px;">
+                    <h3>➕ Khởi Tạo Khách Hàng / Thương Hiệu Mới (1-Click Brand Onboarding)</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Điền thông tin doanh nghiệp, AI sẽ tự động tạo cấu trúc tri thức, bảng giá và kích hoạt đội ngũ Agent trong 5 giây.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label>Tên Doanh Nghiệp / Thương Hiệu:</label>
+                            <input type="text" id="new-brand-name" class="form-input" placeholder="Ví dụ: Nha Khoa Smile Care, Khách Sạn Biển Xanh...">
+                        </div>
+                        <div class="form-group">
+                            <label>Ngành Nghề / Lĩnh Vực:</label>
+                            <input type="text" id="new-brand-industry" class="form-input" placeholder="Ví dụ: Nha Khoa Thẩm Mỹ, Khách Sạn Nghỉ Dưỡng...">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 12px;">
+                        <div class="form-group">
+                            <label>Hotline / Zalo Tư Vấn:</label>
+                            <input type="text" id="new-brand-hotline" class="form-input" placeholder="Ví dụ: 0988.123.456">
+                        </div>
+                        <div class="form-group">
+                            <label>Định Vị / Sản Phẩm Cốt Lõi:</label>
+                            <input type="text" id="new-brand-offer" class="form-input" placeholder="Ví dụ: Cấy ghép Implant không đau, Niềng răng trong suốt...">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label>Giá Gói Starter (Cơ Bản):</label>
+                            <input type="text" id="new-brand-p1" class="form-input" value="1.990.000đ">
+                        </div>
+                        <div class="form-group">
+                            <label>Giá Gói Pro (Tiêu Chuẩn):</label>
+                            <input type="text" id="new-brand-p2" class="form-input" value="4.990.000đ">
+                        </div>
+                        <div class="form-group">
+                            <label>Giá Gói VIP (Cao Cấp):</label>
+                            <input type="text" id="new-brand-p3" class="form-input" value="12.500.000đ">
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" style="height: 44px; margin-top: 6px;" onclick="createNewBrand()">🚀 Kích Hoạt Thương Hiệu Mới Này Ngay</button>
+                    <div id="brand-create-output" style="font-size: 0.85rem; margin-top: 6px; display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 5: RESCUE & HEALTH -->
         <div class="content-view" id="view-health">
             <div class="health-container">
                 <div class="health-card">
@@ -328,6 +462,136 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
     <script>
         let currentAgent = "cskh-consultant";
         let crmData = [];
+        let allBrands = [];
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadBrands();
+            loadMetrics();
+        });
+
+        async function loadBrands() {
+            try {
+                const res = await fetch('/api/brands');
+                const data = await res.json();
+                allBrands = data.brands || [];
+                const activeId = data.active_brand || "tano-agency";
+
+                // Populate Dropdown
+                const sel = document.getElementById('brand-selector');
+                sel.innerHTML = "";
+                let cardsHtml = "";
+
+                allBrands.forEach(b => {
+                    const opt = document.createElement('option');
+                    opt.value = b.id;
+                    opt.innerText = b.name;
+                    if (b.id === activeId) {
+                        opt.selected = true;
+                        document.getElementById('current-brand-name').innerText = b.name;
+                    }
+                    sel.appendChild(opt);
+
+                    // Build Brand Cards
+                    const isActive = (b.id === activeId);
+                    cardsHtml += `
+                        <div class="brand-card ${isActive ? 'active-card' : ''}">
+                            <div class="brand-header-row">
+                                <h3>${b.name}</h3>
+                                <span class="status-pill ${isActive ? 'active' : ''}">${isActive ? 'ĐANG CHỌN' : 'SẴN SÀNG'}</span>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--text-muted);">Lĩnh vực: <strong>${b.industry}</strong></p>
+                            <p style="font-size: 0.78rem; color: var(--text-muted);">Hotline/Zalo: <strong>${b.hotline}</strong></p>
+                            <p style="font-size: 0.78rem; color: var(--accent); margin-top: 2px;">Offer: ${b.core_offer}</p>
+                            ${!isActive ? `<button class="btn-switch" onclick="switchBrand('${b.id}')">👉 Kích Hoạt Brand Này</button>` : ''}
+                        </div>
+                    `;
+                });
+
+                document.getElementById('brand-cards-container').innerHTML = cardsHtml;
+            } catch (err) {
+                console.error("Error loading brands:", err);
+            }
+        }
+
+        async function onBrandSelected(brandId) {
+            await switchBrand(brandId);
+        }
+
+        async function switchBrand(brandId) {
+            try {
+                const res = await fetch('/api/brands/switch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ brand_id: brandId })
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    await loadBrands();
+                    appendMessage("bot", `✅ Đã chuyển đổi hoàn tất sang thương hiệu: "${data.brand_name}". Mọi tri thức, bảng giá và kịch bản video đã được nạp riêng cho thương hiệu này!`);
+                }
+            } catch (err) {
+                alert("Lỗi đổi thương hiệu: " + err.message);
+            }
+        }
+
+        async function createNewBrand() {
+            const name = document.getElementById('new-brand-name').value.trim();
+            const industry = document.getElementById('new-brand-industry').value.trim();
+            const hotline = document.getElementById('new-brand-hotline').value.trim();
+            const offer = document.getElementById('new-brand-offer').value.trim();
+            const p1 = document.getElementById('new-brand-p1').value.trim();
+            const p2 = document.getElementById('new-brand-p2').value.trim();
+            const p3 = document.getElementById('new-brand-p3').value.trim();
+
+            if (!name || !industry || !hotline) {
+                alert("Vui lòng điền đủ Tên, Lĩnh vực và Hotline!");
+                return;
+            }
+
+            const out = document.getElementById('brand-create-output');
+            out.style.display = 'block';
+            out.innerHTML = "<span style='color: var(--accent);'>Đang tạo cấu trúc tri thức và khởi tạo thương hiệu...</span>";
+
+            try {
+                const res = await fetch('/api/brands/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name, industry, hotline, core_offer: offer,
+                        pricing_starter: p1, pricing_pro: p2, pricing_vip: p3
+                    })
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    out.innerHTML = `<span style='color: var(--accent-green); font-weight: 600;'>✅ ${data.message}</span>`;
+                    await loadBrands();
+                    // Clear form
+                    document.getElementById('new-brand-name').value = '';
+                    document.getElementById('new-brand-industry').value = '';
+                    document.getElementById('new-brand-hotline').value = '';
+                    document.getElementById('new-brand-offer').value = '';
+                } else {
+                    out.innerHTML = `<span style='color: var(--accent-red);'>❌ Lỗi: ${data.error}</span>`;
+                }
+            } catch (err) {
+                out.innerHTML = `<span style='color: var(--accent-red);'>❌ Lỗi kết nối: ${err.message}</span>`;
+            }
+        }
+
+        async function loadMetrics() {
+            try {
+                const res = await fetch('/api/metrics');
+                const data = await res.json();
+                document.getElementById('metric-chat').innerText = data.total_conversations || 0;
+                document.getElementById('metric-lead').innerText = data.total_leads || 0;
+                document.getElementById('metric-video').innerText = data.total_videos_created || 0;
+                const costMillion = ((data.cost_savings_vnd || 0) / 1000000).toFixed(1);
+                document.getElementById('metric-cost').innerText = costMillion + " tr đ";
+            } catch (err) {
+                console.error("Error loading metrics:", err);
+            }
+        }
 
         function switchTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -340,13 +604,14 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
                 'chat': '💬 Phòng Trò Chuyện & Điều Phối Doanh Nghiệp',
                 'studio': '🎬 Studio Kịch Bản Video Ngắn TikTok/Reels & 5 Hooks',
                 'crm': '👥 Sổ Khách Hàng Tiềm Năng (CRM Leads 24/7)',
+                'brand': '🏢 Quản Lý Đa Thương Hiệu & Khởi Tạo Brand Mới',
                 'health': '🩺 Bảng Điều Khiển Cứu Hộ & Sức Khỏe Kỹ Thuật'
             };
             document.getElementById('page-title').innerText = titles[tab];
 
-            if (tab === 'crm') {
-                loadCrmLeads();
-            }
+            if (tab === 'crm') loadCrmLeads();
+            if (tab === 'brand') loadBrands();
+            loadMetrics();
         }
 
         function selectAgent(agent) {
@@ -399,6 +664,7 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
                 } else {
                     appendMessage('bot', "Đã ghi nhận yêu cầu và xử lý thành công.");
                 }
+                loadMetrics();
             } catch (err) {
                 appendMessage('bot', "❌ Lỗi kết nối: " + err.message);
             } finally {
@@ -450,6 +716,7 @@ HTML_CONTROL_CENTER = """<!DOCTYPE html>
                     });
                     scriptText += "✂️ CHỈ DẪN DỰNG CAPCUT:\\n1. Tốc độ nói: 1.15x, cắt bỏ toàn bộ khoảng lặng (Zero silence).\\n2. Chữ phụ đề to màu vàng viền đen giữa ngực.\\n3. Cứ 2-3s đổi góc quay hoặc chèn hình ảnh B-roll.";
                     document.getElementById('script-content').innerText = scriptText;
+                    loadMetrics();
                 } else {
                     document.getElementById('script-content').innerText = "Lỗi sinh kịch bản: " + (data.error || "Không rõ");
                 }
@@ -559,8 +826,23 @@ class OMCWebhookHandler(BaseHTTPRequestHandler):
         elif parsed.path == "/api/leads":
             leads = get_crm_leads()
             self._send_response(200, {"leads": leads, "total": len(leads)})
+
+        # 3. Get Real-Time Metrics & ROI API
+        elif parsed.path == "/api/metrics":
+            metrics = get_metrics()
+            self._send_response(200, metrics)
+
+        # 4. Get Available Brands API
+        elif parsed.path == "/api/brands":
+            brands = list_brands()
+            active_b = get_active_brand()
+            self._send_response(200, {
+                "brands": brands,
+                "active_brand": active_b.get("id"),
+                "total": len(brands)
+            })
             
-        # 3. Facebook Webhook Verification Handshake
+        # 5. Facebook Webhook Verification Handshake
         elif parsed.path == "/webhook/facebook":
             query_params = urllib.parse.parse_qs(parsed.query)
             mode = query_params.get("hub.mode", [""])[0]
@@ -575,7 +857,7 @@ class OMCWebhookHandler(BaseHTTPRequestHandler):
             else:
                 self._send_response(403, {"error": "Verification failed"})
                 
-        # 4. Health check
+        # 6. Health check
         elif parsed.path == "/health":
             self._send_response(200, {
                 "status": "ok",
@@ -601,12 +883,20 @@ class OMCWebhookHandler(BaseHTTPRequestHandler):
                 self._send_response(400, {"error": "Thiếu nội dung 'message'"})
                 return
 
+            # Record chat activity
+            record_activity("chat", 1)
+
             res = self.social_bot.process_incoming_message(
                 platform="web",
                 sender_id="web_visitor",
                 sender_name="Khách Web",
                 message=message
             )
+
+            # If lead captured, record metric
+            if res.get("captured_phone"):
+                record_activity("lead", 1)
+
             self._send_response(200, {"status": "success", "reply": res["reply"], "lead": res["captured_phone"]})
 
         # 2. 1-Click Video Script Generator API
@@ -622,6 +912,10 @@ class OMCWebhookHandler(BaseHTTPRequestHandler):
                 from engines.tools.social_tools import generate_viral_hooks
                 script_data = generate_short_form_video_script(topic=topic, duration_sec=duration)
                 hooks_data = generate_viral_hooks(topic=topic)
+                
+                # Record video production metric
+                record_activity("video", 1)
+
                 self._send_response(200, {
                     "status": "success",
                     "topic": topic,
@@ -631,7 +925,45 @@ class OMCWebhookHandler(BaseHTTPRequestHandler):
             except Exception as e:
                 self._send_response(500, {"status": "error", "error": str(e)})
 
-        # 3. System Action & Self-Healing API
+        # 3. Switch Active Brand API
+        elif self.path == "/api/brands/switch":
+            brand_id = payload.get("brand_id", "")
+            if not brand_id or not set_active_brand(brand_id):
+                self._send_response(400, {"error": f"Không tìm thấy brand ID '{brand_id}'"})
+                return
+            brand_info = get_active_brand()
+            self._send_response(200, {
+                "status": "success",
+                "active_brand": brand_id,
+                "brand_name": brand_info.get("name")
+            })
+
+        # 4. Create New Brand 1-Click API
+        elif self.path == "/api/brands/create":
+            name = payload.get("name", "")
+            industry = payload.get("industry", "")
+            hotline = payload.get("hotline", "")
+            offer = payload.get("core_offer", "")
+            p1 = payload.get("pricing_starter", "1.990.000đ")
+            p2 = payload.get("pricing_pro", "4.990.000đ")
+            p3 = payload.get("pricing_vip", "12.500.000đ")
+
+            if not name or not industry or not hotline:
+                self._send_response(400, {"error": "Tên, Lĩnh vực và Hotline là bắt buộc"})
+                return
+
+            res = create_brand(
+                name=name,
+                industry=industry,
+                hotline=hotline,
+                core_offer=offer,
+                pricing_starter=p1,
+                pricing_pro=p2,
+                pricing_vip=p3
+            )
+            self._send_response(200, res)
+
+        # 5. System Action & Self-Healing API
         elif self.path == "/api/system-action":
             action = payload.get("action", "health")
             if action == "health":
@@ -647,19 +979,22 @@ class OMCWebhookHandler(BaseHTTPRequestHandler):
             else:
                 self._send_response(400, {"error": "Action không hợp lệ"})
 
-        # 4. Zalo Official Account (OA) Webhook
+        # 6. Zalo Official Account (OA) Webhook
         elif self.path == "/webhook/zalo":
             sender_id = payload.get("sender", {}).get("id", "zalo_anonymous")
             user_msg = payload.get("message", {}).get("text", "")
+            record_activity("chat", 1)
             res = self.social_bot.process_incoming_message(
                 platform="zalo",
                 sender_id=sender_id,
                 sender_name="Khách Zalo",
                 message=user_msg
             )
+            if res.get("captured_phone"):
+                record_activity("lead", 1)
             self._send_response(200, {"error": 0, "message": "Success", "reply": res["reply"]})
 
-        # 5. Facebook Messenger Webhook
+        # 7. Facebook Messenger Webhook
         elif self.path == "/webhook/facebook":
             entries = payload.get("entry", [])
             reply_text = ""
@@ -668,28 +1003,34 @@ class OMCWebhookHandler(BaseHTTPRequestHandler):
                     sender_id = messaging_event.get("sender", {}).get("id", "")
                     message_text = messaging_event.get("message", {}).get("text", "")
                     if message_text:
+                        record_activity("chat", 1)
                         res = self.social_bot.process_incoming_message(
                             platform="facebook",
                             sender_id=sender_id,
                             sender_name="Khách Messenger",
                             message=message_text
                         )
+                        if res.get("captured_phone"):
+                            record_activity("lead", 1)
                         reply_text = res["reply"]
             self._send_response(200, {"status": "EVENT_RECEIVED", "reply": reply_text})
 
-        # 6. TikTok DM Webhook
+        # 8. TikTok DM Webhook
         elif self.path == "/webhook/tiktok":
             sender_id = payload.get("user_id", "tiktok_user")
             message_text = payload.get("content", "")
+            record_activity("chat", 1)
             res = self.social_bot.process_incoming_message(
                 platform="tiktok",
                 sender_id=sender_id,
                 sender_name="Khách TikTok",
                 message=message_text
             )
+            if res.get("captured_phone"):
+                record_activity("lead", 1)
             self._send_response(200, {"code": 0, "reply": res["reply"]})
 
-        # 7. Generic Task Webhook (n8n, Zapier, Stripe, CRM)
+        # 9. Generic Task Webhook (n8n, Zapier, Stripe, CRM)
         elif self.path == "/webhook/task":
             task_text = payload.get("task") or payload.get("message") or payload.get("prompt")
             if not task_text:
@@ -704,8 +1045,10 @@ class OMCWebhookHandler(BaseHTTPRequestHandler):
 def run_server(port=PORT):
     server = HTTPServer(("0.0.0.0", port), OMCWebhookHandler)
     print("=" * 70)
-    print(f"🌐 OMC CLIENT CONTROL CENTER & WEBHOOK GATEWAY ĐANG CHẠY:")
+    print(f"🌐 OMC AGENCY OS & MULTI-BRAND CONTROL CENTER ĐANG CHẠY:")
     print(f"👉 Mở Web Bảng Điều Khiển : http://localhost:{port}")
+    print(f"👉 API Real-Time Metrics  : http://localhost:{port}/api/metrics")
+    print(f"👉 API Brands Switcher     : http://localhost:{port}/api/brands")
     print(f"👉 API CRM Leads           : http://localhost:{port}/api/leads")
     print(f"👉 Webhook Zalo OA         : http://localhost:{port}/webhook/zalo")
     print(f"👉 Webhook Facebook Page   : http://localhost:{port}/webhook/facebook")

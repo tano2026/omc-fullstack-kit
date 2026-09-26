@@ -1,0 +1,13 @@
+{
+  "id": "nha-khoa-smile-care",
+  "name": "Nha Khoa Smile Care",
+  "industry": "Nha Khoa Thẩm Mỹ",
+  "hotline": "0999.888.777",
+  "color": "#1f6feb",
+  "core_offer": "Niềng răng trong suốt và Cấy ghép Implant",
+  "pricing": {
+    "starter": "2.000.000đ",
+    "pro": "5.500.000đ",
+    "vip": "15.000.000đ"
+  }
+}
