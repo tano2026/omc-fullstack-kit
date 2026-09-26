@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMC Agency OS - Bảng Điều Hành Doanh Nghiệp Tự Hành</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- 1. LEFT NAVIGATION RAIL -->
+    <aside class="app-sidebar">
+        <div class="brand-header">
+            <div class="brand-logo-icon">🏢</div>
+            <div class="brand-text">
+                <h1>OMC Agency OS</h1>
+                <p>Enterprise Autonomous Hub</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-item active" id="nav-dash" onclick="switchTab('dash')">
+                <span class="nav-icon">📊</span>
+                <span>1. Tổng Quan (KPIs)</span>
+            </div>
+            <div class="nav-item" id="nav-chat" onclick="switchTab('chat')">
+                <span class="nav-icon">💬</span>
+                <span>2. Phòng Chat AI Hub</span>
+            </div>
+            <div class="nav-item" id="nav-studio" onclick="switchTab('studio')">
+                <span class="nav-icon">🎬</span>
+                <span>3. Studio Video 1-Click</span>
+            </div>
+            <div class="nav-item" id="nav-crm" onclick="switchTab('crm')">
+                <span class="nav-icon">👥</span>
+                <span>4. Sổ Khách Hàng (CRM)</span>
+            </div>
+            <div class="nav-item" id="nav-brand" onclick="switchTab('brand')">
+                <span class="nav-icon">🏢</span>
+                <span>5. Đa Brand & Cứu Hộ IT</span>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="brand-select-label">Thương Hiệu Đang Chọn:</div>
+            <select id="brand-select-dropdown" class="brand-select-input" onchange="switchBrand(this.value)">
+                <option value="tano-agency">Tano Agency (Mặc định)</option>
+            </select>
+        </div>
+    </aside>
+
+    <!-- 2. MAIN VIEW AREA -->
+    <main class="main-wrapper">
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="page-heading">
+                <h2 id="page-title-text">📊 Bảng Điều Hành Tổng Quan (Executive Overview)</h2>
+                <span class="active-brand-badge" id="topbar-brand-badge">Tano Agency</span>
+            </div>
+            <div class="system-status-pills">
+                <div class="pill-item"><span class="dot-green"></span> Zalo OA: Sẵn sàng</div>
+                <div class="pill-item"><span class="dot-green"></span> Facebook: Kết nối</div>
+                <div class="pill-item"><span class="dot-green"></span> TikTok: Tự động</div>
+                <div class="pill-item"><span class="dot-green"></span> CRM: Đồng bộ 24/7</div>
+            </div>
+        </header>
+
+        <!-- PANEL 1: DASHBOARD OVERVIEW -->
+        <section class="view-panel active" id="panel-dash">
+            <div class="dashboard-scroll">
+                <!-- 4 KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-data">
+                            <h4>Lượt Khách Chat AI</h4>
+                            <div class="kpi-number" id="kpi-chat">0</div>
+                            <div class="kpi-sub">🟢 Tự động phản hồi 24/7</div>
+                        </div>
+                        <div class="kpi-icon-wrap" style="color: var(--accent-blue);">💬</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-data">
+                            <h4>Số ĐT Khách Mới (Leads)</h4>
+                            <div class="kpi-number" id="kpi-lead" style="color: var(--accent-green);">0</div>
+                            <div class="kpi-sub">🔥 Đã validate Regex VN</div>
+                        </div>
+                        <div class="kpi-icon-wrap" style="color: var(--accent-green);">👥</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-data">
+                            <h4>Kịch Bản Video Đã Tạo</h4>
+                            <div class="kpi-number" id="kpi-video" style="color: var(--accent-purple);">0</div>
+                            <div class="kpi-sub">✨ Kèm 5 đòn bẩy Hook</div>
+                        </div>
+                        <div class="kpi-icon-wrap" style="color: var(--accent-purple);">🎬</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-data">
+                            <h4>Tiền Lương Tiết Kiệm</h4>
+                            <div class="kpi-number" id="kpi-cost" style="color: var(--accent-orange);">0 tr đ</div>
+                            <div class="kpi-sub">⚡ Tương đương 2.1 nhân sự</div>
+                        </div>
+                        <div class="kpi-icon-wrap" style="color: var(--accent-orange);">💰</div>
+                    </div>
+                </div>
+
+                <!-- 2-Column Split: Recent Leads & Quick Actions -->
+                <div class="dash-sections-grid">
+                    <div class="dash-card-box">
+                        <h3>
+                            <span>👥 Khách Hàng Tiềm Năng Mới Nhất</span>
+                            <button class="chip-btn" onclick="switchTab('crm')">Xem tất cả ➔</button>
+                        </h3>
+                        <div class="recent-list" id="recent-leads-list">
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">Đang tải dữ liệu gần đây...</p>
+                        </div>
+                    </div>
+
+                    <div class="dash-card-box">
+                        <h3>
+                            <span>⚡ Lối Tắt Tác Vụ Nhanh (Quick Actions)</span>
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <button class="recent-item" style="cursor: pointer; text-align: left;" onclick="switchTab('studio')">
+                                <div>
+                                    <div class="recent-title">🎬 Sinh Ngay Kịch Bản Video Ngắn 45s</div>
+                                    <div class="recent-meta">Tạo 3s đầu giữ chân + lời thoại CapCut</div>
+                                </div>
+                                <span style="color: var(--accent-blue);">Bấm tạo ➔</span>
+                            </button>
+                            <button class="recent-item" style="cursor: pointer; text-align: left;" onclick="switchTab('chat'); selectAgent('cskh-consultant');">
+                                <div>
+                                    <div class="recent-title">💬 Tra Cứu Bảng Giá & Kịch Bản Chốt Đơn</div>
+                                    <div class="recent-meta">Xử lý từ chối: Chê đắt, Cần suy nghĩ</div>
+                                </div>
+                                <span style="color: var(--accent-green);">Mở chat ➔</span>
+                            </button>
+                            <button class="recent-item" style="cursor: pointer; text-align: left;" onclick="switchTab('brand')">
+                                <div>
+                                    <div class="recent-title">🏢 Thêm Thương Hiệu Khách Hàng Mới</div>
+                                    <div class="recent-meta">Onboarding doanh nghiệp chỉ trong 5 giây</div>
+                                </div>
+                                <span style="color: var(--accent-purple);">Thêm mới ➔</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 2: CHAT HUB (SLACK / CHATGPT MULTI-AGENT WORKSPACE) -->
+        <section class="view-panel" id="panel-chat">
+            <div class="chat-workspace">
+                <!-- Agent Selector Sidebar -->
+                <div class="chat-agent-sidebar">
+                    <div class="chat-agent-header">Nhân Sự AI Trực Chiến</div>
+                    <div class="chat-agent-list">
+                        <div class="agent-row active" id="agent-row-cskh-consultant" onclick="selectAgent('cskh-consultant')">
+                            <div class="agent-avatar">💬</div>
+                            <div class="agent-info">
+                                <h4>CSKH & Chốt Đơn</h4>
+                                <p>Zalo, FB, TikTok 24/7</p>
+                            </div>
+                        </div>
+                        <div class="agent-row" id="agent-row-social-creator" onclick="selectAgent('social-creator')">
+                            <div class="agent-avatar">🎬</div>
+                            <div class="agent-info">
+                                <h4>Đạo Diễn Video AI</h4>
+                                <p>TikTok, Reels, Hooks</p>
+                            </div>
+                        </div>
+                        <div class="agent-row" id="agent-row-market-spy" onclick="selectAgent('market-spy')">
+                            <div class="agent-avatar">🕵️</div>
+                            <div class="agent-info">
+                                <h4>Thám Tử Thị Trường</h4>
+                                <p>Soi Trend & Đối Thủ</p>
+                            </div>
+                        </div>
+                        <div class="agent-row" id="agent-row-ceo-copilot" onclick="selectAgent('ceo-copilot')">
+                            <div class="agent-avatar">👑</div>
+                            <div class="agent-info">
+                                <h4>Thư Ký Cho Sếp</h4>
+                                <p>Báo Cáo & Điều Hành</p>
+                            </div>
+                        </div>
+                        <div class="agent-row" id="agent-row-brand-guard" onclick="selectAgent('brand-guard')">
+                            <div class="agent-avatar">🛡️</div>
+                            <div class="agent-info">
+                                <h4>Rào Chắn An Toàn</h4>
+                                <p>Chống Vi Phạm & Sai Giá</p>
+                            </div>
+                        </div>
+                        <div class="agent-row" id="agent-row-openclaw-executor" onclick="selectAgent('openclaw-executor')">
+                            <div class="agent-avatar">⚡</div>
+                            <div class="agent-info">
+                                <h4>Kỹ Sư IT OpenClaw</h4>
+                                <p>Tự Động Cứu Hộ Lỗi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Main Stream -->
+                <div class="chat-main-area">
+                    <div class="chat-agent-topbar">
+                        <h3 id="chat-active-agent-title">💬 Chuyên Viên Tư Vấn & Chốt Đơn 24/7</h3>
+                        <span style="font-size: 0.74rem; color: var(--accent-green);">● Đang trực tuyến</span>
+                    </div>
+
+                    <div class="chat-stream-box" id="chat-stream-box">
+                        <!-- Dynamic Threaded Messages -->
+                    </div>
+
+                    <!-- Prompt Suggestion Chips -->
+                    <div class="prompt-chips-bar" id="prompt-chips-container">
+                        <!-- Injected by JS -->
+                    </div>
+
+                    <!-- Chat Composer -->
+                    <div class="chat-composer-bar">
+                        <input type="text" id="chat-message-input" class="composer-input" placeholder="Nhập tin nhắn giao việc (hoặc bấm câu gợi ý bên trên)..." onkeydown="if(event.key==='Enter') sendMessage()">
+                        <button class="btn-primary" onclick="sendMessage()">Gửi Đi</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 3: STUDIO VIDEO 1-CLICK -->
+        <section class="view-panel" id="panel-studio">
+            <div class="studio-layout">
+                <div class="studio-card-box">
+                    <div>
+                        <h3 style="font-size: 1.05rem; color: #fff;">🎬 Studio Kịch Bản Video Ngắn TikTok/Reels & 5 Hooks Giật Thumb</h3>
+                        <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 4px;">Tự động sinh 5 câu mở đầu tâm lý (Loss aversion, Secret, Contrarian) + Storyboard từng giây + Hướng dẫn dựng CapCut.</p>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div>
+                            <label class="input-label">Chủ đề video muốn làm:</label>
+                            <input type="text" id="studio-topic-input" class="form-control-input" placeholder="Ví dụ: Cách chăm sóc da dầu mụn mùa hè, 3 lỗi sai khi đặt vé máy bay...">
+                        </div>
+                        <div>
+                            <label class="input-label">Thời lượng:</label>
+                            <select id="studio-duration-select" class="form-control-input">
+                                <option value="30">30 giây (Nhanh, súc tích)</option>
+                                <option value="45" selected>45 giây (Chuẩn Viral TikTok/Reels)</option>
+                                <option value="60">60 giây (Chuyên sâu/Case Study)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn-generate" onclick="generateVideoScript()">⚡ Bấm Sinh Trọn Gói Kịch Bản Ngay</button>
+                </div>
+
+                <!-- Results Output Card -->
+                <div class="studio-card-box" id="studio-results-card" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h4 style="color: var(--accent-blue); text-transform: uppercase; font-size: 0.86rem; letter-spacing: 0.5px;">🎣 5 BIẾN THỂ HOOK MỞ ĐẦU (0-3 GIÂY ĐẦU TIÊN GIỮ CHÂN VIEW)</h4>
+                    </div>
+                    
+                    <div class="hook-grid" id="hooks-container"></div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
+                        <h4 style="color: #fff; font-size: 0.92rem;">📜 KỊCH BẢN PHÂN CẢNH & HƯỚNG DẪN CAPCUT</h4>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn-copy-hook" onclick="copyFullScript()">📋 Copy Toàn Bộ</button>
+                            <button class="btn-copy-hook" onclick="downloadScriptTxt()">📥 Tải File .TXT</button>
+                        </div>
+                    </div>
+
+                    <div id="full-script-text" style="background: var(--bg-card); padding: 18px; border-radius: var(--radius-md); font-size: 0.88rem; line-height: 1.6; white-space: pre-wrap; border: 1px solid var(--border-subtle);"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 4: CRM LEADS WITH SEARCH & FILTER -->
+        <section class="view-panel" id="panel-crm">
+            <div class="crm-layout">
+                <div class="crm-toolbar">
+                    <div class="crm-search-box">
+                        <span>🔍</span>
+                        <input type="text" class="crm-search-input" placeholder="Tìm theo tên, SĐT hoặc ghi chú..." oninput="searchCrm(this.value)">
+                    </div>
+
+                    <div class="filter-pills-row">
+                        <button class="filter-pill active" id="filter-all" onclick="filterCrmPlatform('ALL')">Tất Cả</button>
+                        <button class="filter-pill" id="filter-zalo" onclick="filterCrmPlatform('Zalo')">Zalo OA</button>
+                        <button class="filter-pill" id="filter-facebook" onclick="filterCrmPlatform('Facebook')">Facebook</button>
+                        <button class="filter-pill" id="filter-tiktok" onclick="filterCrmPlatform('TikTok')">TikTok</button>
+                    </div>
+
+                    <div style="display: flex; gap: 8px;">
+                        <button class="chip-btn" onclick="loadCrmLeads()">🔄 Làm Mới</button>
+                        <button class="btn-primary" style="padding: 7px 14px; font-size: 0.82rem;" onclick="exportCsv()">📥 Tải File CSV</button>
+                    </div>
+                </div>
+
+                <div class="data-table-card">
+                    <table class="omc-table">
+                        <thead>
+                            <tr>
+                                <th>Thời Gian</th>
+                                <th>Nền Tảng</th>
+                                <th>Khách Hàng</th>
+                                <th>Số Điện Thoại</th>
+                                <th>Nhu Cầu / Ghi Chú</th>
+                                <th>Hành Động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crm-table-body">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 5: BRAND & HEALTH -->
+        <section class="view-panel" id="panel-brand">
+            <div class="brand-health-layout">
+                <div>
+                    <h3 style="color: #fff; font-size: 1.05rem;">🏢 Quản Lý Đa Thương Hiệu & Khởi Tạo Brand Mới (Agency OS)</h3>
+                    <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 4px;">Chuyển đổi giữa các khách hàng hoặc thêm doanh nghiệp mới chỉ trong 5 giây.</p>
+                </div>
+
+                <!-- Existing Brands Grid -->
+                <div class="dash-sections-grid" id="brand-grid-container">
+                    <!-- Brand cards -->
+                </div>
+
+                <!-- Onboarding New Brand Form -->
+                <div class="studio-card-box">
+                    <h4 style="color: var(--accent-blue); font-size: 0.95rem;">➕ Khởi Tạo Khách Hàng / Thương Hiệu Mới (1-Click Onboarding)</h4>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                        <div>
+                            <label class="input-label">Tên Doanh Nghiệp / Thương Hiệu:</label>
+                            <input type="text" id="brand-name-input" class="form-control-input" placeholder="Ví dụ: Khách Sạn Biển Xanh, Thẩm Mỹ Viện Royal...">
+                        </div>
+                        <div>
+                            <label class="input-label">Lĩnh Vực Hoạt Động:</label>
+                            <input type="text" id="brand-industry-input" class="form-control-input" placeholder="Ví dụ: Du Lịch Nghỉ Dưỡng, Spa Thẩm Mỹ...">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 14px;">
+                        <div>
+                            <label class="input-label">Hotline / Zalo Tư Vấn:</label>
+                            <input type="text" id="brand-hotline-input" class="form-control-input" placeholder="0988.112.233">
+                        </div>
+                        <div>
+                            <label class="input-label">Sản Phẩm Cốt Lõi / Lời Hứa Thương Hiệu:</label>
+                            <input type="text" id="brand-offer-input" class="form-control-input" placeholder="Gói phòng view biển, đưa đón sân bay miễn phí...">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;">
+                        <div>
+                            <label class="input-label">Giá Gói Starter (Cơ bản):</label>
+                            <input type="text" id="brand-p1-input" class="form-control-input" value="1.990.000đ">
+                        </div>
+                        <div>
+                            <label class="input-label">Giá Gói Pro (Tiêu chuẩn):</label>
+                            <input type="text" id="brand-p2-input" class="form-control-input" value="4.990.000đ">
+                        </div>
+                        <div>
+                            <label class="input-label">Giá Gói VIP (Trọn gói):</label>
+                            <input type="text" id="brand-p3-input" class="form-control-input" value="12.500.000đ">
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" style="height: 44px; align-self: flex-start;" onclick="createBrand()">🚀 Kích Hoạt Thương Hiệu Mới Này</button>
+                </div>
+
+                <!-- Self-Healing & Health Check -->
+                <div class="studio-card-box">
+                    <h4 style="color: #fff; font-size: 0.95rem;">🩺 Cứu Hộ Kỹ Thuật & Tự Động Phục Hồi (Self-Healing)</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-muted);">Không cần gọi IT. Bấm nút dưới đây để Kỹ sư AI OpenClaw tự quét lỗi và khởi động lại dịch vụ.</p>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 4px;">
+                        <button class="chip-btn" style="padding: 8px 16px;" onclick="runHealthAction('health')">🔍 Kiểm Tra Toàn Diện Hệ Thống</button>
+                        <button class="btn-primary" style="background: var(--accent-green); padding: 8px 16px;" onclick="runHealthAction('restart')">⚡ Khởi Động Lại Bot & Cổng Webhook</button>
+                    </div>
+
+                    <div id="health-action-output" style="background: var(--bg-card); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; display: none; margin-top: 8px;"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Global Floating Toast Notification -->
+    <div class="toast-msg" id="global-toast">✨ Thông báo</div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
