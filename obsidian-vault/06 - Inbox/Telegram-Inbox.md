@@ -9,3 +9,5 @@
 - [ ] **[2026-09-25 21:32:59]** (User (Test) ➔ `main`): Kiểm thử hệ thống đồng bộ Obsidian Second Brain
 
 - [ ] **[2026-09-25 21:37:03]** (User (Pipeline) ➔ `media-producer`): Tạo chiến dịch SEO và kịch bản 3 video review du lịch
+
+- [ ] **[2026-09-26 09:31:42]** (web (Khách Web) ➔ `media-producer`): Lên 3 kịch bản video TikTok giữ chân 3s đầu
