@@ -1,5 +1,6 @@
 /**
  * OMC Agency OS - Clean Frontend Application State & Controller
+ * Enterprise B2B Architecture (Linear / Raycast Style)
  */
 
 const state = {
@@ -9,28 +10,33 @@ const state = {
     activeAgent: 'cskh-consultant',
     chatHistories: {
         'cskh-consultant': [
-            { sender: 'bot', text: '👋 Chào Sếp! Tôi là Chuyên Viên Tư Vấn & Chốt Đơn 24/7. Tôi túc trực đa kênh Zalo, Facebook Messenger và TikTok. Sếp cần kiểm tra khách hàng mới, tư vấn giá gói nào hay xem tỷ lệ chốt đơn?', time: 'Vừa xong' }
+            { sender: 'bot', text: 'Chào Sếp! Tôi là Chuyên Viên Tư Vấn & Chốt Đơn 24/7. Tôi túc trực đa kênh Zalo, Facebook Messenger và TikTok. Sếp cần kiểm tra khách hàng mới, tư vấn bảng giá hay xem tỷ lệ chốt đơn?', time: 'Vừa xong' }
         ],
         'social-creator': [
-            { sender: 'bot', text: '🎬 Chào Sếp! Tôi là Đạo Diễn Kịch Bản Video & Social Content. Tôi chuyên viết kịch bản video ngắn 30-60s chuẩn retention (3s đầu giữ chân) và prompt hình ảnh Midjourney/Runway. Hôm nay chúng ta làm chủ đề gì ạ?', time: 'Vừa xong' }
+            { sender: 'bot', text: 'Chào Sếp! Tôi là Đạo Diễn Kịch Bản Video & Social Content. Tôi chuyên viết kịch bản video ngắn 30-60s chuẩn retention (3s đầu giữ chân) và prompt hình ảnh Midjourney/Runway. Hôm nay chúng ta làm chủ đề gì ạ?', time: 'Vừa xong' }
         ],
         'market-spy': [
-            { sender: 'bot', text: '🕵️ Thám Tử Thị Trường sẵn sàng! Tôi có thể quét xu hướng 30 ngày qua, bóc tách điểm yếu đối thủ và tìm ra các nỗi đau lớn nhất của khách hàng mục tiêu.', time: 'Vừa xong' }
+            { sender: 'bot', text: 'Thám Tử Thị Trường sẵn sàng! Tôi có thể quét xu hướng 30 ngày qua, bóc tách điểm yếu đối thủ và tìm ra các nỗi đau lớn nhất của khách hàng mục tiêu.', time: 'Vừa xong' }
         ],
         'ceo-copilot': [
-            { sender: 'bot', text: '👑 Báo cáo Sếp! Tôi là Thư Ký Điều Hành. Tôi theo dõi tiến độ toàn bộ 5 phòng ban, tổng hợp chỉ số ROI và ghi nhận mọi thay đổi bảng giá/chính sách.', time: 'Vừa xong' }
+            { sender: 'bot', text: 'Báo cáo Sếp! Tôi là Thư Ký Điều Hành. Tôi theo dõi tiến độ toàn bộ 5 phòng ban, tổng hợp chỉ số ROI và ghi nhận mọi thay đổi bảng giá/chính sách.', time: 'Vừa xong' }
         ],
         'brand-guard': [
-            { sender: 'bot', text: '🛡️ Rào Chắn JEV Sentinel túc trực! Tôi bảo vệ thương hiệu khỏi từ ngữ cấm vi phạm chính sách Meta/TikTok và chống bot AI ảo giác tự ý giảm giá.', time: 'Vừa xong' }
+            { sender: 'bot', text: 'Rào Chắn JEV Sentinel túc trực! Tôi bảo vệ thương hiệu khỏi từ ngữ cấm vi phạm chính sách Meta/TikTok và chống bot AI tự ý báo sai giá.', time: 'Vừa xong' }
         ],
         'openclaw-executor': [
-            { sender: 'bot', text: '⚡ Kỹ Sư IT OpenClaw sẵn sàng! Tôi hỗ trợ kiểm tra kết nối webhook, giám sát tiến trình PM2 và tự động sửa lỗi kỹ thuật khi có sự cố.', time: 'Vừa xong' }
+            { sender: 'bot', text: 'Kỹ Sư IT OpenClaw sẵn sàng! Tôi hỗ trợ kiểm tra kết nối webhook, giám sát tiến trình PM2 và tự động sửa lỗi kỹ thuật khi có sự cố.', time: 'Vừa xong' }
         ]
     },
     crmLeads: [],
     crmFilterPlatform: 'ALL',
+    crmSearchQuery: '',
+    crmViewMode: 'kanban', // 'kanban' or 'grid'
+    leadStages: {}, // map of phone -> stage: 'new' | 'contacted' | 'followup' | 'won'
     currentScriptData: null,
-    currentHooksData: []
+    currentHooksData: [],
+    selectedHookIndex: 0,
+    selectedSceneIndex: 0
 };
 
 // INITIALIZATION
@@ -60,11 +66,11 @@ function switchTab(tabId) {
     if (targetPanel) targetPanel.classList.add('active');
 
     const headings = {
-        'dash': '📊 Bảng Điều Hành Tổng Quan (Executive Overview)',
-        'chat': '💬 Phòng Chat & Điều Phối Nhân Sự AI',
-        'studio': '🎬 Studio Kịch Bản Video Ngắn TikTok/Reels & 5 Hooks',
-        'crm': '👥 Sổ Khách Hàng Tiềm Năng (CRM Leads 24/7)',
-        'brand': '🏢 Quản Lý Đa Thương Hiệu & Cứu Hộ IT'
+        'dash': 'Bảng Điều Hành Tổng Quan (Executive Overview)',
+        'chat': 'Phòng Chat & Điều Phối Nhân Sự AI',
+        'studio': 'Studio Kịch Bản Video Ngắn TikTok/Reels & 5 Hooks',
+        'crm': 'Sổ Khách Hàng Tiềm Năng (CRM Leads 24/7)',
+        'brand': 'Quản Lý Đa Thương Hiệu & Cứu Hộ IT'
     };
     document.getElementById('page-title-text').innerText = headings[tabId] || 'Bảng Điều Khiển';
 
@@ -92,21 +98,22 @@ async function loadBrands() {
             if (b.id === state.activeBrand) {
                 opt.selected = true;
                 document.getElementById('topbar-brand-badge').innerText = b.name;
+                document.getElementById('sidebar-brand-badge').innerText = b.name;
             }
             sel.appendChild(opt);
 
             const isActive = (b.id === state.activeBrand);
             cardsHtml += `
-                <div class="dash-card-box ${isActive ? 'active-brand-card' : ''}" style="${isActive ? 'border-color: var(--accent-blue);' : ''}">
+                <div class="dash-card-box" style="${isActive ? 'border-color: var(--accent-blue);' : ''}">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h4 style="color: #fff; font-size: 0.95rem;">${b.name}</h4>
-                        <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; background: ${isActive ? 'var(--accent-green-glow)' : 'var(--bg-card)'}; color: ${isActive ? 'var(--accent-green)' : 'var(--text-muted)'};">
+                        <h4 style="color: #fff; font-size: 0.95rem; font-weight: 600;">${escapeHtml(b.name)}</h4>
+                        <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; background: ${isActive ? 'var(--accent-green-subtle)' : 'var(--bg-card)'}; color: ${isActive ? 'var(--accent-green)' : 'var(--text-muted)'};">
                             ${isActive ? 'ĐANG CHỌN' : 'SẴN SÀNG'}
                         </span>
                     </div>
-                    <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Ngành: <strong style="color: #fff;">${b.industry}</strong> | Hotline: <strong style="color: var(--accent-blue);">${b.hotline}</strong></p>
-                    <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px;">Offer: ${b.core_offer}</p>
-                    ${!isActive ? `<button class="chip-btn" style="margin-top: 8px; align-self: flex-start;" onclick="switchBrand('${b.id}')">👉 Kích Hoạt Brand Này</button>` : ''}
+                    <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Ngành: <strong style="color: #fff;">${escapeHtml(b.industry)}</strong> | Hotline: <strong style="color: var(--accent-blue);">${escapeHtml(b.hotline)}</strong></p>
+                    <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px;">Offer: ${escapeHtml(b.core_offer)}</p>
+                    ${!isActive ? `<button class="btn-outline" style="margin-top: 8px; align-self: flex-start; padding: 4px 10px; font-size: 0.76rem;" onclick="switchBrand('${b.id}')">Kích hoạt thương hiệu này</button>` : ''}
                 </div>
             `;
         });
@@ -134,7 +141,7 @@ async function switchBrand(brandId) {
             // Add system announcement in chat
             state.chatHistories[state.activeAgent].push({
                 sender: 'bot',
-                text: `🔄 Toàn bộ hệ thống vừa được nạp tri thức của thương hiệu: "${data.brand_name}". Mọi câu trả lời, bảng giá và kịch bản video sẽ áp dụng riêng cho thương hiệu này!`,
+                text: `Toàn bộ hệ thống vừa được nạp tri thức của thương hiệu: "${data.brand_name}". Mọi câu trả lời, bảng giá và kịch bản video sẽ áp dụng riêng cho thương hiệu này!`,
                 time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
             });
             renderAgentChat();
@@ -204,26 +211,21 @@ async function loadMetrics() {
 function selectAgent(agentId) {
     state.activeAgent = agentId;
     
-    // Update active row in agent list
     document.querySelectorAll('.agent-row').forEach(r => r.classList.remove('active'));
     const activeRow = document.getElementById('agent-row-' + agentId);
     if (activeRow) activeRow.classList.add('active');
 
-    // Update topbar in chat area
     const agentNames = {
-        'cskh-consultant': '💬 Chuyên Viên Tư Vấn & Chốt Đơn 24/7',
-        'social-creator': '🎬 Đạo Diễn Kịch Bản Video & Social',
-        'market-spy': '🕵️ Thám Tử Thị Trường & Đối Thủ',
-        'ceo-copilot': '👑 Thư Ký Điều Hành Cho Sếp',
-        'brand-guard': '🛡️ Rào Chắn An Toàn JEV Sentinel',
-        'openclaw-executor': '⚡ Kỹ Sư IT OpenClaw Tự Sửa Lỗi'
+        'cskh-consultant': 'Chuyên Viên Tư Vấn & Chốt Đơn 24/7',
+        'social-creator': 'Đạo Diễn Kịch Bản Video & Social',
+        'market-spy': 'Thám Tử Thị Trường & Đối Thủ',
+        'ceo-copilot': 'Thư Ký Điều Hành Cho Sếp',
+        'brand-guard': 'Rào Chắn An Toàn JEV Sentinel',
+        'openclaw-executor': 'Kỹ Sư IT OpenClaw Tự Sửa Lỗi'
     };
     document.getElementById('chat-active-agent-title').innerText = agentNames[agentId] || agentId;
 
-    // Render chips
     renderPromptChips(agentId);
-
-    // Render chat history
     renderAgentChat();
 }
 
@@ -313,7 +315,7 @@ async function sendMessage() {
     } catch (err) {
         state.chatHistories[state.activeAgent].push({
             sender: 'bot',
-            text: '❌ Lỗi kết nối: ' + err.message,
+            text: 'Lỗi kết nối: ' + err.message,
             time: now
         });
         renderAgentChat();
@@ -323,7 +325,11 @@ async function sendMessage() {
     }
 }
 
-// 5. STUDIO VIDEO 1-CLICK
+// 5. STUDIO VIDEO 1-CLICK & SMARTPHONE LIVE PREVIEW
+function setQuickTopic(topic) {
+    document.getElementById('studio-topic-input').value = topic;
+}
+
 async function generateVideoScript() {
     const topic = document.getElementById('studio-topic-input').value.trim();
     const duration = document.getElementById('studio-duration-select').value;
@@ -332,10 +338,10 @@ async function generateVideoScript() {
         return;
     }
 
-    const resCard = document.getElementById('studio-results-card');
-    resCard.style.display = 'block';
-    document.getElementById('hooks-container').innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Đang vận dụng 5 đòn bẩy tâm lý và dựng phân cảnh...</p>';
-    document.getElementById('full-script-text').innerText = 'Đang biên kịch lời thoại và chỉ dẫn CapCut...';
+    const genBtn = document.querySelector('.btn-generate');
+    const origBtnHtml = genBtn.innerHTML;
+    genBtn.innerHTML = '<span>Đang tính toán 5 đòn bẩy tâm lý...</span>';
+    genBtn.disabled = true;
 
     try {
         const res = await fetch('/api/video-generator', {
@@ -347,49 +353,126 @@ async function generateVideoScript() {
         if (data.status === 'success') {
             state.currentScriptData = data.script;
             state.currentHooksData = data.hooks || [];
+            state.selectedHookIndex = 0;
+            state.selectedSceneIndex = 0;
 
-            // Render Hooks
-            let hooksHtml = '';
-            state.currentHooksData.forEach((h, i) => {
-                hooksHtml += `
-                    <div class="hook-item-box">
-                        <div style="flex: 1; padding-right: 12px;">
-                            <div class="hook-badge-tag">Hook #${i+1}: ${h.type}</div>
-                            <div class="hook-quote">"${h.hook_text}"</div>
-                            <div class="hook-visual-note">🎬 Visual gợi ý: ${h.visual_direction}</div>
-                        </div>
-                        <button class="btn-copy-hook" onclick="copyText('${escapeHtml(h.hook_text)}')">📋 Copy</button>
-                    </div>
-                `;
-            });
-            document.getElementById('hooks-container').innerHTML = hooksHtml;
+            renderHooksList();
+            renderPhonePreview();
+            renderStoryboardScrubber();
 
-            // Render Script
-            const sc = data.script;
-            let fullText = `🎯 CHỦ ĐỀ: ${sc.topic}\n⏱️ THỜI LƯỢNG: ${sc.duration}\n\n`;
-            (sc.storyboard || []).forEach(s => {
-                fullText += `[${s.time}] - ${s.phase}\n• Hình ảnh: ${s.visual}\n• Lời thoại: ${s.audio}\n• Chữ trên màn hình: ${s.text_overlay}\n\n`;
-            });
-            fullText += `✂️ HƯỚNG DẪN DỰNG CAPCUT:\n1. Tốc độ nói: 1.15x, Zero silence gap.\n2. Phụ đề tự động chữ to vàng viền đen giữa ngực.\n3. Cứ 2-3s đổi góc máy hoặc chèn B-roll.`;
-            document.getElementById('full-script-text').innerText = fullText;
-
-            showToast('Đã sinh kịch bản video thành công!');
+            showToast('Đã khởi tạo kịch bản video thành công!');
             loadMetrics();
         } else {
             alert('Lỗi: ' + data.error);
         }
     } catch (err) {
         alert('Lỗi kết nối: ' + err.message);
+    } finally {
+        genBtn.innerHTML = origBtnHtml;
+        genBtn.disabled = false;
+    }
+}
+
+function renderHooksList() {
+    const container = document.getElementById('hooks-container');
+    if (!state.currentHooksData || state.currentHooksData.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Không có biến thể hook.</p>';
+        return;
+    }
+
+    let html = '';
+    state.currentHooksData.forEach((h, idx) => {
+        const isActive = (idx === state.selectedHookIndex);
+        html += `
+            <div class="hook-card ${isActive ? 'active' : ''}" onclick="selectHook(${idx})">
+                <div style="flex: 1; padding-right: 10px;">
+                    <div class="hook-lever-tag">Đòn bẩy #${idx + 1}: ${escapeHtml(h.type)}</div>
+                    <div class="hook-quote-text">"${escapeHtml(h.hook_text)}"</div>
+                    <div class="hook-visual-hint">Visual: ${escapeHtml(h.visual_direction)}</div>
+                </div>
+                <button class="btn-outline" style="padding: 4px 8px; font-size: 0.72rem;" onclick="event.stopPropagation(); copyText('${escapeHtml(h.hook_text)}')">Copy</button>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+function selectHook(idx) {
+    state.selectedHookIndex = idx;
+    renderHooksList();
+    
+    // Update live phone mockup with this hook
+    const hook = state.currentHooksData[idx];
+    if (hook) {
+        document.getElementById('phone-live-subtitle').innerText = `"${hook.hook_text}"`;
+        document.getElementById('phone-visual-cue').innerText = `Visual: ${hook.visual_direction}`;
+        document.getElementById('preview-scene-indicator').innerText = `Hook #${idx + 1} (0-3s)`;
+    }
+}
+
+function renderStoryboardScrubber() {
+    const sc = state.currentScriptData;
+    if (!sc || !sc.storyboard) return;
+
+    const scrubber = document.getElementById('storyboard-scrubber');
+    let scrubberHtml = '';
+    sc.storyboard.forEach((scene, i) => {
+        const activeClass = (i === state.selectedSceneIndex) ? 'active' : '';
+        scrubberHtml += `
+            <div class="scene-step-tab ${activeClass}" onclick="selectScene(${i})">
+                [${scene.time}] ${scene.phase.split(' ')[0]}
+            </div>
+        `;
+    });
+    scrubber.innerHTML = scrubberHtml;
+
+    // Build raw script for download/copy
+    let fullText = `CHỦ ĐỀ: ${sc.topic}\nTHỜI LƯỢNG: ${sc.duration}\n\n`;
+    (sc.storyboard || []).forEach(s => {
+        fullText += `[${s.time}] - ${s.phase}\n• Hình ảnh: ${s.visual}\n• Lời thoại: ${s.audio}\n• Chữ trên màn hình: ${s.text_overlay}\n\n`;
+    });
+    fullText += `HƯỚNG DẪN DỰNG CAPCUT:\n1. Tốc độ nói: 1.15x, Zero silence gap.\n2. Phụ đề tự động chữ to vàng viền đen giữa ngực.\n3. Cứ 2-3s đổi góc máy hoặc chèn B-roll.`;
+    document.getElementById('full-script-text').innerText = fullText;
+}
+
+function selectScene(index) {
+    state.selectedSceneIndex = index;
+    const sc = state.currentScriptData;
+    if (!sc || !sc.storyboard || !sc.storyboard[index]) return;
+
+    // Update scrubber active tab
+    document.querySelectorAll('.scene-step-tab').forEach((tab, i) => {
+        if (i === index) tab.classList.add('active');
+        else tab.classList.remove('active');
+    });
+
+    const scene = sc.storyboard[index];
+    document.getElementById('phone-live-subtitle').innerText = `"${scene.audio}"`;
+    document.getElementById('phone-visual-cue').innerText = `Visual: ${scene.visual}`;
+    document.getElementById('preview-scene-indicator').innerText = `Scene ${index + 1}/${sc.storyboard.length} (${scene.time})`;
+}
+
+function renderPhonePreview() {
+    if (state.currentHooksData && state.currentHooksData.length > 0) {
+        selectHook(0);
     }
 }
 
 function copyFullScript() {
     const text = document.getElementById('full-script-text').innerText;
+    if (!text) {
+        alert('Chưa có kịch bản để copy! Vui lòng bấm Khởi tạo trước.');
+        return;
+    }
     copyText(text);
 }
 
 function downloadScriptTxt() {
     const text = document.getElementById('full-script-text').innerText;
+    if (!text) {
+        alert('Chưa có kịch bản để tải!');
+        return;
+    }
     const topic = document.getElementById('studio-topic-input').value.trim() || 'Kich_Ban_Video';
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8;' });
     const link = document.createElement('a');
@@ -399,20 +482,50 @@ function downloadScriptTxt() {
     showToast('Đã tải file kịch bản (.txt)!');
 }
 
-// 6. CRM LEADS WITH SEARCH & FILTER
+// 6. CRM LEADS WITH DUAL-VIEW (KANBAN & DATA GRID)
 async function loadCrmLeads() {
-    const tbody = document.getElementById('crm-table-body');
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">Đang tải danh sách leads...</td></tr>';
-
     try {
         const res = await fetch('/api/leads');
         const data = await res.json();
         state.crmLeads = data.leads || [];
-        renderCrmTable();
+
+        // Initialize lead stages
+        state.crmLeads.forEach(l => {
+            if (!state.leadStages[l.phone]) {
+                state.leadStages[l.phone] = 'new';
+            }
+        });
+
+        // Update CRM top summary counters
+        document.getElementById('crm-total-stat').innerText = state.crmLeads.length;
+        document.getElementById('crm-today-stat').innerText = state.crmLeads.length; // Active count
+
+        renderCrmViews();
         renderRecentLeadsOnDashboard();
     } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="6" style="color: var(--accent-red); text-align: center;">Lỗi tải CRM: ${err.message}</td></tr>`;
+        console.error('Lỗi tải CRM:', err);
     }
+}
+
+function switchCrmView(mode) {
+    state.crmViewMode = mode;
+    const btnKanban = document.getElementById('btn-view-kanban');
+    const btnGrid = document.getElementById('btn-view-grid');
+    const kanbanView = document.getElementById('crm-kanban-view');
+    const gridView = document.getElementById('crm-grid-view');
+
+    if (mode === 'kanban') {
+        btnKanban.classList.add('active');
+        btnGrid.classList.remove('active');
+        kanbanView.style.display = 'grid';
+        gridView.style.display = 'none';
+    } else {
+        btnGrid.classList.add('active');
+        btnKanban.classList.remove('active');
+        gridView.style.display = 'block';
+        kanbanView.style.display = 'none';
+    }
+    renderCrmViews();
 }
 
 function filterCrmPlatform(platform) {
@@ -420,43 +533,134 @@ function filterCrmPlatform(platform) {
     document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
     const btn = document.getElementById('filter-' + platform.toLowerCase());
     if (btn) btn.classList.add('active');
-    renderCrmTable();
+    renderCrmViews();
 }
 
 function searchCrm(query) {
-    renderCrmTable(query);
+    state.crmSearchQuery = query;
+    renderCrmViews();
 }
 
-function renderCrmTable(searchQuery = '') {
-    const tbody = document.getElementById('crm-table-body');
-    let filtered = state.crmLeads;
-
+function getFilteredLeads() {
+    let list = state.crmLeads;
     if (state.crmFilterPlatform !== 'ALL') {
-        filtered = filtered.filter(l => l.platform.toLowerCase() === state.crmFilterPlatform.toLowerCase());
+        list = list.filter(l => l.platform.toLowerCase() === state.crmFilterPlatform.toLowerCase());
     }
+    if (state.crmSearchQuery.trim()) {
+        const q = state.crmSearchQuery.toLowerCase();
+        list = list.filter(l => 
+            (l.name && l.name.toLowerCase().includes(q)) || 
+            (l.phone && l.phone.includes(q)) || 
+            (l.note && l.note.toLowerCase().includes(q))
+        );
+    }
+    return list;
+}
 
-    if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        filtered = filtered.filter(l => l.name.toLowerCase().includes(q) || l.phone.includes(q) || l.note.toLowerCase().includes(q));
+function renderCrmViews() {
+    if (state.crmViewMode === 'kanban') {
+        renderCrmKanban();
+    } else {
+        renderCrmGrid();
     }
+}
+
+function renderCrmKanban() {
+    const filtered = getFilteredLeads();
+    const stacks = {
+        'new': document.getElementById('kanban-stack-new'),
+        'contacted': document.getElementById('kanban-stack-contacted'),
+        'followup': document.getElementById('kanban-stack-followup'),
+        'won': document.getElementById('kanban-stack-won')
+    };
+
+    // Reset stacks
+    Object.keys(stacks).forEach(k => {
+        if (stacks[k]) stacks[k].innerHTML = '';
+    });
+
+    const counts = { new: 0, contacted: 0, followup: 0, won: 0 };
+
+    filtered.forEach(l => {
+        const stage = state.leadStages[l.phone] || 'new';
+        counts[stage] = (counts[stage] || 0) + 1;
+
+        const platformClass = l.platform.toLowerCase().includes('zalo') ? 'zalo' : (l.platform.toLowerCase().includes('face') ? 'facebook' : 'tiktok');
+
+        const card = document.createElement('div');
+        card.className = 'kanban-card';
+        card.innerHTML = `
+            <div class="kanban-card-top">
+                <span class="kanban-customer-name">${escapeHtml(l.name)}</span>
+                <span class="badge-platform ${platformClass}">${escapeHtml(l.platform)}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="kanban-phone-pill">${escapeHtml(l.phone)}</span>
+                <span style="font-size: 0.7rem; color: var(--text-dim);">${escapeHtml(l.time)}</span>
+            </div>
+            <div class="kanban-note-text">${escapeHtml(l.note)}</div>
+            <div class="kanban-card-actions">
+                <a href="tel:${l.phone}" class="call-btn" style="padding: 2px 8px; font-size: 0.72rem;">Gọi</a>
+                <button class="btn-advance-stage" onclick="advanceLeadStage('${l.phone}')">Chuyển tiếp ➔</button>
+            </div>
+        `;
+        if (stacks[stage]) {
+            stacks[stage].appendChild(card);
+        }
+    });
+
+    // Update column count badges
+    document.getElementById('col-count-new').innerText = counts.new;
+    document.getElementById('col-count-contacted').innerText = counts.contacted;
+    document.getElementById('col-count-followup').innerText = counts.followup;
+    document.getElementById('col-count-won').innerText = counts.won;
+}
+
+function advanceLeadStage(phone) {
+    const cycle = { 'new': 'contacted', 'contacted': 'followup', 'followup': 'won', 'won': 'new' };
+    const current = state.leadStages[phone] || 'new';
+    state.leadStages[phone] = cycle[current];
+    renderCrmViews();
+    showToast(`Đã chuyển trạng thái lead [${phone}] sang: ${state.leadStages[phone].toUpperCase()}`);
+}
+
+function renderCrmGrid() {
+    const tbody = document.getElementById('crm-table-body');
+    const filtered = getFilteredLeads();
 
     if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 30px;">Không tìm thấy khách hàng nào phù hợp bộ lọc.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">Không tìm thấy khách hàng nào phù hợp bộ lọc.</td></tr>';
         return;
     }
 
-    tbody.innerHTML = filtered.map(l => `
-        <tr>
-            <td style="color: var(--text-muted); font-size: 0.8rem;">${l.time}</td>
-            <td><span class="badge-platform">${l.platform}</span></td>
-            <td style="font-weight: 600; color: #fff;">${l.name}</td>
-            <td><span class="phone-tag">${l.phone}</span></td>
-            <td style="max-width: 250px; font-size: 0.82rem; color: var(--text-secondary);">${l.note}</td>
-            <td>
-                <a href="tel:${l.phone}" class="call-btn">📞 Gọi Ngay</a>
-            </td>
-        </tr>
-    `).join('');
+    const stageNames = {
+        'new': '<span style="color: var(--accent-blue);">Mới tiếp nhận</span>',
+        'contacted': '<span style="color: var(--accent-amber);">Đang tư vấn</span>',
+        'followup': '<span style="color: var(--accent-purple);">Hẹn gọi lại</span>',
+        'won': '<span style="color: var(--accent-green); font-weight: 700;">Đã chốt đơn</span>'
+    };
+
+    tbody.innerHTML = filtered.map(l => {
+        const platformClass = l.platform.toLowerCase().includes('zalo') ? 'zalo' : (l.platform.toLowerCase().includes('face') ? 'facebook' : 'tiktok');
+        const stage = state.leadStages[l.phone] || 'new';
+
+        return `
+            <tr>
+                <td style="color: var(--text-muted); font-size: 0.8rem;">${escapeHtml(l.time)}</td>
+                <td><span class="badge-platform ${platformClass}">${escapeHtml(l.platform)}</span></td>
+                <td style="font-weight: 600; color: #fff;">${escapeHtml(l.name)}</td>
+                <td><span class="kanban-phone-pill">${escapeHtml(l.phone)}</span></td>
+                <td>${stageNames[stage] || stage}</td>
+                <td style="max-width: 250px; font-size: 0.82rem; color: var(--text-secondary);">${escapeHtml(l.note)}</td>
+                <td>
+                    <div style="display: flex; gap: 6px;">
+                        <a href="tel:${l.phone}" class="call-btn">Gọi</a>
+                        <button class="btn-advance-stage" onclick="advanceLeadStage('${l.phone}')">Tiếp ➔</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
 }
 
 function renderRecentLeadsOnDashboard() {
@@ -470,10 +674,10 @@ function renderRecentLeadsOnDashboard() {
     list.innerHTML = recent.map(l => `
         <div class="recent-item">
             <div>
-                <div class="recent-title">${l.name} (${l.platform})</div>
-                <div class="recent-meta">${l.phone} • ${l.note.slice(0, 40)}...</div>
+                <div class="recent-title">${escapeHtml(l.name)} (${escapeHtml(l.platform)})</div>
+                <div class="recent-meta">${escapeHtml(l.phone)} • ${escapeHtml(l.note).slice(0, 40)}...</div>
             </div>
-            <a href="tel:${l.phone}" class="call-btn" style="padding: 3px 8px; font-size: 0.72rem;">📞 Gọi</a>
+            <a href="tel:${l.phone}" class="call-btn" style="padding: 3px 8px; font-size: 0.72rem;">Gọi</a>
         </div>
     `).join('');
 }
@@ -483,9 +687,10 @@ function exportCsv() {
         alert('Không có dữ liệu để xuất file!');
         return;
     }
-    let csv = '\uFEFFThời Gian,Nền Tảng,Tên Khách Hàng,Số Điện Thoại,Ghi Chú\n';
+    let csv = '\uFEFFThời Gian,Nền Tảng,Tên Khách Hàng,Số Điện Thoại,Trạng Thái,Ghi Chú\n';
     state.crmLeads.forEach(l => {
-        csv += `"${l.time}","${l.platform}","${l.name}","${l.phone}","${l.note}"\n`;
+        const stage = state.leadStages[l.phone] || 'new';
+        csv += `"${l.time}","${l.platform}","${l.name}","${l.phone}","${stage}","${l.note}"\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
@@ -509,27 +714,27 @@ async function runHealthAction(action) {
         });
         const data = await res.json();
         out.innerHTML = `
-            <div style="color: var(--accent-green); font-weight: 700;">✅ ${data.status}</div>
-            <div style="margin-top: 4px; color: var(--text-secondary);">${data.message}</div>
+            <div style="color: var(--accent-green); font-weight: 700;">${escapeHtml(data.status)}</div>
+            <div style="margin-top: 4px; color: var(--text-secondary);">${escapeHtml(data.message)}</div>
         `;
         showToast('Hệ thống hoạt động 100% ổn định!');
     } catch (err) {
-        out.innerHTML = `<div style="color: var(--accent-red);">❌ Lỗi kiểm tra: ${err.message}</div>`;
+        out.innerHTML = `<div style="color: var(--accent-red);">Lỗi kiểm tra: ${err.message}</div>`;
     }
 }
 
 // UTILITIES
 function copyText(text) {
     navigator.clipboard.writeText(text).then(() => {
-        showToast('Đã copy vào bộ nhớ đệm (Clipboard)!');
+        showToast('Đã sao chép vào bộ nhớ đệm!');
     }).catch(err => {
-        alert('Không thể copy: ' + err);
+        alert('Không thể sao chép: ' + err);
     });
 }
 
 function showToast(msg) {
     const toast = document.getElementById('global-toast');
-    toast.innerText = '✨ ' + msg;
+    toast.innerText = msg;
     toast.style.display = 'flex';
     setTimeout(() => {
         toast.style.display = 'none';

@@ -10,38 +10,44 @@
     <!-- 1. LEFT NAVIGATION RAIL -->
     <aside class="app-sidebar">
         <div class="brand-header">
-            <div class="brand-logo-icon">🏢</div>
+            <div class="brand-logo-icon">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
             <div class="brand-text">
                 <h1>OMC Agency OS</h1>
                 <p>Enterprise Autonomous Hub</p>
             </div>
         </div>
 
+        <div class="nav-section-title">Trung Tâm Điều Hành</div>
         <nav class="nav-menu">
             <div class="nav-item active" id="nav-dash" onclick="switchTab('dash')">
-                <span class="nav-icon">📊</span>
-                <span>1. Tổng Quan (KPIs)</span>
+                <svg class="svg-icon" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                <span>Tổng quan</span>
             </div>
             <div class="nav-item" id="nav-chat" onclick="switchTab('chat')">
-                <span class="nav-icon">💬</span>
-                <span>2. Phòng Chat AI Hub</span>
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                <span>Phòng chat AI</span>
             </div>
             <div class="nav-item" id="nav-studio" onclick="switchTab('studio')">
-                <span class="nav-icon">🎬</span>
-                <span>3. Studio Video 1-Click</span>
+                <svg class="svg-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 8 7 4-7 4Z"/></svg>
+                <span>Studio video</span>
             </div>
             <div class="nav-item" id="nav-crm" onclick="switchTab('crm')">
-                <span class="nav-icon">👥</span>
-                <span>4. Sổ Khách Hàng (CRM)</span>
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>Sổ khách hàng</span>
             </div>
             <div class="nav-item" id="nav-brand" onclick="switchTab('brand')">
-                <span class="nav-icon">🏢</span>
-                <span>5. Đa Brand & Cứu Hộ IT</span>
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 21h18M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+                <span>Đa thương hiệu</span>
             </div>
         </nav>
 
         <div class="sidebar-footer">
-            <div class="brand-select-label">Thương Hiệu Đang Chọn:</div>
+            <div class="brand-select-label">
+                <span>Thương hiệu hiện tại</span>
+                <span class="active-brand-badge" id="sidebar-brand-badge" style="font-size: 0.65rem;">Tano Agency</span>
+            </div>
             <select id="brand-select-dropdown" class="brand-select-input" onchange="switchBrand(this.value)">
                 <option value="tano-agency">Tano Agency (Mặc định)</option>
             </select>
@@ -53,7 +59,7 @@
         <!-- Top Navbar -->
         <header class="top-navbar">
             <div class="page-heading">
-                <h2 id="page-title-text">📊 Bảng Điều Hành Tổng Quan (Executive Overview)</h2>
+                <h2 id="page-title-text">Bảng Điều Hành Tổng Quan</h2>
                 <span class="active-brand-badge" id="topbar-brand-badge">Tano Agency</span>
             </div>
             <div class="system-status-pills">
@@ -71,35 +77,43 @@
                 <div class="kpi-grid">
                     <div class="kpi-card">
                         <div class="kpi-data">
-                            <h4>Lượt Khách Chat AI</h4>
+                            <h4>Lượt khách chat AI</h4>
                             <div class="kpi-number" id="kpi-chat">0</div>
-                            <div class="kpi-sub">🟢 Tự động phản hồi 24/7</div>
+                            <div class="kpi-sub"><span class="dot-green"></span> Tự động phản hồi 24/7</div>
                         </div>
-                        <div class="kpi-icon-wrap" style="color: var(--accent-blue);">💬</div>
+                        <div class="kpi-icon-wrap" style="color: var(--accent-blue);">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                        </div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-data">
-                            <h4>Số ĐT Khách Mới (Leads)</h4>
+                            <h4>Số ĐT khách mới (Leads)</h4>
                             <div class="kpi-number" id="kpi-lead" style="color: var(--accent-green);">0</div>
-                            <div class="kpi-sub">🔥 Đã validate Regex VN</div>
+                            <div class="kpi-sub">Đã xác thực Regex VN</div>
                         </div>
-                        <div class="kpi-icon-wrap" style="color: var(--accent-green);">👥</div>
+                        <div class="kpi-icon-wrap" style="color: var(--accent-green);">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                        </div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-data">
-                            <h4>Kịch Bản Video Đã Tạo</h4>
+                            <h4>Kịch bản video đã tạo</h4>
                             <div class="kpi-number" id="kpi-video" style="color: var(--accent-purple);">0</div>
-                            <div class="kpi-sub">✨ Kèm 5 đòn bẩy Hook</div>
+                            <div class="kpi-sub">Chuẩn 5 đòn bẩy Hook</div>
                         </div>
-                        <div class="kpi-icon-wrap" style="color: var(--accent-purple);">🎬</div>
+                        <div class="kpi-icon-wrap" style="color: var(--accent-purple);">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 8 7 4-7 4Z"/></svg>
+                        </div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-data">
-                            <h4>Tiền Lương Tiết Kiệm</h4>
-                            <div class="kpi-number" id="kpi-cost" style="color: var(--accent-orange);">0 tr đ</div>
-                            <div class="kpi-sub">⚡ Tương đương 2.1 nhân sự</div>
+                            <h4>Lương nhân sự tiết kiệm</h4>
+                            <div class="kpi-number" id="kpi-cost" style="color: var(--accent-amber);">0 tr đ</div>
+                            <div class="kpi-sub">Tương đương 2.1 nhân viên</div>
                         </div>
-                        <div class="kpi-icon-wrap" style="color: var(--accent-orange);">💰</div>
+                        <div class="kpi-icon-wrap" style="color: var(--accent-amber);">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                        </div>
                     </div>
                 </div>
 
@@ -107,90 +121,90 @@
                 <div class="dash-sections-grid">
                     <div class="dash-card-box">
                         <h3>
-                            <span>👥 Khách Hàng Tiềm Năng Mới Nhất</span>
-                            <button class="chip-btn" onclick="switchTab('crm')">Xem tất cả ➔</button>
+                            <span>Khách hàng tiềm năng mới nhất</span>
+                            <button class="chip-btn" onclick="switchTab('crm')">Xem tất cả</button>
                         </h3>
                         <div class="recent-list" id="recent-leads-list">
-                            <p style="color: var(--text-muted); font-size: 0.85rem;">Đang tải dữ liệu gần đây...</p>
+                            <p style="color: var(--text-muted); font-size: 0.84rem;">Đang tải dữ liệu gần đây...</p>
                         </div>
                     </div>
 
                     <div class="dash-card-box">
                         <h3>
-                            <span>⚡ Lối Tắt Tác Vụ Nhanh (Quick Actions)</span>
+                            <span>Lối tắt tác vụ nhanh</span>
                         </h3>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <button class="recent-item" style="cursor: pointer; text-align: left;" onclick="switchTab('studio')">
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div class="recent-item" style="cursor: pointer;" onclick="switchTab('studio')">
                                 <div>
-                                    <div class="recent-title">🎬 Sinh Ngay Kịch Bản Video Ngắn 45s</div>
+                                    <div class="recent-title">Sinh ngay kịch bản video ngắn 45s</div>
                                     <div class="recent-meta">Tạo 3s đầu giữ chân + lời thoại CapCut</div>
                                 </div>
-                                <span style="color: var(--accent-blue);">Bấm tạo ➔</span>
-                            </button>
-                            <button class="recent-item" style="cursor: pointer; text-align: left;" onclick="switchTab('chat'); selectAgent('cskh-consultant');">
+                                <span style="color: var(--accent-blue); font-size: 0.8rem; font-weight: 600;">Khởi tạo ➔</span>
+                            </div>
+                            <div class="recent-item" style="cursor: pointer;" onclick="switchTab('chat'); selectAgent('cskh-consultant');">
                                 <div>
-                                    <div class="recent-title">💬 Tra Cứu Bảng Giá & Kịch Bản Chốt Đơn</div>
+                                    <div class="recent-title">Tra cứu bảng giá & kịch bản chốt đơn</div>
                                     <div class="recent-meta">Xử lý từ chối: Chê đắt, Cần suy nghĩ</div>
                                 </div>
-                                <span style="color: var(--accent-green);">Mở chat ➔</span>
-                            </button>
-                            <button class="recent-item" style="cursor: pointer; text-align: left;" onclick="switchTab('brand')">
+                                <span style="color: var(--accent-green); font-size: 0.8rem; font-weight: 600;">Mở chat ➔</span>
+                            </div>
+                            <div class="recent-item" style="cursor: pointer;" onclick="switchTab('brand')">
                                 <div>
-                                    <div class="recent-title">🏢 Thêm Thương Hiệu Khách Hàng Mới</div>
+                                    <div class="recent-title">Thêm thương hiệu khách hàng mới</div>
                                     <div class="recent-meta">Onboarding doanh nghiệp chỉ trong 5 giây</div>
                                 </div>
-                                <span style="color: var(--accent-purple);">Thêm mới ➔</span>
-                            </button>
+                                <span style="color: var(--accent-purple); font-size: 0.8rem; font-weight: 600;">Thêm mới ➔</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PANEL 2: CHAT HUB (SLACK / CHATGPT MULTI-AGENT WORKSPACE) -->
+        <!-- PANEL 2: CHAT HUB (MULTI-AGENT WORKSPACE) -->
         <section class="view-panel" id="panel-chat">
             <div class="chat-workspace">
                 <!-- Agent Selector Sidebar -->
                 <div class="chat-agent-sidebar">
-                    <div class="chat-agent-header">Nhân Sự AI Trực Chiến</div>
+                    <div class="chat-agent-header">Nhân sự AI trực chiến</div>
                     <div class="chat-agent-list">
                         <div class="agent-row active" id="agent-row-cskh-consultant" onclick="selectAgent('cskh-consultant')">
-                            <div class="agent-avatar">💬</div>
+                            <div class="agent-avatar"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></div>
                             <div class="agent-info">
                                 <h4>CSKH & Chốt Đơn</h4>
                                 <p>Zalo, FB, TikTok 24/7</p>
                             </div>
                         </div>
                         <div class="agent-row" id="agent-row-social-creator" onclick="selectAgent('social-creator')">
-                            <div class="agent-avatar">🎬</div>
+                            <div class="agent-avatar"><svg class="svg-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 8 7 4-7 4Z"/></svg></div>
                             <div class="agent-info">
                                 <h4>Đạo Diễn Video AI</h4>
                                 <p>TikTok, Reels, Hooks</p>
                             </div>
                         </div>
                         <div class="agent-row" id="agent-row-market-spy" onclick="selectAgent('market-spy')">
-                            <div class="agent-avatar">🕵️</div>
+                            <div class="agent-avatar"><svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
                             <div class="agent-info">
                                 <h4>Thám Tử Thị Trường</h4>
                                 <p>Soi Trend & Đối Thủ</p>
                             </div>
                         </div>
                         <div class="agent-row" id="agent-row-ceo-copilot" onclick="selectAgent('ceo-copilot')">
-                            <div class="agent-avatar">👑</div>
+                            <div class="agent-avatar"><svg class="svg-icon" viewBox="0 0 24 24"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg></div>
                             <div class="agent-info">
                                 <h4>Thư Ký Cho Sếp</h4>
                                 <p>Báo Cáo & Điều Hành</p>
                             </div>
                         </div>
                         <div class="agent-row" id="agent-row-brand-guard" onclick="selectAgent('brand-guard')">
-                            <div class="agent-avatar">🛡️</div>
+                            <div class="agent-avatar"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
                             <div class="agent-info">
                                 <h4>Rào Chắn An Toàn</h4>
                                 <p>Chống Vi Phạm & Sai Giá</p>
                             </div>
                         </div>
                         <div class="agent-row" id="agent-row-openclaw-executor" onclick="selectAgent('openclaw-executor')">
-                            <div class="agent-avatar">⚡</div>
+                            <div class="agent-avatar"><svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
                             <div class="agent-info">
                                 <h4>Kỹ Sư IT OpenClaw</h4>
                                 <p>Tự Động Cứu Hộ Lỗi</p>
@@ -202,12 +216,14 @@
                 <!-- Chat Main Stream -->
                 <div class="chat-main-area">
                     <div class="chat-agent-topbar">
-                        <h3 id="chat-active-agent-title">💬 Chuyên Viên Tư Vấn & Chốt Đơn 24/7</h3>
-                        <span style="font-size: 0.74rem; color: var(--accent-green);">● Đang trực tuyến</span>
+                        <h3 id="chat-active-agent-title">Chuyên Viên Tư Vấn & Chốt Đơn 24/7</h3>
+                        <span style="font-size: 0.72rem; color: var(--accent-green); display: flex; align-items: center; gap: 4px;">
+                            <span class="dot-green"></span> Đang trực tuyến
+                        </span>
                     </div>
 
                     <div class="chat-stream-box" id="chat-stream-box">
-                        <!-- Dynamic Threaded Messages -->
+                        <!-- Dynamic Messages -->
                     </div>
 
                     <!-- Prompt Suggestion Chips -->
@@ -218,92 +234,280 @@
                     <!-- Chat Composer -->
                     <div class="chat-composer-bar">
                         <input type="text" id="chat-message-input" class="composer-input" placeholder="Nhập tin nhắn giao việc (hoặc bấm câu gợi ý bên trên)..." onkeydown="if(event.key==='Enter') sendMessage()">
-                        <button class="btn-primary" onclick="sendMessage()">Gửi Đi</button>
+                        <button class="btn-primary" onclick="sendMessage()">Gửi đi</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PANEL 3: STUDIO VIDEO 1-CLICK -->
+        <!-- PANEL 3: STUDIO VIDEO 1-CLICK (2-COLUMN & SMARTPHONE MOCKUP) -->
         <section class="view-panel" id="panel-studio">
-            <div class="studio-layout">
-                <div class="studio-card-box">
+            <div class="studio-grid-layout">
+                <!-- Left Column: Director Deck & Hook Selector -->
+                <div class="studio-deck-pane">
+                    <div class="studio-header">
+                        <h3>Studio Kịch Bản Video Ngắn & 5 Đòn Bẩy Hook</h3>
+                        <p>Tự động bẻ khóa tâm lý giữ chân người xem 3 giây đầu tiên và phân cảnh chi tiết cho CapCut.</p>
+                    </div>
+
+                    <div class="studio-form-box">
+                        <div class="form-grid-2">
+                            <div>
+                                <label class="input-label">Chủ đề video muốn sản xuất:</label>
+                                <input type="text" id="studio-topic-input" class="form-control-input" placeholder="Ví dụ: Cách chăm sóc da dầu mụn mùa hè, 3 lỗi sai khi đặt vé...">
+                                <div class="quick-topic-pills">
+                                    <span class="quick-tag" onclick="setQuickTopic('3 Sai lầm chết người khi mua hàng giá rẻ')">3 Sai lầm chết người</span>
+                                    <span class="quick-tag" onclick="setQuickTopic('Bóc phốt dịch vụ kém chất lượng')">Bóc phốt dịch vụ</span>
+                                    <span class="quick-tag" onclick="setQuickTopic('Bí mật chuyên gia ngành không muốn bạn biết')">Bí mật chuyên gia</span>
+                                    <span class="quick-tag" onclick="setQuickTopic('Cách tiết kiệm tiền triệu mỗi tháng')">Tiết kiệm tiền triệu</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="input-label">Thời lượng:</label>
+                                <select id="studio-duration-select" class="form-control-input">
+                                    <option value="30">30 giây (Súc tích)</option>
+                                    <option value="45" selected>45 giây (Chuẩn Viral)</option>
+                                    <option value="60">60 giây (Chuyên sâu)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn-generate" onclick="generateVideoScript()">
+                            <svg class="svg-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            <span>Khởi tạo kịch bản & 5 Hooks</span>
+                        </button>
+                    </div>
+
+                    <!-- 5 Psychological Hooks Selector -->
                     <div>
-                        <h3 style="font-size: 1.05rem; color: #fff;">🎬 Studio Kịch Bản Video Ngắn TikTok/Reels & 5 Hooks Giật Thumb</h3>
-                        <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 4px;">Tự động sinh 5 câu mở đầu tâm lý (Loss aversion, Secret, Contrarian) + Storyboard từng giây + Hướng dẫn dựng CapCut.</p>
-                    </div>
-
-                    <div class="form-grid-2">
-                        <div>
-                            <label class="input-label">Chủ đề video muốn làm:</label>
-                            <input type="text" id="studio-topic-input" class="form-control-input" placeholder="Ví dụ: Cách chăm sóc da dầu mụn mùa hè, 3 lỗi sai khi đặt vé máy bay...">
-                        </div>
-                        <div>
-                            <label class="input-label">Thời lượng:</label>
-                            <select id="studio-duration-select" class="form-control-input">
-                                <option value="30">30 giây (Nhanh, súc tích)</option>
-                                <option value="45" selected>45 giây (Chuẩn Viral TikTok/Reels)</option>
-                                <option value="60">60 giây (Chuyên sâu/Case Study)</option>
-                            </select>
+                        <div class="hooks-section-title">5 Đòn bẩy tâm lý mở đầu (0 - 3 giây đầu tiên)</div>
+                        <div class="hook-cards-stack" id="hooks-container" style="margin-top: 10px;">
+                            <div class="hook-card" style="opacity: 0.6;">
+                                <div>
+                                    <div class="hook-lever-tag">Đòn bẩy tâm lý</div>
+                                    <div class="hook-quote-text">Nhập chủ đề phía trên và bấm Khởi tạo để sinh 5 biến thể Hook...</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <button class="btn-generate" onclick="generateVideoScript()">⚡ Bấm Sinh Trọn Gói Kịch Bản Ngay</button>
                 </div>
 
-                <!-- Results Output Card -->
-                <div class="studio-card-box" id="studio-results-card" style="display: none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h4 style="color: var(--accent-blue); text-transform: uppercase; font-size: 0.86rem; letter-spacing: 0.5px;">🎣 5 BIẾN THỂ HOOK MỞ ĐẦU (0-3 GIÂY ĐẦU TIÊN GIỮ CHÂN VIEW)</h4>
+                <!-- Right Column: Smartphone Mockup & Scrubber -->
+                <div class="studio-preview-pane">
+                    <div class="preview-pane-header">
+                        <span>Mô phỏng hiển thị TikTok / Reels</span>
+                        <span id="preview-scene-indicator" style="color: var(--accent-blue);">Scene 1/4 (0-3s)</span>
                     </div>
-                    
-                    <div class="hook-grid" id="hooks-container"></div>
 
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
-                        <h4 style="color: #fff; font-size: 0.92rem;">📜 KỊCH BẢN PHÂN CẢNH & HƯỚNG DẪN CAPCUT</h4>
-                        <div style="display: flex; gap: 8px;">
-                            <button class="btn-copy-hook" onclick="copyFullScript()">📋 Copy Toàn Bộ</button>
-                            <button class="btn-copy-hook" onclick="downloadScriptTxt()">📥 Tải File .TXT</button>
+                    <!-- Smartphone Device Frame -->
+                    <div class="phone-mockup-frame">
+                        <div class="phone-dynamic-island"></div>
+                        
+                        <div class="phone-screen">
+                            <div class="phone-ambient-video-bg"></div>
+
+                            <!-- Top TikTok Header -->
+                            <div class="phone-feed-topbar">
+                                <span>Đang theo dõi</span>
+                                <span class="active">Dành cho bạn</span>
+                            </div>
+
+                            <!-- Right TikTok Action Rail -->
+                            <div class="phone-action-rail">
+                                <div class="phone-rail-btn">
+                                    <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                                    <span>24.8K</span>
+                                </div>
+                                <div class="phone-rail-btn">
+                                    <svg class="svg-icon-sm" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                                    <span>842</span>
+                                </div>
+                                <div class="phone-rail-btn">
+                                    <svg class="svg-icon-sm" viewBox="0 0 24 24"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+                                    <span>3.1K</span>
+                                </div>
+                                <div class="phone-rail-btn">
+                                    <svg class="svg-icon-sm" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
+                                    <span>Chia sẻ</span>
+                                </div>
+                                <div class="vinyl-disc">
+                                    <div style="width: 10px; height: 10px; background: #fff; border-radius: 50%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Live Center Subtitle Display -->
+                            <div class="phone-subtitle-container">
+                                <div class="viral-subtitle-text" id="phone-live-subtitle">
+                                    "ĐỪNG BAO GIỜ MẮC PHẢI SAI LẦM NÀY!"
+                                </div>
+                                <div class="scene-cue-badge" id="phone-visual-cue">
+                                    Góc máy: Cận cảnh khuôn mặt ngạc nhiên (Zoom 1.2x)
+                                </div>
+                            </div>
+
+                            <!-- Bottom Meta Info -->
+                            <div class="phone-bottom-meta">
+                                <div class="phone-author-name">@tano.agency</div>
+                                <div class="phone-caption-text" id="phone-caption-display">
+                                    Kịch bản video viral chuẩn 5 đòn bẩy tâm lý giữ chân. #kinhdoanh #tanoagency
+                                </div>
+                                <div class="phone-music-tag">
+                                    <svg class="svg-icon-sm" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                                    <span>Âm thanh gốc - Nhạc nền Viral CapCut</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div id="full-script-text" style="background: var(--bg-card); padding: 18px; border-radius: var(--radius-md); font-size: 0.88rem; line-height: 1.6; white-space: pre-wrap; border: 1px solid var(--border-subtle);"></div>
+                    <!-- Storyboard Timeline Scrubber -->
+                    <div class="scene-scrubber-bar" id="storyboard-scrubber">
+                        <div class="scene-step-tab active" onclick="selectScene(0)">[0-3s] Hook</div>
+                        <div class="scene-step-tab" onclick="selectScene(1)">[3-15s] Nỗi đau</div>
+                        <div class="scene-step-tab" onclick="selectScene(2)">[15-35s] Giải pháp</div>
+                        <div class="scene-step-tab" onclick="selectScene(3)">[35-45s] Kêu gọi CTA</div>
+                    </div>
+
+                    <!-- Production Export Actions -->
+                    <div class="preview-actions-box">
+                        <button class="btn-outline" style="flex: 1; font-size: 0.76rem;" onclick="copyFullScript()">
+                            <svg class="svg-icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            <span>Copy kịch bản</span>
+                        </button>
+                        <button class="btn-outline" style="flex: 1; font-size: 0.76rem;" onclick="downloadScriptTxt()">
+                            <svg class="svg-icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                            <span>Tải file .TXT</span>
+                        </button>
+                    </div>
+
+                    <!-- Raw Script Accordion -->
+                    <div id="full-script-text" style="display: none;"></div>
                 </div>
             </div>
         </section>
 
-        <!-- PANEL 4: CRM LEADS WITH SEARCH & FILTER -->
+        <!-- PANEL 4: CRM LEADS (DUAL-VIEW: DATA GRID & KANBAN PIPELINE) -->
         <section class="view-panel" id="panel-crm">
             <div class="crm-layout">
+                <!-- Top CRM Metrics Row -->
+                <div class="crm-stats-row">
+                    <div class="crm-mini-stat">
+                        <div class="crm-mini-stat-label">Tổng khách hàng (Leads)</div>
+                        <div class="crm-mini-stat-val" id="crm-total-stat">0</div>
+                    </div>
+                    <div class="crm-mini-stat">
+                        <div class="crm-mini-stat-label">Khách mới hôm nay</div>
+                        <div class="crm-mini-stat-val" style="color: var(--accent-green);" id="crm-today-stat">0</div>
+                    </div>
+                    <div class="crm-mini-stat">
+                        <div class="crm-mini-stat-label">Tỷ lệ số điện thoại</div>
+                        <div class="crm-mini-stat-val" style="color: var(--accent-blue);">100%</div>
+                    </div>
+                    <div class="crm-mini-stat">
+                        <div class="crm-mini-stat-label">Tốc độ phản hồi trung bình</div>
+                        <div class="crm-mini-stat-val" style="color: var(--accent-amber);">< 8 giây</div>
+                    </div>
+                </div>
+
+                <!-- CRM Toolbar -->
                 <div class="crm-toolbar">
                     <div class="crm-search-box">
-                        <span>🔍</span>
-                        <input type="text" class="crm-search-input" placeholder="Tìm theo tên, SĐT hoặc ghi chú..." oninput="searchCrm(this.value)">
+                        <svg class="svg-icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" class="crm-search-input" placeholder="Tìm theo tên, SĐT hoặc nhu cầu..." oninput="searchCrm(this.value)">
+                    </div>
+
+                    <div class="crm-view-mode-toggle">
+                        <button class="view-toggle-btn active" id="btn-view-kanban" onclick="switchCrmView('kanban')">
+                            <svg class="svg-icon-sm" viewBox="0 0 24 24"><rect width="6" height="18" x="3" y="3" rx="1"/><rect width="6" height="12" x="15" y="3" rx="1"/></svg>
+                            <span>Bảng Kanban</span>
+                        </button>
+                        <button class="view-toggle-btn" id="btn-view-grid" onclick="switchCrmView('grid')">
+                            <svg class="svg-icon-sm" viewBox="0 0 24 24"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+                            <span>Bảng dữ liệu</span>
+                        </button>
                     </div>
 
                     <div class="filter-pills-row">
-                        <button class="filter-pill active" id="filter-all" onclick="filterCrmPlatform('ALL')">Tất Cả</button>
+                        <button class="filter-pill active" id="filter-all" onclick="filterCrmPlatform('ALL')">Tất cả</button>
                         <button class="filter-pill" id="filter-zalo" onclick="filterCrmPlatform('Zalo')">Zalo OA</button>
                         <button class="filter-pill" id="filter-facebook" onclick="filterCrmPlatform('Facebook')">Facebook</button>
                         <button class="filter-pill" id="filter-tiktok" onclick="filterCrmPlatform('TikTok')">TikTok</button>
                     </div>
 
                     <div style="display: flex; gap: 8px;">
-                        <button class="chip-btn" onclick="loadCrmLeads()">🔄 Làm Mới</button>
-                        <button class="btn-primary" style="padding: 7px 14px; font-size: 0.82rem;" onclick="exportCsv()">📥 Tải File CSV</button>
+                        <button class="btn-outline" style="padding: 6px 12px; font-size: 0.78rem;" onclick="loadCrmLeads()">
+                            <svg class="svg-icon-sm" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                            <span>Làm mới</span>
+                        </button>
+                        <button class="btn-primary" style="padding: 6px 12px; font-size: 0.78rem;" onclick="exportCsv()">
+                            <svg class="svg-icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                            <span>Xuất CSV</span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="data-table-card">
+                <!-- VIEW A: KANBAN PIPELINE BOARD -->
+                <div class="crm-kanban-board" id="crm-kanban-view">
+                    <!-- Column 1: New Leads -->
+                    <div class="kanban-col">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-blue);"></span>
+                                <span>Mới tiếp nhận</span>
+                            </div>
+                            <span class="col-count-badge" id="col-count-new">0</span>
+                        </div>
+                        <div class="kanban-cards-stack" id="kanban-stack-new"></div>
+                    </div>
+
+                    <!-- Column 2: In Progress / Consulting -->
+                    <div class="kanban-col">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-amber);"></span>
+                                <span>Đang tư vấn</span>
+                            </div>
+                            <span class="col-count-badge" id="col-count-contacted">0</span>
+                        </div>
+                        <div class="kanban-cards-stack" id="kanban-stack-contacted"></div>
+                    </div>
+
+                    <!-- Column 3: Follow up -->
+                    <div class="kanban-col">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-purple);"></span>
+                                <span>Hẹn gọi lại</span>
+                            </div>
+                            <span class="col-count-badge" id="col-count-followup">0</span>
+                        </div>
+                        <div class="kanban-cards-stack" id="kanban-stack-followup"></div>
+                    </div>
+
+                    <!-- Column 4: Won / Closed -->
+                    <div class="kanban-col">
+                        <div class="kanban-col-header">
+                            <div class="kanban-col-title">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green);"></span>
+                                <span>Đã chốt đơn</span>
+                            </div>
+                            <span class="col-count-badge" id="col-count-won">0</span>
+                        </div>
+                        <div class="kanban-cards-stack" id="kanban-stack-won"></div>
+                    </div>
+                </div>
+
+                <!-- VIEW B: DATA GRID TABLE -->
+                <div class="data-table-card" id="crm-grid-view" style="display: none;">
                     <table class="omc-table">
                         <thead>
                             <tr>
-                                <th>Thời Gian</th>
-                                <th>Nền Tảng</th>
-                                <th>Khách Hàng</th>
-                                <th>Số Điện Thoại</th>
-                                <th>Nhu Cầu / Ghi Chú</th>
-                                <th>Hành Động</th>
+                                <th>Thời gian</th>
+                                <th>Nền tảng</th>
+                                <th>Khách hàng</th>
+                                <th>Số điện thoại</th>
+                                <th>Trạng thái</th>
+                                <th>Nhu cầu / Ghi chú</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody id="crm-table-body">
@@ -318,8 +522,8 @@
         <section class="view-panel" id="panel-brand">
             <div class="brand-health-layout">
                 <div>
-                    <h3 style="color: #fff; font-size: 1.05rem;">🏢 Quản Lý Đa Thương Hiệu & Khởi Tạo Brand Mới (Agency OS)</h3>
-                    <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 4px;">Chuyển đổi giữa các khách hàng hoặc thêm doanh nghiệp mới chỉ trong 5 giây.</p>
+                    <h3 style="color: #fff; font-size: 1.05rem; font-weight: 700;">Quản Lý Đa Thương Hiệu & Khởi Tạo Mới</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">Chuyển đổi giữa các khách hàng hoặc thêm doanh nghiệp mới chỉ trong 5 giây.</p>
                 </div>
 
                 <!-- Existing Brands Grid -->
@@ -328,27 +532,27 @@
                 </div>
 
                 <!-- Onboarding New Brand Form -->
-                <div class="studio-card-box">
-                    <h4 style="color: var(--accent-blue); font-size: 0.95rem;">➕ Khởi Tạo Khách Hàng / Thương Hiệu Mới (1-Click Onboarding)</h4>
+                <div class="studio-form-box">
+                    <h4 style="color: var(--accent-blue); font-size: 0.92rem; font-weight: 700;">Khởi tạo khách hàng / Thương hiệu mới</h4>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
                         <div>
-                            <label class="input-label">Tên Doanh Nghiệp / Thương Hiệu:</label>
+                            <label class="input-label">Tên doanh nghiệp / Thương hiệu:</label>
                             <input type="text" id="brand-name-input" class="form-control-input" placeholder="Ví dụ: Khách Sạn Biển Xanh, Thẩm Mỹ Viện Royal...">
                         </div>
                         <div>
-                            <label class="input-label">Lĩnh Vực Hoạt Động:</label>
+                            <label class="input-label">Lĩnh vực hoạt động:</label>
                             <input type="text" id="brand-industry-input" class="form-control-input" placeholder="Ví dụ: Du Lịch Nghỉ Dưỡng, Spa Thẩm Mỹ...">
                         </div>
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 14px;">
                         <div>
-                            <label class="input-label">Hotline / Zalo Tư Vấn:</label>
+                            <label class="input-label">Hotline / Zalo tư vấn:</label>
                             <input type="text" id="brand-hotline-input" class="form-control-input" placeholder="0988.112.233">
                         </div>
                         <div>
-                            <label class="input-label">Sản Phẩm Cốt Lõi / Lời Hứa Thương Hiệu:</label>
+                            <label class="input-label">Sản phẩm cốt lõi / Lời hứa thương hiệu:</label>
                             <input type="text" id="brand-offer-input" class="form-control-input" placeholder="Gói phòng view biển, đưa đón sân bay miễn phí...">
                         </div>
                     </div>
@@ -368,17 +572,17 @@
                         </div>
                     </div>
 
-                    <button class="btn-primary" style="height: 44px; align-self: flex-start;" onclick="createBrand()">🚀 Kích Hoạt Thương Hiệu Mới Này</button>
+                    <button class="btn-primary" style="height: 42px; align-self: flex-start;" onclick="createBrand()">Kích hoạt thương hiệu mới</button>
                 </div>
 
                 <!-- Self-Healing & Health Check -->
-                <div class="studio-card-box">
-                    <h4 style="color: #fff; font-size: 0.95rem;">🩺 Cứu Hộ Kỹ Thuật & Tự Động Phục Hồi (Self-Healing)</h4>
+                <div class="studio-form-box">
+                    <h4 style="color: #fff; font-size: 0.92rem; font-weight: 700;">Cứu hộ kỹ thuật & Tự động phục hồi (Self-Healing)</h4>
                     <p style="font-size: 0.82rem; color: var(--text-muted);">Không cần gọi IT. Bấm nút dưới đây để Kỹ sư AI OpenClaw tự quét lỗi và khởi động lại dịch vụ.</p>
                     
                     <div style="display: flex; gap: 10px; margin-top: 4px;">
-                        <button class="chip-btn" style="padding: 8px 16px;" onclick="runHealthAction('health')">🔍 Kiểm Tra Toàn Diện Hệ Thống</button>
-                        <button class="btn-primary" style="background: var(--accent-green); padding: 8px 16px;" onclick="runHealthAction('restart')">⚡ Khởi Động Lại Bot & Cổng Webhook</button>
+                        <button class="btn-outline" onclick="runHealthAction('health')">Kiểm tra toàn diện hệ thống</button>
+                        <button class="btn-primary" style="background: var(--accent-green);" onclick="runHealthAction('restart')">Khởi động lại Bot & Cổng Webhook</button>
                     </div>
 
                     <div id="health-action-output" style="background: var(--bg-card); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; display: none; margin-top: 8px;"></div>
@@ -388,7 +592,7 @@
     </main>
 
     <!-- Global Floating Toast Notification -->
-    <div class="toast-msg" id="global-toast">✨ Thông báo</div>
+    <div class="toast-msg" id="global-toast">Thông báo hệ thống</div>
 
     <script src="/js/app.js"></script>
 </body>
